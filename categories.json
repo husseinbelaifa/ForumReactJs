@@ -1,0 +1,34 @@
+{
+ "categories": {
+  "-KpR7vRkiRPpbUd_TVAR": {
+   "forums": {
+    "-KpOx5Y4AqRr3sB4Ybwj": "-KpOx5Y4AqRr3sB4Ybwj",
+    "-KsjO4_W3W9Q2Z2UmuPr": "-KsjO4_W3W9Q2Z2UmuPr"
+   },
+   "name": "Feedback & Information",
+   "slug": "feedback-and-information",
+   "key": "-KpR7vRkiRPpbUd_TVAR"
+  },
+  "-KsjPKA6hDuHlQK_lJWO": {
+   "forums": {
+    "-KsjPat5MWCx-dkjNVg8": "-KsjPat5MWCx-dkjNVg8",
+    "-KsjPjasLh0TFtZmffEo": "-KsjPjasLh0TFtZmffEo",
+    "-Kvd1Vg_ankLYgrxC50F": "-Kvd1Vg_ankLYgrxC50F",
+    "-KvdCowY9mDvM0EH8Pvs": "-KvdCowY9mDvM0EH8Pvs",
+    "-KvhkEl6F673igPtnbso": "-KvhkEl6F673igPtnbso"
+   },
+   "name": "Discussions",
+   "slug": "discussions",
+   "key": "-KsjPKA6hDuHlQK_lJWO"
+  },
+  "-KvclpNRjpI5W-j0JQGU": {
+   "forums": {
+    "-Kvclvu_Qd9QdS9ciqUl": "-Kvclvu_Qd9QdS9ciqUl",
+    "-KvcmOcppNYK8NCesmB9": "-KvcmOcppNYK8NCesmB9"
+   },
+   "name": "Comedy",
+   "slug": "comedy",
+   "key": "-KvclpNRjpI5W-j0JQGU"
+  }
+ }
+}
