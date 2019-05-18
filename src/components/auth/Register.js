@@ -3,20 +3,43 @@ import Form from "../layout/Form";
 class Register extends React.Component {
   state = {
     registerFormField: [
-      { type: "text", name: "name", id: "name", label: "Full Name" },
-      { type: "text", name: "username", id: "username", label: "Username" },
-      { type: "email", name: "email", id: "email", label: "Email" },
+      {
+        type: "text",
+        name: "name",
+        id: "name",
+        label: "Full Name"
+      },
+      {
+        type: "text",
+        name: "username",
+        id: "username",
+        label: "Username"
+      },
+      {
+        type: "email",
+        name: "email",
+        id: "email",
+        label: "Email"
+      },
       {
         type: "password",
         name: "password",
         id: "password",
         label: "Password"
       },
-      { type: "text", name: "avatar", id: "avatar", label: "Avatar" }
+      {
+        type: "file",
+        name: "avatar",
+        id: "avatar",
+        label: "Avatar"
+      }
     ],
     formName: "Register"
   };
 
+  registerHandler(formValues) {
+    console.log(formValues);
+  }
   render() {
     return (
       <div className="container">
@@ -25,7 +48,8 @@ class Register extends React.Component {
             <Form
               formName={this.state.formName}
               inputs={this.state.registerFormField}
-            />
+              onSubmit={this.registerHandler}
+            />{" "}
             <div className="text-center push-top">
               <button className="btn-red btn-xsmall">
                 <i className="fa fa-google fa-btn" />

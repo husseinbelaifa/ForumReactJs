@@ -19,6 +19,9 @@ class Login extends React.Component {
     formName: "Login",
     link_to_register: "/register"
   };
+  loginHandler(formValues) {
+    console.log(formValues);
+  }
   render() {
     return (
       <div class="container">
@@ -28,7 +31,8 @@ class Login extends React.Component {
               formName={this.state.formName}
               inputs={this.state.loginFormField}
               registerLink={this.state.link_to_register}
-            />
+              onSubmit={this.loginHandler}
+            />{" "}
             <div class="push-top text-center">
               <button class="btn-red btn-xsmall">
                 <i class="fa fa-google fa-btn" />
