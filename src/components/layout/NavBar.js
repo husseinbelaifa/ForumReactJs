@@ -1,21 +1,75 @@
 import React from "react";
 import "../style.css";
-const NavBar = () => {
-  return (
-    <header className="header" id="header">
-      <a href="index.html" className="logo">
-        <img src="assets/img/svg/vueschool-logo.svg" />
-      </a>
+import { connect } from "react-redux";
+import { Link, NavLink, Redirect } from "react-router-dom";
+import { signOut } from "../../store/actions/AuthActions";
+import { fetchCurrentUser } from "../../store/actions/UserActions";
+class NavBar extends React.Component {
+  state = {
+    showMenu: false,
+    classname: ""
+  };
 
-      <div className="btn-hamburger">
-        <div className="top bar" />
-        <div className="middle bar" />
-        <div className="bottom bar" />
-      </div>
+  componentDidMount() {
+    if (this.props.auth) this.props.fetchCurrentUser(this.props.auth);
+  }
+  showDropMenu = event => {
+    // console.log("clicked");
+    this.setState({
+      showMenu: !this.state.showMenu
+    });
+    if (this.state.showMenu)
+      this.setState({
+        classname: "active-drop"
+      });
+    else
+      this.setState({
+        classname: ""
+      });
+  };
 
-      <nav className="navbar">
+  signOutHandler = event => {
+    event.preventDefault();
+    console.log("i am signout");
+    console.log(this.props);
+
+    this.props.signOut();
+
+    // this.props.history.push("/");
+  };
+
+  renderLoginNavMobile() {
+    if (this.props.auth) {
+      return (
+        <React.Fragment>
+          <li className="navbar-item mobile-only">
+            <NavLink to="/"> My Profile </NavLink>
+          </li>
+          <li className="navbar-item mobile-only">
+            <NavLink to="#" onClick={this.signOutHandler}>
+              Logout
+            </NavLink>
+          </li>
+        </React.Fragment>
+      );
+    }
+  }
+
+  renderLoginNav() {
+    if (this.props.auth) {
+      return (
         <ul>
-          <li className="navbar-user">
+          <li
+            className="navbar-user"
+            onMouseLeave={() => {
+              this.setState({
+                showMenu: false
+              });
+              this.setState({
+                classname: ""
+              });
+            }}
+          >
             <a href="#">
               <img
                 className="avatar-small"
@@ -23,53 +77,92 @@ const NavBar = () => {
                 alt=""
               />
               <span>
-                Alex Kyriakidis
+                Alex Kyriakidis{" "}
                 <img
                   className="icon-profile"
                   src="/assets/img/svg/arrow-profile.svg"
                   alt=""
                 />
-              </span>
-            </a>
-
-            <div id="user-dropdown">
+              </span>{" "}
+            </a>{" "}
+            <div id="user-dropdown" className={this.state.classname}>
               <div className="triangle-drop" />
               <ul className="dropdown-menu">
                 <li className="dropdown-menu-item">
-                  <a href="profile.html">View profile</a>
-                </li>
+                  <a href="profile.html"> View profile </a>{" "}
+                </li>{" "}
                 <li className="dropdown-menu-item">
-                  <a href="#">Log out</a>
+                  <a onClick={this.signOutHandler}> Log out </a>{" "}
                 </li>
               </ul>
             </div>
           </li>
         </ul>
-
+      );
+    } else {
+      return (
         <ul>
-          <li className="navbar-item">
-            <a href="index.html">Home</a>
-          </li>
-          <li className="navbar-item">
-            <a href="category.html">Category</a>
-          </li>
-          <li className="navbar-item">
-            <a href="forum.html">Forum</a>
-          </li>
-          <li className="navbar-item">
-            <a href="thread.html">Thread</a>
+          <li class="navbar-item">
+            <NavLink to="/register">Register</NavLink>
           </li>
 
-          <li className="navbar-item mobile-only">
-            <a href="profile.html">My Profile</a>
-          </li>
-          <li className="navbar-item mobile-only">
-            <a href="#">Logout</a>
+          <li class="navbar-item">
+            <NavLink to="/login">Login</NavLink>
           </li>
         </ul>
-      </nav>
-    </header>
-  );
+      );
+    }
+  }
+
+  render() {
+    return (
+      <header className="header" id="header">
+        <NavLink className="logo" to="/">
+          <img src="assets/img/svg/vueschool-logo.svg" />
+        </NavLink>{" "}
+        <div className="btn-hamburger">
+          <div className="top bar" />
+          <div className="middle bar" />
+          <div className="bottom bar" />
+        </div>{" "}
+        <nav className="navbar" onClick={this.showDropMenu}>
+          {this.renderLoginNav()}
+          <ul>
+            <li className="navbar-item">
+              <NavLink to="/"> Home </NavLink>{" "}
+            </li>{" "}
+            {/* <li className="navbar-item">
+              <a href="category.html"> Category </a>{" "}
+            </li>{" "}
+            <li className="navbar-item">
+              <a href="forum.html"> Forum </a>{" "}
+            </li>{" "}
+            <li className="navbar-item">
+              <a href="thread.html"> Thread </a>{" "}
+            </li>{" "} */}
+            {this.renderLoginNavMobile()}
+          </ul>{" "}
+        </nav>{" "}
+      </header>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null
+  };
 };
 
-export default NavBar;
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(signOut()),
+    fetchCurrentUser: id => dispatch(fetchCurrentUser(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar);

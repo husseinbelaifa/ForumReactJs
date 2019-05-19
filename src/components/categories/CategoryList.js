@@ -4,6 +4,7 @@ import SubCategory from "../categories/SubCategory";
 import ThreadCount from "../threads/ThreadCount";
 import LastThread from "../threads/LastThread";
 import "../style.css";
+import { Redirect } from "react-router-dom";
 const CategoryList = () => {
   return (
     <div className="container">

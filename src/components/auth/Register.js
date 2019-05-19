@@ -1,5 +1,11 @@
 import React from "react";
 import Form from "../layout/Form";
+import {
+  signUp,
+  signOut,
+  signInWithGoogle
+} from "../../store/actions/AuthActions";
+import { connect } from "react-redux";
 class Register extends React.Component {
   state = {
     registerFormField: [
@@ -37,9 +43,18 @@ class Register extends React.Component {
     formName: "Register"
   };
 
-  registerHandler(formValues) {
-    console.log(formValues);
-  }
+  registerHandler = formValues => {
+    // console.log(formValues);
+    // this.props.signOut();
+
+    this.props.signUp(formValues);
+    this.props.history.push("/");
+    // console.log(this.props);
+  };
+  registerHandlerWithGoogle = () => {
+    console.log("sign in with google");
+    this.props.signInWithGoogle();
+  };
   render() {
     return (
       <div className="container">
@@ -51,7 +66,10 @@ class Register extends React.Component {
               onSubmit={this.registerHandler}
             />{" "}
             <div className="text-center push-top">
-              <button className="btn-red btn-xsmall">
+              <button
+                className="btn-red btn-xsmall"
+                onClick={this.registerHandlerWithGoogle}
+              >
                 <i className="fa fa-google fa-btn" />
                 Sign up with Google{" "}
               </button>{" "}
@@ -63,4 +81,15 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+const mapDispatchToProps = dispatch => {
+  return {
+    signUp: newUser => dispatch(signUp(newUser)),
+    signOut: () => dispatch(signOut()),
+    signInWithGoogle: () => dispatch(signInWithGoogle())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Register);

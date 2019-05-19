@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "../layout/Form";
+import { signIn, signInWithGoogle } from "../../store/actions/AuthActions";
+import { connect } from "react-redux";
 class Login extends React.Component {
   state = {
     loginFormField: [
@@ -19,9 +21,17 @@ class Login extends React.Component {
     formName: "Login",
     link_to_register: "/register"
   };
-  loginHandler(formValues) {
-    console.log(formValues);
-  }
+  loginHandler = formValues => {
+    console.log(this.props);
+
+    this.props.signIn(formValues);
+    this.props.history.push("/");
+  };
+
+  signInWithGoogle = () => {
+    this.props.signInWithGoogle();
+  };
+
   render() {
     return (
       <div class="container">
@@ -34,7 +44,10 @@ class Login extends React.Component {
               onSubmit={this.loginHandler}
             />{" "}
             <div class="push-top text-center">
-              <button class="btn-red btn-xsmall">
+              <button
+                class="btn-red btn-xsmall"
+                onClick={this.signInWithGoogle}
+              >
                 <i class="fa fa-google fa-btn" />
                 Sign in with Google{" "}
               </button>{" "}
@@ -46,4 +59,14 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: User => dispatch(signIn(User)),
+    signInWithGoogle: () => dispatch(signInWithGoogle())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);

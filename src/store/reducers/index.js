@@ -13,10 +13,15 @@ import {
 import {
  reducer as formReducer
 } from "redux-form";
+import {
+ userReducer
+} from '../reducers/userReducer';
+
 const reducers = combineReducers({
  // firestore: firestoreReducer,
  firebase: firebaseReducer,
  auth: authReducer,
- form: formReducer
+ form: formReducer,
+ user: userReducer
 });
 export default reducers;
