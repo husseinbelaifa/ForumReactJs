@@ -108,7 +108,8 @@ export const signInWithGoogle = () => (
     })
     .then(() =>
       dispatch({
-        type: "LOGIN_SUCCESS_WITH_GOOGLE"
+        type: "LOGIN_SUCCESS_WITH_GOOGLE",
+
       })
     )
     .catch(error =>

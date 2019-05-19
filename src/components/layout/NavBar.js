@@ -11,8 +11,19 @@ class NavBar extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.auth) this.props.fetchCurrentUser(this.props.auth);
+    if (this.props.auth) {
+      this.props.fetchCurrentUser(this.props.auth);
+    }
   }
+
+  componentDidUpdate() {
+    console.log(this.props.currentUser.name);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.currentUser !== nextProps.currentUser;
+  }
+
   showDropMenu = event => {
     // console.log("clicked");
     this.setState({
@@ -43,13 +54,13 @@ class NavBar extends React.Component {
       return (
         <React.Fragment>
           <li className="navbar-item mobile-only">
-            <NavLink to="/"> My Profile </NavLink>
-          </li>
+            <NavLink to="/"> My Profile </NavLink>{" "}
+          </li>{" "}
           <li className="navbar-item mobile-only">
             <NavLink to="#" onClick={this.signOutHandler}>
-              Logout
-            </NavLink>
-          </li>
+              Logout{" "}
+            </NavLink>{" "}
+          </li>{" "}
         </React.Fragment>
       );
     }
@@ -73,42 +84,48 @@ class NavBar extends React.Component {
             <a href="#">
               <img
                 className="avatar-small"
-                src="https://pbs.twimg.com/profile_images/881260299420041217/GMVGlDea_400x400.jpg"
+                src={
+                  this.props.currentUser ? this.props.currentUser.avatar : null
+                }
                 alt=""
               />
               <span>
-                Alex Kyriakidis{" "}
+                {this.props.currentUser ? this.props.currentUser.name : null}
+
                 <img
-                  className="icon-profile"
-                  src="/assets/img/svg/arrow-profile.svg"
+                  class="icon-profile"
+                  src="assets/img/svg/arrow-profile.svg"
                   alt=""
                 />
               </span>{" "}
             </a>{" "}
-            <div id="user-dropdown" className={this.state.classname}>
+            <div
+              id="user-dropdown"
+              className={this.state.classname}
+              onClick={this.signOutHandler}
+            >
               <div className="triangle-drop" />
               <ul className="dropdown-menu">
                 <li className="dropdown-menu-item">
                   <a href="profile.html"> View profile </a>{" "}
                 </li>{" "}
                 <li className="dropdown-menu-item">
-                  <a onClick={this.signOutHandler}> Log out </a>{" "}
-                </li>
-              </ul>
-            </div>
-          </li>
+                  <a> Log out </a>{" "}
+                </li>{" "}
+              </ul>{" "}
+            </div>{" "}
+          </li>{" "}
         </ul>
       );
     } else {
       return (
         <ul>
           <li class="navbar-item">
-            <NavLink to="/register">Register</NavLink>
-          </li>
-
+            <NavLink to="/register"> Register </NavLink>{" "}
+          </li>{" "}
           <li class="navbar-item">
-            <NavLink to="/login">Login</NavLink>
-          </li>
+            <NavLink to="/login"> Login </NavLink>{" "}
+          </li>{" "}
         </ul>
       );
     }
@@ -126,21 +143,22 @@ class NavBar extends React.Component {
           <div className="bottom bar" />
         </div>{" "}
         <nav className="navbar" onClick={this.showDropMenu}>
-          {this.renderLoginNav()}
+          {" "}
+          {this.renderLoginNav()}{" "}
           <ul>
             <li className="navbar-item">
               <NavLink to="/"> Home </NavLink>{" "}
             </li>{" "}
             {/* <li className="navbar-item">
-              <a href="category.html"> Category </a>{" "}
-            </li>{" "}
-            <li className="navbar-item">
-              <a href="forum.html"> Forum </a>{" "}
-            </li>{" "}
-            <li className="navbar-item">
-              <a href="thread.html"> Thread </a>{" "}
-            </li>{" "} */}
-            {this.renderLoginNavMobile()}
+                              <a href="category.html"> Category </a>{" "}
+                            </li>{" "}
+                            <li className="navbar-item">
+                              <a href="forum.html"> Forum </a>{" "}
+                            </li>{" "}
+                            <li className="navbar-item">
+                              <a href="thread.html"> Thread </a>{" "}
+                            </li>{" "} */}{" "}
+            {this.renderLoginNavMobile()}{" "}
           </ul>{" "}
         </nav>{" "}
       </header>
@@ -149,9 +167,10 @@ class NavBar extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
+  // console.log(state);
   return {
-    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null
+    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null,
+    currentUser: state.user.currentUser
   };
 };
 
