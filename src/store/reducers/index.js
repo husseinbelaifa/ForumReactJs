@@ -17,11 +17,21 @@ import {
  userReducer
 } from '../reducers/userReducer';
 
+import {
+ categoryReducer
+} from '../reducers/categoryReducer';
+
+import {
+ threadReducer
+} from '../reducers/threadReducer';
+
 const reducers = combineReducers({
  // firestore: firestoreReducer,
  firebase: firebaseReducer,
  auth: authReducer,
  form: formReducer,
- user: userReducer
+ user: userReducer,
+ categories: categoryReducer,
+ thread: threadReducer
 });
 export default reducers;
