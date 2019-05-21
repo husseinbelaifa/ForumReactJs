@@ -23,6 +23,14 @@ export const categoryReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
+    case 'fetchSubCategoriesById': {
+      return {
+        ...state,
+        subCategories: action.subCategories
+
+      };
+    }
+
     default:
       return state;
   }

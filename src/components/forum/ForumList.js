@@ -54,9 +54,15 @@ class ForumList extends React.Component {
       if (this.props.subCategories[keyName].categoryId === categoryId) {
         return (
           <div class="forum-listing">
+            {console.log(this.props.subCategories[keyName].forums)}
             <SubCategory
               subcategory={this.props.subCategories[keyName].name}
               infosubcategory={this.props.subCategories[keyName].description}
+              subsOfSubCategory={
+                this.props.subCategories[keyName].forums
+                  ? Object.values(this.props.subCategories[keyName].forums)
+                  : ""
+              }
             />{" "}
             {/* {this.props.threadCount(keyName)} */}{" "}
             {/* {console.log(this.props.th,readCount)} */}{" "}

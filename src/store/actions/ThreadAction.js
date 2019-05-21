@@ -17,6 +17,12 @@ export const threadCount = (forumId) => dispatch => {
 
 };
 
-export const fetchThread = () => dispatch => {
-
+export const fetchThread = (id) => dispatch => {
+  firebase.database().ref(`threads/${id}`)
+    .on('value', snapshot => {
+      return dispatch({
+        type: 'FETCH_THREAD',
+        thread: snapshot.val()
+      })
+    })
 }

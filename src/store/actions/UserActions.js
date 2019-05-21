@@ -15,7 +15,7 @@ export const fetchCurrentUser = (id) => (dispatch) => {
 
 export const fetchUserForum = (id, postId) => (dispatch) => {
   const refbd = firebase.database().ref(`users/${id}`);
-  console.log('action crator' + postId);
+
   refbd.on('value', snapshot => {
 
     return dispatch({
