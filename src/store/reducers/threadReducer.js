@@ -1,5 +1,9 @@
 const INITIAL_STATE = {
 
+  thread: {
+    forumId: 0,
+    threadCount: 0
+  }
 };
 
 export const threadReducer = (state = INITIAL_STATE, action) => {

@@ -10,8 +10,6 @@ import {
   fetchSubCategories
 } from "../../store/actions/CategoryActions";
 
-import { threadCount } from "../../store/actions/ThreadAction";
-
 class ForumList extends React.Component {
   state = {
     subCategories: null
@@ -20,8 +18,6 @@ class ForumList extends React.Component {
     await this.props.fetchCategories();
 
     await this.props.fetchSubCategories();
-
-    await this.props.threadCount();
   }
 
   // shouldComponentUpdate(prevProps) {
@@ -38,10 +34,8 @@ class ForumList extends React.Component {
       return (
         <div class="forum-list">
           <Category category={this.props.categories[keyname].name} />
-
           {/* {this.renderSubCategories(keyname)} */}
-
-          {this.renderSubCategories(keyname)}
+          {this.renderSubCategories(keyname)}{" "}
         </div>
       );
     });
@@ -64,10 +58,13 @@ class ForumList extends React.Component {
               subcategory={this.props.subCategories[keyName].name}
               infosubcategory={this.props.subCategories[keyName].description}
             />{" "}
-            {/* {this.props.threadCount(keyName)} */}
-            {/* {console.log(this.props.threadCount)} */}{" "}
-            <ThreadCount ThreadCount="1" />
+            {/* {this.props.threadCount(keyName)} */}{" "}
+            {/* {console.log(this.props.th,readCount)} */}{" "}
+            <ThreadCount
+              forum={keyName ? this.props.subCategories[keyName] : ""}
+            />{" "}
             <LastThread
+              postId={this.props.subCategories[keyName].lastPostId}
               threadTitle="Post Reactions"
               threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
               threadAuthor="Rolf Haug"
@@ -91,15 +88,13 @@ class ForumList extends React.Component {
 const mapStateToProps = state => {
   return {
     categories: state.categories.categories,
-    subCategories: state.categories.subCategories,
-    threadCount: state.thread
+    subCategories: state.categories.subCategories
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     fetchCategories: () => dispatch(fetchCategories()),
-    fetchSubCategories: () => dispatch(fetchSubCategories()),
-    threadCount: () => dispatch(threadCount())
+    fetchSubCategories: () => dispatch(fetchSubCategories())
   };
 };
 

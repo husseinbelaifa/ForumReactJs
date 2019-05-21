@@ -10,14 +10,22 @@ export const fetchCurrentUser = (id) => (dispatch) => {
     });
 
   })
-  // .then((snapshot) => {
-  //  return dispatch({
-  //   type: 'FETCH_USER',
-  //   user: snapshot.val()
-  //  })
-  // })
-  // .catch(error => dispatch({
-  //  type: 'FETCH_USER_ERROR',
-  //  error
-  // }));
+
+}
+
+export const fetchUserForum = (id, postId) => (dispatch) => {
+  const refbd = firebase.database().ref(`users/${id}`);
+  console.log('action crator' + postId);
+  refbd.on('value', snapshot => {
+
+    return dispatch({
+      type: 'FETCH_USER_Forum',
+      userForum: {
+        postId: postId,
+        user: snapshot.val()
+      }
+    });
+
+  })
+
 }

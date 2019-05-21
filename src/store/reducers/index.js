@@ -25,6 +25,10 @@ import {
  threadReducer
 } from '../reducers/threadReducer';
 
+import {
+ postReducer
+} from '../reducers/postReducer';
+
 const reducers = combineReducers({
  // firestore: firestoreReducer,
  firebase: firebaseReducer,
@@ -32,6 +36,7 @@ const reducers = combineReducers({
  form: formReducer,
  user: userReducer,
  categories: categoryReducer,
- thread: threadReducer
+ thread: threadReducer,
+ post: postReducer
 });
 export default reducers;

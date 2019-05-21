@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-  currentUser: null
+  currentUser: null,
+  userForum: null
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -9,6 +10,19 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         currentUser: action.user
       };
+    }
+
+    case 'FETCH_USER_Forum': {
+
+      return {
+        ...state,
+        userForum: {
+          ...state.userForum,
+          [action.userForum.postId]: action.userForum
+        }
+      };
+
+
     }
     // case "FETCH_USER_ERROR":
     //   return { ...state, erroFetchUser: action.error };

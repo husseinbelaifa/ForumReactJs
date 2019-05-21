@@ -1,35 +1,22 @@
 import firebase from "../../config/fbConfig";
 
-export const threadCount = () => dispatch => {
+export const threadCount = (forumId) => dispatch => {
 
-  firebase.database().ref(`threads`).
-  child(`threads`).orderByChild('forumId').once('value')
-    .then((snapshot => {
-      console.log(snapshot.val());
+  firebase.database().ref(`threads`)
+    .orderByChild('forumId').equalTo(forumId)
+    .on('value', (snapshot => {
+
       return dispatch({
         type: "COUNT_THREAD",
         thread: {
-          forumId: snapshot.val(),
+          forumId: forumId,
           threadCount: snapshot.numChildren()
         }
       })
     }));
-  // const thread = null;
-  // refbd.on("value", snapshot => {
 
-  //     thread = {
-  //       forumId: forumId,
-  //       threadCount: snapshot.numChildren()
-  //     };
-
-
-  //   })
-  //   .then(() => dispatch({
-  //     type: "COUNT_THREAD",
-  //     thread: thread
-  //   }));
 };
 
-export const fetchLastThread = () => dispatch => {
-  const refbd = firebase.database().ref(`threads`);
-};
+export const fetchThread = () => dispatch => {
+
+}
