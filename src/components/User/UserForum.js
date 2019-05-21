@@ -36,30 +36,39 @@ class UserForum extends React.Component {
 
     return (
       <React.Fragment>
-        <img
-          class="avatar"
-          src={this.props.user ? this.props.user.avatar : ""}
-          alt=""
-        />
-        <div class="last-thread-details">
-          <Link
-            to={this.props.thread ? `/thread/${this.props.thread.key}` : ""}
-          >
+        {this.props.user ? (
+          <React.Fragment>
             {" "}
-            {this.props.thread ? this.props.thread.title : ""}{" "}
-          </Link>{" "}
-          <p class="text-xsmall">
-            By{" "}
-            <Link to={this.props.user ? `/profile/${this.props.user.key}` : ""}>
-              {" "}
-              {this.props.user ? this.props.user.name : ""}{" "}
-            </Link>
-            ,{" "}
-            {this.props.thread
-              ? moment(this.props.thread.publishedAt).fromNow()
-              : ""}{" "}
-          </p>{" "}
-        </div>{" "}
+            <img
+              class="avatar"
+              src={this.props.user ? this.props.user.avatar : ""}
+              alt=""
+            />
+            <div class="last-thread-details">
+              <Link
+                to={this.props.thread ? `/thread/${this.props.thread.key}` : ""}
+              >
+                {" "}
+                {this.props.thread ? this.props.thread.title : ""}{" "}
+              </Link>{" "}
+              <p class="text-xsmall">
+                By{" "}
+                <Link
+                  to={this.props.user ? `/profile/${this.props.user.key}` : ""}
+                >
+                  {" "}
+                  {this.props.user ? this.props.user.name : ""}{" "}
+                </Link>
+                ,{" "}
+                {this.props.thread
+                  ? moment(this.props.thread.publishedAt).fromNow()
+                  : ""}{" "}
+              </p>{" "}
+            </div>{" "}
+          </React.Fragment>
+        ) : (
+          <React.Fragment />
+        )}
       </React.Fragment>
     );
   }
