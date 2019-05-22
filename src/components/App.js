@@ -17,7 +17,7 @@ const App = () => {
           <Route path="/login" exact component={Login} />{" "}
           <Route path="/register" exact component={Register} />{" "}
           <Route path="/" exact component={ForumList} />{" "}
-          <Route path="/categories" exact component={CategoryList} />{" "}
+          <Route path="/categories/:id" exact component={CategoryList} />{" "}
         </Switch>{" "}
       </BrowserRouter>{" "}
       <Footer />

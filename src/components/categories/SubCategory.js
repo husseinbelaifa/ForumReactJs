@@ -11,6 +11,18 @@ class SubCategory extends React.Component {
       });
   }
 
+  // shouldComponentUpdate(nextProps) {
+  //   if (nextProps.subsOfSubCategory) {
+  //     nextProps.subsOfSubCategory.map(subcategory => {
+  //       nextProps.fetchSubCategoriesById(subcategory);
+
+  //       return true;
+  //     });
+  //   }
+
+  //   return false;
+  // }
+
   renderSubOfSubCategoryOrNot() {
     let subs = "";
     if (this.props.subCateogry) {
@@ -19,7 +31,7 @@ class SubCategory extends React.Component {
           {this.props.subCateogry.map(subofCateogry => {
             return (
               <li>
-                <Link to="">{subofCateogry.name}</Link>
+                <Link to=""> {subofCateogry ? subofCateogry.name : ""} </Link>
               </li>
             );
           })}
@@ -33,7 +45,6 @@ class SubCategory extends React.Component {
   }
 
   render() {
-    // console.log(this.props.subsOfSubCategory);
     return (
       <div className="forum-details">
         <a className="text-xlarge" href="forum.html">
@@ -50,10 +61,10 @@ const mapStateToProps = (state, ownProps) => {
   const subOfSubCategory =
     ownProps.subsOfSubCategory &&
     ownProps.subsOfSubCategory.map(subcategory => {
+      // console.log(state.categories.subCategories[subcategory]);
       return state.categories.subCategories[subcategory];
     });
 
-  console.log(subOfSubCategory);
   return { subCateogry: subOfSubCategory };
 };
 const mapDispatchToProps = dispatch => {

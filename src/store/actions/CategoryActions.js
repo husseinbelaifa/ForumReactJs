@@ -17,6 +17,20 @@ export const fetchCategories = () => dispatch => {
 
 }
 
+export const fetchCategory = (categoryId) => dispatch => {
+ const refbd = firebase.database().ref(`categories/${categoryId}`);
+ refbd.on('value', snapshot => {
+
+  return dispatch({
+   type: 'FETCH_CATEGORY',
+   category: snapshot.val(),
+
+
+  });
+
+ })
+}
+
 export const fetchSubCategories = () => dispatch => {
  const refbd = firebase.database().ref(`forums`);
 
@@ -37,6 +51,22 @@ export const fetchSubCategoriesById = (id) => dispatch => {
 
   return dispatch({
    type: 'FETCH_SUB_CATEGORY_By_Id',
+   subCategories: snapshot.val()
+  });
+
+ })
+}
+
+export const fetchSubCategoriesByCategoryId = (categoryId) => dispatch => {
+ const refbd = firebase.database().ref(`forums`).orderByChild('categoryId').equalTo(categoryId);
+
+ refbd.on('value', snapshot => {
+
+  console.log('action creator');
+  console.log(snapshot.val());
+
+  return dispatch({
+   type: 'FETCH_SUB_CATEGORY_By_CATEGORYID',
    subCategories: snapshot.val()
   });
 

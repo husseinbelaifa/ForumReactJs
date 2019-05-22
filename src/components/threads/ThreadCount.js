@@ -10,14 +10,16 @@ class ThreadCount extends React.Component {
     return (
       <div class="threads-count">
         <p class="count">
+          {" "}
           {/* {Object.keys(this.props.thread).length === 0 &&
-                          this.props.thread.constructor === Object
-                            ? console.log("empty")
-                            : this.props.thread[this.props.forum.key].threadCount} */
+                                          this.props.thread.constructor === Object
+                                            ? console.log("empty")
+                                            : this.props.thread[this.props.forum.key].threadCount} */
 
-          typeof this.props.thread[this.props.forum.key] === "undefined"
-            ? console.log("undifined")
-            : this.props.thread[this.props.forum.key].threadCount}{" "}
+          this.props.thread &&
+            this.props.forum &&
+            this.props.thread[this.props.forum.key] &&
+            this.props.thread[this.props.forum.key].threadCount}{" "}
         </p>{" "}
         thread{" "}
       </div>

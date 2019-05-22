@@ -33,8 +33,12 @@ class ForumList extends React.Component {
     return Object.keys(this.props.categories).map((keyname, i) => {
       return (
         <div class="forum-list">
-          <Category category={this.props.categories[keyname].name} />
-          {/* {this.renderSubCategories(keyname)} */}
+          <Category
+            category={
+              this.props.categories[keyname] && this.props.categories[keyname]
+            }
+          />{" "}
+          {/* {this.renderSubCategories(keyname)} */}{" "}
           {this.renderSubCategories(keyname)}{" "}
         </div>
       );
@@ -54,7 +58,8 @@ class ForumList extends React.Component {
       if (this.props.subCategories[keyName].categoryId === categoryId) {
         return (
           <div class="forum-listing">
-            {console.log(this.props.subCategories[keyName].forums)}
+            {" "}
+            {console.log(this.props.subCategories[keyName].forums)}{" "}
             <SubCategory
               subcategory={this.props.subCategories[keyName].name}
               infosubcategory={this.props.subCategories[keyName].description}

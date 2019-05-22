@@ -90,8 +90,8 @@ class NavBar extends React.Component {
                 alt=""
               />
               <span>
+                {" "}
                 {this.props.currentUser ? this.props.currentUser.name : null}
-
                 <img
                   class="icon-profile"
                   src="assets/img/svg/arrow-profile.svg"
@@ -135,7 +135,7 @@ class NavBar extends React.Component {
     return (
       <header className="header" id="header">
         <NavLink className="logo" to="/">
-          <img src="assets/img/svg/vueschool-logo.svg" />
+          <img src="/assets/img/svg/vueschool-logo.svg" />
         </NavLink>{" "}
         <div className="btn-hamburger">
           <div className="top bar" />
@@ -150,14 +150,14 @@ class NavBar extends React.Component {
               <NavLink to="/"> Home </NavLink>{" "}
             </li>{" "}
             {/* <li className="navbar-item">
-                              <a href="category.html"> Category </a>{" "}
-                            </li>{" "}
-                            <li className="navbar-item">
-                              <a href="forum.html"> Forum </a>{" "}
-                            </li>{" "}
-                            <li className="navbar-item">
-                              <a href="thread.html"> Thread </a>{" "}
-                            </li>{" "} */}{" "}
+                                      <a href="category.html"> Category </a>{" "}
+                                    </li>{" "}
+                                    <li className="navbar-item">
+                                      <a href="forum.html"> Forum </a>{" "}
+                                    </li>{" "}
+                                    <li className="navbar-item">
+                                      <a href="thread.html"> Thread </a>{" "}
+                                    </li>{" "} */}{" "}
             {this.renderLoginNavMobile()}{" "}
           </ul>{" "}
         </nav>{" "}
