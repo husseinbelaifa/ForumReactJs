@@ -24,21 +24,34 @@ class SubCategory extends React.Component {
   // }
 
   renderSubOfSubCategoryOrNot() {
+    // console.log(this.props.subCateogry);
     let subs = "";
     if (this.props.subCateogry) {
       subs = (
         <ul class="subforums">
+          {" "}
           {this.props.subCateogry.map(subofCateogry => {
             return (
               <li>
-                <Link to=""> {subofCateogry ? subofCateogry.name : ""} </Link>
+                <Link
+                  to={
+                    subofCateogry
+                      ? `/threads/${this.props.categoryId}/${
+                          subofCateogry.parentId
+                        }/${subofCateogry.key}`
+                      : ""
+                  }
+                >
+                  {" "}
+                  {subofCateogry ? subofCateogry.name : ""}{" "}
+                </Link>{" "}
               </li>
             );
-          })}
+          })}{" "}
         </ul>
       );
     } else {
-      subs = <p> {this.props.infosubcategory}</p>;
+      subs = <p> {this.props.infosubcategory} </p>;
     }
 
     return subs;
@@ -47,11 +60,18 @@ class SubCategory extends React.Component {
   render() {
     return (
       <div className="forum-details">
-        <a className="text-xlarge" href="forum.html">
+        <Link
+          className="text-xlarge"
+          to={
+            this.props
+              ? `/threads/${this.props.categoryId}/${this.props.subCategoryId}`
+              : ""
+          }
+        >
           {" "}
-          {this.props.subcategory}
-        </a>{" "}
-        {this.renderSubOfSubCategoryOrNot()}
+          {this.props.subcategory}{" "}
+        </Link>{" "}
+        {this.renderSubOfSubCategoryOrNot()}{" "}
       </div>
     );
   }
@@ -65,10 +85,14 @@ const mapStateToProps = (state, ownProps) => {
       return state.categories.subCategories[subcategory];
     });
 
-  return { subCateogry: subOfSubCategory };
+  return {
+    subCateogry: subOfSubCategory
+  };
 };
 const mapDispatchToProps = dispatch => {
-  return { fetchSubCategoriesById: id => dispatch(fetchSubCategoriesById(id)) };
+  return {
+    fetchSubCategoriesById: id => dispatch(fetchSubCategoriesById(id))
+  };
 };
 
 export default connect(

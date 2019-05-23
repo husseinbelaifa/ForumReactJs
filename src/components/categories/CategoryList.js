@@ -26,7 +26,6 @@ class CategoryList extends React.Component {
           {" "}
           <div className="forum-list">
             <Category category={this.props.category && this.props.category} />
-
             {Object.keys(this.props.subCategories).map((keyName, i) => {
               // console.log(this.props.subCategories[keyName].categoryId);
               if (
@@ -37,6 +36,8 @@ class CategoryList extends React.Component {
                   <div className="forum-listing">
                     <SubCategory
                       subcategory={this.props.subCategories[keyName].name}
+                      categoryId={this.props.subCategories[keyName].categoryId}
+                      subCategoryId={this.props.subCategories[keyName].key}
                       infosubcategory={
                         this.props.subCategories[keyName].description
                       }
@@ -47,7 +48,7 @@ class CategoryList extends React.Component {
                             )
                           : ""
                       }
-                    />
+                    />{" "}
                     <ThreadCount
                       forum={keyName ? this.props.subCategories[keyName] : ""}
                     />{" "}
@@ -61,47 +62,47 @@ class CategoryList extends React.Component {
                   </div>
                 );
               }
-            })}
+            })}{" "}
             {/* <div className="forum-listing">
-                      <SubCategory
-                        subcategory="Announcements"
-                        infosubcategory="Important announcements about the forum."
-                      />
-                      <ThreadCount threadCount="1" />
-                      <LastThread
-                        threadTitle="Post Reactions"
-                        threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
-                        threadAuthor="Rolf Haug"
-                        threadTime="a month ago"
-                      />
-                    </div>{" "}
-                    <div className="forum-listing">
-                      <SubCategory
-                        subcategory="Announcements"
-                        infosubcategory="Important announcements about the forum."
-                      />
-                      <ThreadCount threadCount="1" />
-                      <LastThread
-                        threadTitle="Post Reactions"
-                        threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
-                        threadAuthor="Rolf Haug"
-                        threadTime="a month ago"
-                      />
-                    </div>
-                    <div className="forum-listing">
-                      <SubCategory
-                        subcategory="Announcements"
-                        infosubcategory="Important announcements about the forum."
-                        subsOfSubCategory="Recipes"
-                      />
-                      <ThreadCount threadCount="1" />
-                      <LastThread
-                        threadTitle="Post Reactions"
-                        threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
-                        threadAuthor="Rolf Haug"
-                        threadTime="a month ago"
-                      />
-                    </div>{" "} */}
+                              <SubCategory
+                                subcategory="Announcements"
+                                infosubcategory="Important announcements about the forum."
+                              />
+                              <ThreadCount threadCount="1" />
+                              <LastThread
+                                threadTitle="Post Reactions"
+                                threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
+                                threadAuthor="Rolf Haug"
+                                threadTime="a month ago"
+                              />
+                            </div>{" "}
+                            <div className="forum-listing">
+                              <SubCategory
+                                subcategory="Announcements"
+                                infosubcategory="Important announcements about the forum."
+                              />
+                              <ThreadCount threadCount="1" />
+                              <LastThread
+                                threadTitle="Post Reactions"
+                                threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
+                                threadAuthor="Rolf Haug"
+                                threadTime="a month ago"
+                              />
+                            </div>
+                            <div className="forum-listing">
+                              <SubCategory
+                                subcategory="Announcements"
+                                infosubcategory="Important announcements about the forum."
+                                subsOfSubCategory="Recipes"
+                              />
+                              <ThreadCount threadCount="1" />
+                              <LastThread
+                                threadTitle="Post Reactions"
+                                threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
+                                threadAuthor="Rolf Haug"
+                                threadTime="a month ago"
+                              />
+                            </div>{" "} */}{" "}
           </div>{" "}
         </div>{" "}
       </div>

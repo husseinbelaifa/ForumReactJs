@@ -18,6 +18,16 @@ const App = () => {
           <Route path="/register" exact component={Register} />{" "}
           <Route path="/" exact component={ForumList} />{" "}
           <Route path="/categories/:id" exact component={CategoryList} />{" "}
+          <Route
+            path="/threads/:categoryId/:subCategoryId"
+            exact
+            component={ThreadList}
+          />
+          <Route
+            path="/threads/:categoryId/:subCategoryId/:subOfSubCategoryId"
+            exact
+            component={ThreadList}
+          />
         </Switch>{" "}
       </BrowserRouter>{" "}
       <Footer />

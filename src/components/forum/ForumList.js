@@ -61,6 +61,8 @@ class ForumList extends React.Component {
             {" "}
             {console.log(this.props.subCategories[keyName].forums)}{" "}
             <SubCategory
+              categoryId={this.props.subCategories[keyName].categoryId}
+              subCategoryId={this.props.subCategories[keyName].key}
               subcategory={this.props.subCategories[keyName].name}
               infosubcategory={this.props.subCategories[keyName].description}
               subsOfSubCategory={
