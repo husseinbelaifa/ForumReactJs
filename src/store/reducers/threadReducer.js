@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     forumId: 0,
     threadCount: 0
   },
-  threadPost: null
+  threadPost: null,
+  threadCategorie: null
 };
 
 export const threadReducer = (state = INITIAL_STATE, action) => {
@@ -23,8 +24,14 @@ export const threadReducer = (state = INITIAL_STATE, action) => {
           [action.thread.key]: action.thread
         }
       };
-    default:
-      return state;
+
+    case 'FETCH_THREAD_BY_FORUM':
+      return {
+        ...state, threadCategorie: action.thread
+
+      }
+      default:
+        return state;
   }
 
 }

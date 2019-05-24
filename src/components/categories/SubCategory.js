@@ -5,29 +5,66 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 class SubCategory extends React.Component {
   componentDidMount() {
+    console.log("i am calling did mount");
     this.props.subsOfSubCategory &&
       this.props.subsOfSubCategory.map(subcategory => {
+        console.log("sub of sub category");
         this.props.fetchSubCategoriesById(subcategory);
       });
 
-    !this.props.subcategory &&
-      this.props.fetchSubCategoriesById(this.props.subCategoryId);
+    if (this.props.subCategoryId) {
+      console.log("sub category");
+      Object.keys(this.props.allSubCategories).map(keyName => {
+        this.props.allSubCategories[keyName].forums &&
+          // console.log(this.props.allSubCategories[keyName].forums);
+          Object.values(this.props.allSubCategories[keyName].forums).map(
+            subofsubcategory => {
+              console.log(subofsubcategory);
+              this.props.fetchSubCategoriesById(subofsubcategory);
+            }
+          );
+        // Object.values(this.props.allSubCategories[keyName].forums).map(
+        //   subofsubcategory => {
+        //     this.props.fetchSubCategoriesById(subofsubcategory);
+        //   }
+        // );
+      });
+    }
+
+    // console.log(this.props.subsOfSubCategory);
+
+    // this.props.fetchSubCategoriesById(this.props.subCategoryId);
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   if (nextProps.subsOfSubCategory) {
-  //     nextProps.subsOfSubCategory.map(subcategory => {
-  //       nextProps.fetchSubCategoriesById(subcategory);
+  componentWillReceiveProps(nextProps) {
+    // console.log(nextProps);
+    if (
+      JSON.stringify(this.props.subsOfSubCategory) !==
+      JSON.stringify(nextProps.subsOfSubCategory)
+    ) {
+      console.log("return");
+      nextProps.subsOfSubCategory &&
+        nextProps.subsOfSubCategory.map(subcategory => {
+          nextProps.fetchSubCategoriesById(subcategory);
+        });
+    }
+    // else if (nextProps.subofsubcategory !== this.props.subCategoryId) {
+    //   console.log("i have returned");
+    //   // Object.keys(nextProps.allSubCategories).map(keyName => {
+    //   //   nextProps.allSubCategories[keyName].forums &&
+    //   //     Object.values(nextProps.allSubCategories[keyName].forums).map(
+    //   //       subofsubcategory => {
+    //   //         nextProps.fetchSubCategoriesById(subofsubcategory);
+    //   //       }
+    //   //     );
+    //   // });
 
-  //       return true;
-  //     });
-  //   }
-
-  //   return false;
-  // }
+    //   // return this.props.subCategoryId;
+    // }
+  }
 
   renderSubOfSubCategoryOrNot() {
-    // console.log(this.props.subCateogry);
+    // console.log(this.props.allSubCategories);
     let subs = "";
     if (this.props.subCateogry) {
       subs = (
@@ -68,6 +105,7 @@ class SubCategory extends React.Component {
   }
 
   render() {
+    // console.log(this.props);
     return (
       <div className="forum-details">
         <Link
@@ -99,7 +137,10 @@ const mapStateToProps = (state, ownProps) => {
       return state.categories.subCategories[subcategory];
     });
 
+  // console.log(state);
+
   return {
+    allSubCategories: state.categories.subCategories,
     subCateogry: subOfSubCategory,
     subofsubcategory:
       ownProps.subCategoryId && state.categories.subCategories

@@ -4,13 +4,17 @@ import {
   fetchCategory,
   fetchSubCategoriesById
 } from "../../store/actions/CategoryActions";
+import { fetchThreadByForum } from "../../store/actions/ThreadAction";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SubCategory from "../categories/SubCategory";
 import ThreadCount from "../threads/ThreadCount";
 import LastThread from "../threads/LastThread";
+import ShowThread from "../threads/ShowThread";
 class ThreadList extends React.Component {
-  state = { indexSubOfSubCategories: 0 };
+  state = {
+    indexSubOfSubCategories: 0
+  };
   componentDidMount() {
     //fetch Category
 
@@ -22,7 +26,12 @@ class ThreadList extends React.Component {
       this.props.fetchSubCategoriesById(
         this.props.match.params.subOfSubCategoryId
       );
+
+      //fetch all thread
+
+      this.props.fetchThreadByForum(this.props.match.params.subOfSubCategoryId);
     } else {
+      this.props.fetchThreadByForum(this.props.match.params.subCategoryId);
       //fetch all subofsubscategories
 
       this.props.subCategory &&
@@ -49,9 +58,10 @@ class ThreadList extends React.Component {
                   : ""
               }
             >
+              {" "}
               {this.props.subCategory ? this.props.subCategory.name : ""}{" "}
             </Link>{" "}
-          </li>
+          </li>{" "}
           <li class="active">
             <Link
               to={
@@ -62,6 +72,7 @@ class ThreadList extends React.Component {
                   : ""
               }
             >
+              {" "}
               {this.props.subOfSubCategory
                 ? this.props.subOfSubCategory.name
                 : ""}{" "}
@@ -81,6 +92,7 @@ class ThreadList extends React.Component {
                 : ""
             }
           >
+            {" "}
             {this.props.subCategory ? this.props.subCategory.name : ""}{" "}
           </Link>{" "}
         </li>
@@ -105,6 +117,7 @@ class ThreadList extends React.Component {
                 : ""
             }
           >
+            {" "}
             {this.props.category ? this.props.category.name : ""}{" "}
           </Link>{" "}
         </li>{" "}
@@ -154,9 +167,10 @@ class ThreadList extends React.Component {
         <div class="category-item">
           <div class="forum-list">
             <h2 class="list-title">
+              {" "}
               {this.props.subCategory && this.props.subCategory.name}{" "}
             </h2>{" "}
-            {this.renderCategorie()}
+            {this.renderCategorie()}{" "}
           </div>{" "}
         </div>{" "}
       </div>
@@ -187,9 +201,8 @@ class ThreadList extends React.Component {
                 }
                 subofsubcategoryboolean="true"
               />
-              {/* {console.log(this.props.subOfSubCategory)} */}
+              {/* {console.log(this.props.subOfSubCategory)} */}{" "}
               <ThreadCount forum={this.props.SubOfSubCategories[index]} />
-
               <LastThread
                 postId={
                   this.props.SubOfSubCategories[index] &&
@@ -207,154 +220,56 @@ class ThreadList extends React.Component {
       )
     );
   }
+
+  renderShowThread() {
+    return (
+      this.props.threads &&
+      Object.keys(this.props.threads).map(keyName => {
+        return (
+          <ShowThread
+            thread={this.props.threads && this.props.threads[keyName]}
+          />
+        );
+      })
+    );
+  }
+  renderThread() {
+    if (!this.props.threads) return null;
+    return (
+      <div class="col-full">
+        <div class="thread-list">
+          <h2 class="list-title"> Threads </h2> {this.renderShowThread()}{" "}
+        </div>{" "}
+      </div>
+    );
+  }
   render() {
+    console.log(this.props.threads);
     // this.props.subOfSubCategory && console.log(this.props.subOfSubCategory);
 
     return (
       <div className="container">
         <div class="col-full push-top">
-          {this.renderMenu()}
+          {" "}
+          {this.renderMenu()}{" "}
           <div class="forum-header">
-            {this.renderFormDetail()}
+            {" "}
+            {this.renderFormDetail()}{" "}
             {/* <a href="new-thread.html" class="btn-green btn-small">
-              Start a thread{" "}
-            </a>{" "} */}
+                    Start a thread{" "}
+                  </a>{" "} */}{" "}
           </div>{" "}
         </div>{" "}
-        {this.renderCategorieOrNot()}
-        <div class="col-full">
-          <div class="thread-list">
-            <h2 class="list-title"> Threads </h2>{" "}
-            <div class="thread">
-              <div>
-                <p>
-                  <a href="thread.html">
-                    {" "}
-                    How can I chop onions without crying ?{" "}
-                  </a>{" "}
-                </p>{" "}
-                <p class="text-faded text-xsmall">
-                  By <a href="profile.html"> Joseph Kerr </a>, yesterday.{" "}
-                </p>{" "}
-              </div>{" "}
-              <div class="activity">
-                <p class="replies-count"> 1 reply </p>{" "}
-                <img
-                  class="avatar-medium"
-                  src="http://i0.kym-cdn.com/photos/images/facebook/000/010/934/46623-batman_pikachu_super.png"
-                  alt=""
-                />
-                <div>
-                  <p class="text-xsmall">
-                    <a href="profile.html"> Bruce Wayne </a>{" "}
-                  </p>{" "}
-                  <p class="text-xsmall text-faded"> 2 hours ago </p>{" "}
-                </div>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div class="thread">
-              <div>
-                <p>
-                  <a href="thread.html"> Wasabi vs horseraddish ? </a>{" "}
-                </p>{" "}
-                <p class="text-faded text-xsmall">
-                  By <a href="profile.html"> Robin </a>, 8 hours ago{" "}
-                </p>{" "}
-              </div>{" "}
-              <div class="activity">
-                <p class="replies-count"> 3 replies </p>{" "}
-                <img
-                  class="avatar-medium"
-                  src="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Fraynathan?alt=media&token=bd9a0f0e-60f2-4e60-b092-77d1ded50a7e"
-                  alt=""
-                />
-                <span>
-                  <a class="text-xsmall" href="profile.html">
-                    Ray - Nathan James{" "}
-                  </a>{" "}
-                  <p class="text-faded text-xsmall"> 3 hours ago </p>{" "}
-                </span>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div class="thread">
-              <div>
-                <p>
-                  <a href="thread.html"> Multifilling </a>{" "}
-                </p>{" "}
-                <p class="text-faded text-xsmall">
-                  By <a href="profile.html"> Ray - Nathan James </a>, 6 days ago{" "}
-                </p>{" "}
-              </div>{" "}
-              <div class="activity">
-                <p class="replies-count"> 1 reply </p>{" "}
-                <img
-                  class="avatar-medium"
-                  src="http://i0.kym-cdn.com/photos/images/facebook/000/010/934/46623-batman_pikachu_super.png"
-                  alt=""
-                />
-                <span>
-                  <a class="text-xsmall" href="profile.html">
-                    Bruce Wayne{" "}
-                  </a>{" "}
-                  <p class="text-faded text-xsmall"> 6 days ago </p>{" "}
-                </span>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div class="thread">
-              <div>
-                <p>
-                  <a href="thread.html"> Egg replacer for bread dough ? </a>{" "}
-                </p>{" "}
-                <p class="text-faded text-xsmall">
-                  By <a href="profile.html"> Theodor Jackson </a>, 2 weeks ago{" "}
-                </p>{" "}
-              </div>{" "}
-              <div class="activity">
-                <p class="replies-count"> 1 reply </p>{" "}
-                <img
-                  class="avatar-medium"
-                  src="http://icons.iconarchive.com/icons/designbolts/free-male-avatars/128/Male-Avatar-icon.png"
-                  alt=""
-                />
-                <span>
-                  <a class="text-xsmall" href="profile.html">
-                    Theodor Jackson{" "}
-                  </a>{" "}
-                  <p class="text-faded text-xsmall"> 2 weeks ago </p>{" "}
-                </span>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div class="thread">
-              <div>
-                <p>
-                  <a href="thread.html">
-                    Which is your favorite carbohydrate ? 🤓
-                  </a>{" "}
-                </p>{" "}
-                <p class="text-faded text-xsmall">
-                  By <a href="profile.html"> Ray - Nathan James </a>, 1 month
-                  ago{" "}
-                </p>{" "}
-              </div>{" "}
-              <div class="activity">
-                <p class="replies-count"> 0 replies </p>{" "}
-                <img
-                  class="avatar-medium"
-                  src="http://i0.kym-cdn.com/photos/images/facebook/000/010/934/46623-batman_pikachu_super.png"
-                  alt=""
-                />
-                <span>
-                  <a class="text-xsmall" href="profile.html">
-                    Ray - Nathan James{" "}
-                  </a>{" "}
-                  <p class="text-faded text-xsmall"> 1 month ago </p>{" "}
-                </span>{" "}
-              </div>{" "}
-            </div>{" "}
-          </div>
+        {this.renderCategorieOrNot()} {this.renderThread()}{" "}
+        {/* <div class="col-full">
+                <div class="thread-list">
+                  <h2 class="list-title"> Threads </h2>
 
-          <Pagination />
-        </div>{" "}
+
+                </div>
+
+                <Pagination />
+              </div>{" "} */}{" "}
       </div>
     );
   }
@@ -393,14 +308,17 @@ const mapStateToProps = (state, ownProps) => {
       state.categories.subCategories &&
       !ownProps.match.params.subOfSubCategoryId
         ? SubOfSubCategories
-        : null
+        : null,
+
+    threads: state.thread.threadCategorie ? state.thread.threadCategorie : null
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     fetchCategory: categoryId => dispatch(fetchCategory(categoryId)),
     fetchSubCategoriesById: subCategoryId =>
-      dispatch(fetchSubCategoriesById(subCategoryId))
+      dispatch(fetchSubCategoriesById(subCategoryId)),
+    fetchThreadByForum: forumId => dispatch(fetchThreadByForum(forumId))
   };
 };
 

@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
-  categories: [],
-  subCategories: []
+  categories: {},
+  subCategories: {}
 };
 
 export const categoryReducer = (state = INITIAL_STATE, action) => {
@@ -11,6 +11,7 @@ export const categoryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         categories: action.categories
+
       };
 
     }
@@ -20,12 +21,14 @@ export const categoryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         subCategories: action.subCategories
-      };
+      }
     }
+
 
     case 'FETCH_SUB_CATEGORY_By_Id': {
       return {
         ...state,
+        // subCategories: action.subCategories
         subCategories: {
           ...state.subCategories,
           [action.subCategories.key]: action.subCategories
@@ -37,6 +40,7 @@ export const categoryReducer = (state = INITIAL_STATE, action) => {
     case 'FETCH_CATEGORY':
       return {
         ...state,
+        // categories: action.category
         categories: {
           ...state.category,
           [action.category.key]: action.category
@@ -44,8 +48,15 @@ export const categoryReducer = (state = INITIAL_STATE, action) => {
       }
 
       case 'FETCH_SUB_CATEGORY_By_CATEGORYID':
+
+
         return {
-          ...state, subCategories: action.subCategories
+          ...state,
+          // subCategories: action.subCategories
+          subCategories: {
+            ...state.subCategories,
+            [action.subCategories.key]: action.subCategories
+          }
         }
 
 

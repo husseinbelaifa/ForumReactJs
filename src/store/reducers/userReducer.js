@@ -1,6 +1,8 @@
 const INITIAL_STATE = {
   currentUser: null,
-  userForum: null
+  userForum: null,
+  userThread: null,
+  userPost: null
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -22,10 +24,38 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         }
       };
 
+    }
+
+    case 'FETCH_USER_THREAD': {
+
+
+
+
+      return {
+        ...state,
+        userThread: {
+          ...state.userThread,
+          [action.userThread.threadId]: action.userThread
+        }
+      };
+
+
 
     }
-    // case "FETCH_USER_ERROR":
-    //   return { ...state, erroFetchUser: action.error };
+
+    case 'FETCH_USER_POST': {
+
+      return {
+        ...state,
+        userPost: {
+          ...state.userPost,
+          [action.userPost.postId]: action.userPost
+        }
+      };
+
+
+    }
+
     default:
       return state;
   }

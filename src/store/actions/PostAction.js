@@ -14,3 +14,21 @@ export const fetchLastPostInSubCategories = (postId) => dispatch => {
     });
 
 };
+
+
+export const postCount = (threadId) => dispatch => {
+
+  firebase.database().ref(`posts`)
+    .orderByChild('threadId').equalTo(threadId)
+    .on('value', (snapshot => {
+
+      return dispatch({
+        type: "COUNT_POSTS",
+        post: {
+          threadId: threadId,
+          postCount: snapshot.numChildren()
+        }
+      })
+    }));
+
+};

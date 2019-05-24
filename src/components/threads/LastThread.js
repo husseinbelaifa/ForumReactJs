@@ -7,7 +7,8 @@ import UserForum from "../User/UserForum";
 class LastThread extends React.Component {
   componentDidMount() {
     // console.log(this.props.postId);
-    this.props.fetchLastPostInSubCategories(this.props.postId);
+    this.props.postId &&
+      this.props.fetchLastPostInSubCategories(this.props.postId);
     // this.props.fetchCurrentUser(this.props.post.userId, this.props.postId);
   }
 
@@ -29,7 +30,7 @@ class LastThread extends React.Component {
     return nextProps.postId !== this.props.postId;
   }
   render() {
-    console.log(this.props.post);
+    // console.log(this.props.post);
     return (
       <div class="last-thread">
         <UserForum postUser={this.props.post} />{" "}
@@ -40,7 +41,7 @@ class LastThread extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    post: state.post ? state.post[ownProps.postId] : ""
+    post: state.post.posts ? state.post.posts[ownProps.postId] : ""
   };
 };
 const mapStateToDispatch = dispatch => {

@@ -26,3 +26,13 @@ export const fetchThread = (id) => dispatch => {
       })
     })
 }
+
+export const fetchThreadByForum = (forumId) => dispatch => {
+  firebase.database().ref(`threads`).orderByChild('forumId').equalTo(forumId)
+    .on('value', snapshot => {
+      return dispatch({
+        type: 'FETCH_THREAD_BY_FORUM',
+        thread: snapshot.val()
+      })
+    })
+}
