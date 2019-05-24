@@ -44,6 +44,14 @@ export const fetchSubCategories = () => dispatch => {
  })
 }
 
+//fetch subofsubs categories
+
+export const fetchSubOfSubCategories = (categoryId, subCategoryId) => dispatch => {
+
+
+
+}
+
 export const fetchSubCategoriesById = (id) => dispatch => {
  const refbd = firebase.database().ref(`forums/${id}`);
 

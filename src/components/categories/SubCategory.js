@@ -9,6 +9,9 @@ class SubCategory extends React.Component {
       this.props.subsOfSubCategory.map(subcategory => {
         this.props.fetchSubCategoriesById(subcategory);
       });
+
+    !this.props.subcategory &&
+      this.props.fetchSubCategoriesById(this.props.subCategoryId);
   }
 
   // shouldComponentUpdate(nextProps) {
@@ -51,7 +54,14 @@ class SubCategory extends React.Component {
         </ul>
       );
     } else {
-      subs = <p> {this.props.infosubcategory} </p>;
+      subs = (
+        <p>
+          {" "}
+          {this.props.subofsubcategory
+            ? this.props.subofsubcategory.description
+            : this.props.infosubcategory}{" "}
+        </p>
+      );
     }
 
     return subs;
@@ -63,13 +73,17 @@ class SubCategory extends React.Component {
         <Link
           className="text-xlarge"
           to={
-            this.props
+            !this.props.subofsubcategoryboolean
               ? `/threads/${this.props.categoryId}/${this.props.subCategoryId}`
-              : ""
+              : `/threads/${this.props.categoryId}/${
+                  this.props.subCategoryId
+                }/${this.props.subofsubcategory.key}`
           }
         >
           {" "}
-          {this.props.subcategory}{" "}
+          {this.props.subofsubcategory
+            ? this.props.subofsubcategory.name
+            : this.props.subcategory}{" "}
         </Link>{" "}
         {this.renderSubOfSubCategoryOrNot()}{" "}
       </div>
@@ -86,7 +100,11 @@ const mapStateToProps = (state, ownProps) => {
     });
 
   return {
-    subCateogry: subOfSubCategory
+    subCateogry: subOfSubCategory,
+    subofsubcategory:
+      ownProps.subCategoryId && state.categories.subCategories
+        ? state.categories.subCategories[ownProps.subCategoryId]
+        : null
   };
 };
 const mapDispatchToProps = dispatch => {
