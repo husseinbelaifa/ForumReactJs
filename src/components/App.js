@@ -7,6 +7,7 @@ import CategoryList from "./categories/CategoryList";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ThreadList from "./threads/ThreadList";
+import PostList from "./posts/PostList";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 const App = () => {
   return (
@@ -18,16 +19,17 @@ const App = () => {
           <Route path="/register" exact component={Register} />{" "}
           <Route path="/" exact component={ForumList} />{" "}
           <Route path="/categories/:id" exact component={CategoryList} />{" "}
+          <Route path="/thread/:threadId/" exact component={PostList} />{" "}
           <Route
             path="/threads/:categoryId/:subCategoryId"
             exact
             component={ThreadList}
-          />
+          />{" "}
           <Route
             path="/threads/:categoryId/:subCategoryId/:subOfSubCategoryId"
             exact
             component={ThreadList}
-          />
+          />{" "}
         </Switch>{" "}
       </BrowserRouter>{" "}
       <Footer />

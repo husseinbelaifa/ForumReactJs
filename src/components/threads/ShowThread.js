@@ -9,6 +9,7 @@ import {
   postCount,
   fetchLastPostInSubCategories
 } from "../../store/actions/PostAction";
+import { Link } from "react-router-dom";
 import UserThread from "../User/UserThread";
 class ShowThread extends React.Component {
   componentDidMount() {
@@ -40,7 +41,10 @@ class ShowThread extends React.Component {
       <div class="thread">
         <div>
           <p>
-            <a href="thread.html"> {this.props.thread.title} </a>{" "}
+            <Link to={`/thread/${this.props.thread.key}`}>
+              {" "}
+              {this.props.thread.title}{" "}
+            </Link>{" "}
           </p>{" "}
           <p class="text-faded text-xsmall">
             By{" "}

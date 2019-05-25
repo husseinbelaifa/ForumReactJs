@@ -4,6 +4,10 @@ const INITIAL_STATE = {
     forumId: 0,
     threadCount: 0
   },
+  threadCountUser: {
+    userId: 0,
+    postCount: 0
+  },
   threadPost: null,
   threadCategorie: null
 };
@@ -14,6 +18,16 @@ export const threadReducer = (state = INITIAL_STATE, action) => {
     case 'COUNT_THREAD':
       return {
         ...state, [action.thread.forumId]: action.thread
+        // threadCount: action.threadCount
+      };
+
+    case 'COUNT_THREAD_USER':
+      return {
+        ...state,
+        threadCountUser: {
+          ...state.threadCountUser,
+          [action.thread.userId]: action.thread
+        }
         // threadCount: action.threadCount
       };
 

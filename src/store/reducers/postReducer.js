@@ -6,6 +6,13 @@ const INITIAL_STATE = {
     postCount: 0
   },
 
+  postCountUser: {
+    userId: 0,
+    postCount: 0
+  },
+
+  postsThread: null
+
 }
 
 export const postReducer = (state = INITIAL_STATE, action) => {
@@ -21,21 +28,43 @@ export const postReducer = (state = INITIAL_STATE, action) => {
         }
       };
 
-      // else return state;
-
-    case 'COUNT_POSTS':
-      // if (action.post !== null)
+    case 'FETCH_POSTS_THREAD':
       return {
         ...state,
-        postCount: {
-          ...state.postCount,
+        postsThread: {
+          ...state.postsThread,
           [action.post.threadId]: action.post
         }
+      }
 
-      };
       // else return state;
-    default:
-      return state;
+
+      case 'COUNT_POSTS':
+        // if (action.post !== null)
+        return {
+          ...state,
+          postCount: {
+            ...state.postCount,
+            [action.post.threadId]: action.post
+          }
+
+        };
+
+      case 'COUNT_POSTS_USER': {
+
+        return {
+          ...state,
+          postCountUser: {
+            ...state.postCountUser,
+            [action.post.userId]: action.post
+          }
+
+        };
+
+      }
+      // else return state;
+      default:
+        return state;
   }
 
 }

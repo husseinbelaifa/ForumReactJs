@@ -17,6 +17,23 @@ export const threadCount = (forumId) => dispatch => {
 
 };
 
+export const threadCountUser = (userId) => dispatch => {
+
+  firebase.database().ref(`threads`)
+    .orderByChild('userId').equalTo(userId)
+    .on('value', (snapshot => {
+
+      return dispatch({
+        type: "COUNT_THREAD_USER",
+        thread: {
+          userId: userId,
+          threadCount: snapshot.numChildren()
+        }
+      })
+    }));
+
+};
+
 export const fetchThread = (id) => dispatch => {
   firebase.database().ref(`threads/${id}`)
     .on('value', snapshot => {
@@ -38,7 +55,7 @@ export const fetchThreadByForum = (forumId, currentPage, threadPerPage) => dispa
     let index = 0;
     let index1 = 0;
 
-    const data = Object.keys(snapshot.val()).map(keyName => {
+    const data = snapshot.val() && Object.keys(snapshot.val()).map(keyName => {
 
 
       if (index < startAt) index++;
@@ -51,7 +68,7 @@ export const fetchThreadByForum = (forumId, currentPage, threadPerPage) => dispa
 
     });
 
-    const newData = Object.assign({}, ...data.map(o => {
+    const newData = data && Object.assign({}, ...data.map(o => {
       if (o !== undefined) return {
         [o.key]: o
       };
