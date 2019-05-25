@@ -13,15 +13,22 @@ import UserThread from "../User/UserThread";
 class ShowThread extends React.Component {
   componentDidMount() {
     this.props.fetchUserThread(this.props.thread.userId, this.props.thread.key);
-    //count number of post for each thread
-
-    //fetch last post of thread
 
     this.props.fetchLastPostInSubCategories(this.props.thread.lastPostId);
 
-    // this.props.fetchUserPost(this.props.thread.lastPostId);
-
     this.props.postCount(this.props.thread.key);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.thread !== this.props.thread) {
+      console.log("updateing");
+
+      nextProps.fetchUserThread(nextProps.thread.userId, nextProps.thread.key);
+
+      nextProps.fetchLastPostInSubCategories(nextProps.thread.lastPostId);
+
+      nextProps.postCount(nextProps.thread.key);
+    }
   }
 
   render() {
@@ -33,7 +40,7 @@ class ShowThread extends React.Component {
       <div class="thread">
         <div>
           <p>
-            <a href="thread.html">{this.props.thread.title}</a>{" "}
+            <a href="thread.html"> {this.props.thread.title} </a>{" "}
           </p>{" "}
           <p class="text-faded text-xsmall">
             By{" "}
@@ -45,8 +52,12 @@ class ShowThread extends React.Component {
           </p>{" "}
         </div>{" "}
         <div class="activity">
-          <p class="replies-count"> {this.props.numberOfPost} reply </p>{" "}
-          <UserThread lastPost={this.props.lastPost} />
+          <p class="replies-count">
+            {" "}
+            {this.props.numberOfPost}
+            reply{" "}
+          </p>{" "}
+          <UserThread lastPost={this.props.lastPost} />{" "}
         </div>{" "}
       </div>
     );

@@ -277,7 +277,7 @@ class ThreadList extends React.Component {
         );
       }
 
-      // console.log(this.props.threads);
+      console.log(this.props.threads);
     }
 
     // this.setState({ currentPage: currentPagination });

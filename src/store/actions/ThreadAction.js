@@ -29,10 +29,7 @@ export const fetchThread = (id) => dispatch => {
 
 export const fetchThreadByForum = (forumId, currentPage, threadPerPage) => dispatch => {
   const startAt = currentPage * threadPerPage - threadPerPage
-  console.log(currentPage);
-  console.log(threadPerPage);
-  console.log('page');
-  console.log(startAt);
+
   const refbd = firebase.database().ref(`threads`).orderByChild('forumId').equalTo(forumId);
 
   refbd.on('value', snapshot => {
