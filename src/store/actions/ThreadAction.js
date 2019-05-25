@@ -27,12 +27,44 @@ export const fetchThread = (id) => dispatch => {
     })
 }
 
-export const fetchThreadByForum = (forumId) => dispatch => {
-  firebase.database().ref(`threads`).orderByChild('forumId').equalTo(forumId)
-    .on('value', snapshot => {
-      return dispatch({
-        type: 'FETCH_THREAD_BY_FORUM',
-        thread: snapshot.val()
-      })
+export const fetchThreadByForum = (forumId, currentPage, threadPerPage) => dispatch => {
+  const startAt = currentPage * threadPerPage - threadPerPage
+  console.log(currentPage);
+  console.log(threadPerPage);
+  console.log('page');
+  console.log(startAt);
+  const refbd = firebase.database().ref(`threads`).orderByChild('forumId').equalTo(forumId);
+
+  refbd.on('value', snapshot => {
+
+    // console.log(snapshot.val());
+    let index = 0;
+    let index1 = 0;
+
+    const data = Object.keys(snapshot.val()).map(keyName => {
+
+
+      if (index < startAt) index++;
+      else if (index1 < threadPerPage) {
+        index1++;
+        return snapshot.val()[keyName];
+
+      }
+
+
+    });
+
+    const newData = Object.assign({}, ...data.map(o => {
+      if (o !== undefined) return {
+        [o.key]: o
+      };
+    }));
+
+
+
+    return dispatch({
+      type: 'FETCH_THREAD_BY_FORUM',
+      thread: newData
     })
+  })
 }

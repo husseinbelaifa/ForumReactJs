@@ -5,7 +5,7 @@ export const fetchCategories = () => dispatch => {
  const refbd = firebase.database().ref(`categories`);
 
  refbd.on('value', snapshot => {
-  console.log(snapshot.val());
+  // console.log(snapshot.val());
   return dispatch({
    type: 'FETCH_CATEGORIES',
    categories: snapshot.val(),

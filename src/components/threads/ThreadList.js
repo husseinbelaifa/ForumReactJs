@@ -4,7 +4,10 @@ import {
   fetchCategory,
   fetchSubCategoriesById
 } from "../../store/actions/CategoryActions";
-import { fetchThreadByForum } from "../../store/actions/ThreadAction";
+import {
+  fetchThreadByForum,
+  threadCount
+} from "../../store/actions/ThreadAction";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SubCategory from "../categories/SubCategory";
@@ -13,7 +16,8 @@ import LastThread from "../threads/LastThread";
 import ShowThread from "../threads/ShowThread";
 class ThreadList extends React.Component {
   state = {
-    indexSubOfSubCategories: 0
+    indexSubOfSubCategories: 0,
+    currentPage: 1
   };
   componentDidMount() {
     //fetch Category
@@ -26,12 +30,24 @@ class ThreadList extends React.Component {
       this.props.fetchSubCategoriesById(
         this.props.match.params.subOfSubCategoryId
       );
+      //count number of thread
 
+      this.props.threadCount(this.props.match.params.subOfSubCategoryId);
       //fetch all thread
 
-      this.props.fetchThreadByForum(this.props.match.params.subOfSubCategoryId);
+      this.props.fetchThreadByForum(
+        this.props.match.params.subOfSubCategoryId,
+        this.state.currentPage,
+        2
+      );
     } else {
-      this.props.fetchThreadByForum(this.props.match.params.subCategoryId);
+      this.props.fetchThreadByForum(
+        this.props.match.params.subCategoryId,
+        this.state.currentPage,
+        2
+      );
+
+      this.props.threadCount(this.props.match.params.subCategoryId);
       //fetch all subofsubscategories
 
       this.props.subCategory &&
@@ -43,6 +59,10 @@ class ThreadList extends React.Component {
 
     //fetch all subs of subscategories
   }
+
+  receiveCurrentPage = currentPage => {
+    // console.log(currentPage);
+  };
 
   renderSubOfSubCategory() {
     if (this.props.match.params.subOfSubCategoryId) {
@@ -200,9 +220,9 @@ class ThreadList extends React.Component {
                   this.props.subOfSubCategory.description
                 }
                 subofsubcategoryboolean="true"
-              />
+              />{" "}
               {/* {console.log(this.props.subOfSubCategory)} */}{" "}
-              <ThreadCount forum={this.props.SubOfSubCategories[index]} />
+              <ThreadCount forum={this.props.SubOfSubCategories[index]} />{" "}
               <LastThread
                 postId={
                   this.props.SubOfSubCategories[index] &&
@@ -222,6 +242,7 @@ class ThreadList extends React.Component {
   }
 
   renderShowThread() {
+    // console.log(this.props.threads);
     return (
       this.props.threads &&
       Object.keys(this.props.threads).map(keyName => {
@@ -233,6 +254,50 @@ class ThreadList extends React.Component {
       })
     );
   }
+
+  receiveCurrentPage = async currentPagination => {
+    // console.log(currentPagination);
+    if (currentPagination !== this.state.currentPage) {
+      await this.setState({ currentPage: currentPagination });
+      // console.log(this.state.currentPage);
+      // console.log("changing");
+      if (this.props.match.params.subOfSubCategoryId) {
+        //count number of thread
+
+        this.props.fetchThreadByForum(
+          this.props.match.params.subOfSubCategoryId,
+          this.state.currentPage,
+          2
+        );
+      } else {
+        this.props.fetchThreadByForum(
+          this.props.match.params.subCategoryId,
+          this.state.currentPage,
+          2
+        );
+      }
+
+      // console.log(this.props.threads);
+    }
+
+    // this.setState({ currentPage: currentPagination });
+
+    // if (this.props.match.params.subOfSubCategoryId) {
+    //   //count number of thread
+
+    //   this.props.fetchThreadByForum(
+    //     this.props.match.params.subOfSubCategoryId,
+    //     currentPagination,
+    //     2
+    //   );
+    // } else {
+    //   this.props.fetchThreadByForum(
+    //     this.props.match.params.subCategoryId,
+    //     currentPagination,
+    //     2
+    //   );
+    // }
+  };
   renderThread() {
     if (!this.props.threads) return null;
     return (
@@ -240,11 +305,19 @@ class ThreadList extends React.Component {
         <div class="thread-list">
           <h2 class="list-title"> Threads </h2> {this.renderShowThread()}{" "}
         </div>{" "}
+        <Pagination
+          numberOfThread={
+            this.props.threadCountForum &&
+            this.props.threadCountForum.threadCount
+          }
+          threadPerPage="2"
+          currentPage={this.receiveCurrentPage}
+        />
       </div>
     );
   }
   render() {
-    console.log(this.props.threads);
+    // console.log(this.props.threadCountForum.threadCount);
     // this.props.subOfSubCategory && console.log(this.props.subOfSubCategory);
 
     return (
@@ -256,26 +329,27 @@ class ThreadList extends React.Component {
             {" "}
             {this.renderFormDetail()}{" "}
             {/* <a href="new-thread.html" class="btn-green btn-small">
-                    Start a thread{" "}
-                  </a>{" "} */}{" "}
+                            Start a thread{" "}
+                          </a>{" "} */}{" "}
           </div>{" "}
         </div>{" "}
         {this.renderCategorieOrNot()} {this.renderThread()}{" "}
         {/* <div class="col-full">
-                <div class="thread-list">
-                  <h2 class="list-title"> Threads </h2>
+                        <div class="thread-list">
+                          <h2 class="list-title"> Threads </h2>
 
 
-                </div>
+                        </div>
 
-                <Pagination />
-              </div>{" "} */}{" "}
+                        <Pagination />
+                      </div>{" "} */}{" "}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // console.log(state);
   const SubOfSubCategories = Object.keys(state.categories.subCategories)
     .map((keyName, i) => {
       if (
@@ -288,6 +362,13 @@ const mapStateToProps = (state, ownProps) => {
         return state.categories.subCategories[keyName];
     })
     .filter(Boolean);
+
+  let threadCountForum = null;
+  if (state.thread && !ownProps.match.params.subOfSubCategoryId) {
+    threadCountForum = state.thread[ownProps.match.params.subCategoryId];
+  } else if (state.thread && ownProps.match.params.subOfSubCategoryId) {
+    threadCountForum = state.thread[ownProps.match.params.subOfSubCategoryId];
+  }
 
   return {
     category:
@@ -310,7 +391,8 @@ const mapStateToProps = (state, ownProps) => {
         ? SubOfSubCategories
         : null,
 
-    threads: state.thread.threadCategorie ? state.thread.threadCategorie : null
+    threads: state.thread.threadCategorie ? state.thread.threadCategorie : null,
+    threadCountForum: threadCountForum
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -318,7 +400,9 @@ const mapDispatchToProps = dispatch => {
     fetchCategory: categoryId => dispatch(fetchCategory(categoryId)),
     fetchSubCategoriesById: subCategoryId =>
       dispatch(fetchSubCategoriesById(subCategoryId)),
-    fetchThreadByForum: forumId => dispatch(fetchThreadByForum(forumId))
+    fetchThreadByForum: (forumId, currentPage, threadPerPage) =>
+      dispatch(fetchThreadByForum(forumId, currentPage, threadPerPage)),
+    threadCount: forumId => dispatch(threadCount(forumId))
   };
 };
 
