@@ -64,13 +64,14 @@ class PostList extends React.Component {
     // console.log(this.props.firstPost);
     return (
       <React.Fragment>
-        <h1> {this.props.thread && this.props.thread.title} </h1>
+        <h1> {this.props.thread && this.props.thread.title} </h1>{" "}
         <p>
           By{" "}
           <Link
             to={this.props.user ? `/profile/${this.props.user.user.key}` : ""}
             class="link-unstyled"
           >
+            {" "}
             {this.props.user && this.props.user.user.name}{" "}
           </Link>
           ,{" "}
@@ -82,6 +83,7 @@ class PostList extends React.Component {
             }}
             class="hide-mobile text-faded text-small"
           >
+            {" "}
             {this.props.postsCount && this.props.postsCount.postCount}
             replies by{" "}
             {this.props.thread &&
@@ -105,10 +107,17 @@ class PostList extends React.Component {
               <UserInfo
                 userId={this.props.posts.post[keyName].userId}
                 postId={this.props.posts.post[keyName].key}
-              />
+              />{" "}
               <div class="post-content">
                 <div>
-                  <p> {this.props.posts.post[keyName].text} </p>{" "}
+                  {" "}
+                  {/* {console.log(
+                              this.props.posts.post[keyName].text.match(
+                                "/[quote={(.+)}]/"
+                              )
+                            )} */}{" "}
+                  {this.renderQuote(this.props.posts.post[keyName].text)}
+                  {/* <p> {this.props.posts.post[keyName].text} </p>{" "} */}
                 </div>{" "}
                 <a
                   href="#"
@@ -120,12 +129,14 @@ class PostList extends React.Component {
                 >
                   <i class="fa fa-pencil" />
                 </a>{" "}
-              </div>
+              </div>{" "}
               <div class="post-date text-faded">
                 {" "}
-                {moment(this.props.posts.post[keyName].publishedAt).fromNow()}
+                {moment(
+                  this.props.posts.post[keyName].publishedAt
+                ).fromNow()}{" "}
               </div>{" "}
-              <Reactions postId={this.props.posts.post[keyName].key} />
+              <Reactions postId={this.props.posts.post[keyName].key} />{" "}
             </div>{" "}
           </div>
         );
@@ -153,20 +164,68 @@ class PostList extends React.Component {
                 : ""
             }
           >
-            {this.props.subOfSubCategorie && this.props.subOfSubCategorie.name}{" "}
-          </Link>
+            {" "}
+            {this.props.subOfSubCategorie &&
+              this.props.subOfSubCategorie.name}{" "}
+          </Link>{" "}
         </li>
       );
     }
   }
+
+  getQuoteFromText(text) {
+    const res = text && text.match(/(\[quote\s*=\s*{\s*(.+)}\s*\])/);
+
+    // res && console.log(text.split(res[0].trim()));
+
+    if (res) {
+      const res1 = res[0].match(/{(.+)}/);
+      if (res1) return [JSON.parse(res1[0]), text.split(res[0].trim())[1]];
+      else return null;
+    } else return null;
+  }
+  renderQuote(text) {
+    const res = text && this.getQuoteFromText(text);
+
+    console.log(res);
+
+    if (!res) return <p> {text} </p>;
+
+    return (
+      <React.Fragment>
+        <blockquote class="small">
+          <div class="author">
+            <a href="/user/robin" class="">
+              {" "}
+              {res[0].username}
+            </a>
+            <span class="time">{moment(res[0].date).fromNow()}</span>
+            <i class="fa fa-caret-down" />
+          </div>
+
+          <div class="quote">
+            <p>{res[0].text}</p>
+          </div>
+        </blockquote>
+        <p>{res[1]}</p>
+      </React.Fragment>
+    );
+  }
   renderMenu() {
+    // const text =
+    //   '[quote={"username":"robin","date":1507226534,"text":"Is horseradish and Wasabi the same thing? I\'ve heard so many different things."}]\n\nThey\'re not the same!';
+    // // const res = text.match(/\[quote={(.+)}\]/);
+    // // const res1 = res[0].match(/{(.+)}/);
+    // // console.log("res");
+    // // console.log(JSON.parse(res1[0]));
+    // this.getQuoteFromText(text);
     return (
       <ul class="breadcrumbs">
         <li>
           <Link to="/">
             <i class="fa fa-home fa-btn" />
-            Home
-          </Link>
+            Home{" "}
+          </Link>{" "}
         </li>{" "}
         <li>
           <Link
@@ -176,9 +235,10 @@ class PostList extends React.Component {
                 : ""
             }
           >
+            {" "}
             {this.props.categorie && this.props.categorie.name}{" "}
-          </Link>
-        </li>
+          </Link>{" "}
+        </li>{" "}
         <li>
           {" "}
           <Link
@@ -190,10 +250,11 @@ class PostList extends React.Component {
                 : ""
             }
           >
-            {this.props.subCategorie && this.props.subCategorie.name}
-          </Link>
-        </li>
-        {this.renderSubOfSubCategory()}
+            {" "}
+            {this.props.subCategorie && this.props.subCategorie.name}{" "}
+          </Link>{" "}
+        </li>{" "}
+        {this.renderSubOfSubCategory()}{" "}
       </ul>
     );
   }
@@ -203,8 +264,8 @@ class PostList extends React.Component {
     return (
       <div class="container">
         <div class="col-large push-top">
-          {this.renderMenu()}
-          {this.renderInfoThread()} {this.renderPost()}{" "}
+          {" "}
+          {this.renderMenu()} {this.renderInfoThread()} {this.renderPost()}{" "}
         </div>{" "}
       </div>
     );

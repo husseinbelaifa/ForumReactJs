@@ -9,7 +9,7 @@ const Pagination = props => {
   const numberOfPage =
     props.numberOfThread &&
     props.threadPerPage &&
-    props.numberOfThread / props.threadPerPage;
+    Math.ceil(props.numberOfThread / props.threadPerPage);
 
   const lastPage = currentPage === numberOfPage ? "disabled" : "";
   const firstPage = currentPage === 1 ? "disabled" : "";
@@ -26,8 +26,8 @@ const Pagination = props => {
         }}
       >
         <i class="fa fa-angle-left" />
-      </button>
-      {currentPage} of {numberOfPage}
+      </button>{" "}
+      {currentPage} of {numberOfPage}{" "}
       <button
         class="btn-circle"
         disabled={lastPage}

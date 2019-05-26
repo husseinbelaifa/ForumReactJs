@@ -5,26 +5,24 @@ const Reactions = props => {
   useEffect(() => {
     props.postThumpUp(props.postId, false);
     props.postThumpDown(props.postId, false);
-
-    console.log("thump up");
   }, {});
-  console.log(props);
+
   return (
     <div class="reactions">
       <button
         class="btn-xsmall"
         onClick={() => props.postThumpUp(props.postId, true)}
       >
-        <span class="emoji">👍</span>️{" "}
-        {props.thumpUpCounter && props.thumpUpCounter.thumpUp}
-      </button>
+        <span class="emoji"> 👍 </span>️{" "}
+        {props.thumpUpCounter && props.thumpUpCounter.thumpUp}{" "}
+      </button>{" "}
       <button
         class="btn-xsmall"
         onClick={() => props.postThumpDown(props.postId, true)}
       >
-        <span class="emoji">👎</span>️{" "}
-        {props.thumpDownCounter && props.thumpDownCounter.thumpDOWN}
-      </button>
+        <span class="emoji"> 👎 </span>️{" "}
+        {props.thumpDownCounter && props.thumpDownCounter.thumpDOWN}{" "}
+      </button>{" "}
     </div>
   );
 };
