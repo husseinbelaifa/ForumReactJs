@@ -22,7 +22,7 @@ class ThreadList extends React.Component {
   componentDidMount() {
     //fetch Category
 
-    // console.log(this.props.match.params);
+    console.log(this.props);
     this.props.fetchCategory(this.props.match.params.categoryId);
     this.props.fetchSubCategoriesById(this.props.match.params.subCategoryId);
 
@@ -215,11 +215,12 @@ class ThreadList extends React.Component {
                   this.props.subOfSubCategory &&
                   this.props.subOfSubCategory.name
                 }
+                subofsubcategoryboolean="true"
                 infosubcategory={
                   this.props.subOfSubCategory &&
                   this.props.subOfSubCategory.description
                 }
-                subofsubcategoryboolean="true"
+                // subofsubcategoryboolean="true"
               />{" "}
               {/* {console.log(this.props.subOfSubCategory)} */}{" "}
               <ThreadCount forum={this.props.SubOfSubCategories[index]} />{" "}
@@ -249,6 +250,9 @@ class ThreadList extends React.Component {
         return (
           <ShowThread
             thread={this.props.threads && this.props.threads[keyName]}
+            cateogry={this.props.category}
+            subCategory={this.props.subCategory}
+            subOfSubCategory={this.props.subOfSubCategory}
           />
         );
       })
@@ -258,7 +262,9 @@ class ThreadList extends React.Component {
   receiveCurrentPage = async currentPagination => {
     // console.log(currentPagination);
     if (currentPagination !== this.state.currentPage) {
-      await this.setState({ currentPage: currentPagination });
+      await this.setState({
+        currentPage: currentPagination
+      });
       // console.log(this.state.currentPage);
       // console.log("changing");
       if (this.props.match.params.subOfSubCategoryId) {
@@ -312,7 +318,7 @@ class ThreadList extends React.Component {
           }
           threadPerPage="2"
           currentPage={this.receiveCurrentPage}
-        />
+        />{" "}
       </div>
     );
   }
@@ -329,20 +335,20 @@ class ThreadList extends React.Component {
             {" "}
             {this.renderFormDetail()}{" "}
             {/* <a href="new-thread.html" class="btn-green btn-small">
-                            Start a thread{" "}
-                          </a>{" "} */}{" "}
+                                  Start a thread{" "}
+                                </a>{" "} */}{" "}
           </div>{" "}
         </div>{" "}
         {this.renderCategorieOrNot()} {this.renderThread()}{" "}
         {/* <div class="col-full">
-                        <div class="thread-list">
-                          <h2 class="list-title"> Threads </h2>
+                              <div class="thread-list">
+                                <h2 class="list-title"> Threads </h2>
 
 
-                        </div>
+                              </div>
 
-                        <Pagination />
-                      </div>{" "} */}{" "}
+                              <Pagination />
+                            </div>{" "} */}{" "}
       </div>
     );
   }

@@ -44,23 +44,14 @@ export const fetchSubCategories = () => dispatch => {
  })
 }
 
-//fetch subofsubs categories
-
-// export const fetchSubOfSubCategories = (categoryId, subCategoryId) => dispatch => {
-
-//  const refbd = firebase.database().ref(`forums/${}`).orderByChild('categoryId').equalTo();
-
-
-// }
-
 export const fetchSubCategoriesById = (id) => dispatch => {
  const refbd = firebase.database().ref(`forums/${id}`);
 
 
  refbd.on('value', snapshot => {
 
-  console.log("fetching");
-  console.log(snapshot.val());
+  // console.log("fetching");
+  // console.log(snapshot.val());
 
   return dispatch({
    type: 'FETCH_SUB_CATEGORY_By_Id',
@@ -69,6 +60,8 @@ export const fetchSubCategoriesById = (id) => dispatch => {
 
  })
 }
+
+
 
 export const fetchSubCategoriesByCategoryId = (categoryId) => dispatch => {
  const refbd = firebase.database().ref(`forums`).orderByChild('categoryId').equalTo(categoryId);

@@ -32,20 +32,34 @@ class ShowThread extends React.Component {
     }
   }
 
-  render() {
-    // this.pros.lastPost && console.log(this.pros.lastPost);
+  renderLinkPost() {
+    if (
+      this.props.cateogry &&
+      this.props.subCategory &&
+      this.props.subOfSubCategory
+    )
+      return `/thread/${this.props.cateogry.key}/${
+        this.props.subCategory.key
+      }/${this.props.subOfSubCategory.key}/${this.props.thread.key}`;
+    else if (
+      this.props.cateogry &&
+      this.props.subCategory &&
+      !this.props.subOfSubCategory
+    )
+      return `/thread/${this.props.cateogry.key}/${
+        this.props.subCategory.key
+      }/${this.props.thread.key}`;
+  }
 
-    // if (this.props.lastPost)
+  render() {
+    // console.log(this.props.cateogry.key);
 
     return (
       <div class="thread">
         <div>
           <p>
-            <Link to={`/thread/${this.props.thread.key}`}>
-              {" "}
-              {this.props.thread.title}{" "}
-            </Link>{" "}
-          </p>{" "}
+            <Link to={this.renderLinkPost()}>{this.props.thread.title}</Link>
+          </p>
           <p class="text-faded text-xsmall">
             By{" "}
             <a href="profile.html">

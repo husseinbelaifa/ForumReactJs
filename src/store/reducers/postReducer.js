@@ -11,7 +11,10 @@ const INITIAL_STATE = {
     postCount: 0
   },
 
-  postsThread: null
+  postsThread: null,
+  postsThumpUp: null,
+  postsThumpDown: null,
+  postsLove: null
 
 }
 
@@ -36,6 +39,27 @@ export const postReducer = (state = INITIAL_STATE, action) => {
           [action.post.threadId]: action.post
         }
       }
+
+      case 'UPDATE_THUMP_UP':
+        return {
+          ...state,
+          postsThumpUp: {
+            ...state.postsThumpUp,
+            [action.postThumpUp.postId]: action.postThumpUp
+          }
+        };
+
+      case 'UPDATE_THUMP_DOWN': {
+        return {
+          ...state,
+          postsThumpDown: {
+            ...state.postsThumpDown,
+            [action.postThumpDOWN.postId]: action.postThumpDOWN
+          }
+        }
+      }
+
+
 
       // else return state;
 

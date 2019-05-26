@@ -63,3 +63,89 @@ export const postCountUser = (userId) => dispatch => {
     }));
 
 };
+
+export const postThumpUp = (postId, clicked) => dispatch => {
+
+  firebase.database().ref(`posts/${postId}`).child('thumpUp')
+    .once('value', snapshot => {
+      if (!snapshot.val() && snapshot.val() !== 0) {
+
+        firebase.database().ref(`posts/${postId}`).update({
+          thumpUp: 0
+        });
+
+        return dispatch({
+          type: 'UPDATE_THUMP_UP',
+          postThumpUp: {
+            postId: postId,
+            thumpUp: 0
+
+          }
+        })
+
+      } else {
+
+        const thumpUp = clicked ? snapshot.val() + 1 : snapshot.val();
+        firebase.database().ref(`posts/${postId}`).update({
+          thumpUp: thumpUp
+        });
+
+        return dispatch({
+          type: 'UPDATE_THUMP_UP',
+          postThumpUp: {
+            postId: postId,
+            thumpUp: thumpUp
+
+          }
+        })
+
+
+      }
+
+
+    })
+
+}
+
+export const postThumpDown = (postId, clicked) => dispatch => {
+
+  firebase.database().ref(`posts/${postId}`).child('thumpDown')
+    .once('value', snapshot => {
+      if (!snapshot.val() && snapshot.val() !== 0) {
+
+        firebase.database().ref(`posts/${postId}`).update({
+          thumpDown: 0
+        });
+
+        return dispatch({
+          type: 'UPDATE_THUMP_DOWN',
+          postThumpDOWN: {
+            postId: postId,
+            thumpDOWN: 0
+
+          }
+        })
+
+      } else {
+
+        const thumpDown = clicked ? snapshot.val() + 1 : snapshot.val();
+        firebase.database().ref(`posts/${postId}`).update({
+          thumpDown: thumpDown
+        });
+
+        return dispatch({
+          type: 'UPDATE_THUMP_DOWN',
+          postThumpDOWN: {
+            postId: postId,
+            thumpDOWN: thumpDown
+
+          }
+        })
+
+
+      }
+
+
+    })
+
+}

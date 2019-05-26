@@ -103,21 +103,19 @@ class SubCategory extends React.Component {
 
     return subs;
   }
-
+  renderLinkCategorie() {
+    if (!this.props.subofsubcategoryboolean)
+      return `/threads/${this.props.categoryId}/${this.props.subCategoryId}`;
+    else if (this.props.subofsubcategory)
+      return `/threads/${this.props.categoryId}/${
+        this.props.subofsubcategory.parentId
+      }/${this.props.subofsubcategory.key}`;
+  }
   render() {
     // console.log(this.props);
     return (
       <div className="forum-details">
-        <Link
-          className="text-xlarge"
-          to={
-            !this.props.subofsubcategoryboolean
-              ? `/threads/${this.props.categoryId}/${this.props.subCategoryId}`
-              : `/threads/${this.props.categoryId}/${
-                  this.props.subCategoryId
-                }/${this.props.subofsubcategory.key}`
-          }
-        >
+        <Link className="text-xlarge" to={this.renderLinkCategorie()}>
           {" "}
           {this.props.subofsubcategory
             ? this.props.subofsubcategory.name

@@ -5,7 +5,13 @@ import { fetchUserThread } from "../../store/actions/UserActions";
 import UserInfo from "../User/UserInfo";
 import { Link } from "react-router-dom";
 import { postCount, fetchPostByThread } from "../../store/actions/PostAction";
+import Reactions from "../layout/Reactions";
 import moment from "moment";
+import {
+  fetchCategory,
+  fetchSubCategoriesById
+} from "../../store/actions/CategoryActions";
+
 class PostList extends React.Component {
   componentDidMount() {
     //fetch the thread
@@ -17,6 +23,21 @@ class PostList extends React.Component {
 
     //fetch All posts related to thread
     this.props.fetchPostByThread(this.props.match.params.threadId);
+
+    //fetch forum
+
+    this.props.fetchCategory(this.props.match.params.categoryId);
+
+    this.props.fetchSubCategoriesById(this.props.match.params.subCategoryId);
+
+    this.props.match.params.subOfSubCategoryId &&
+      this.props.fetchSubCategoriesById(
+        this.props.match.params.subOfSubCategoryId
+      );
+
+    //if it has attribute parentId fetch subcateogry
+
+    //if it has catgoryId fetch category
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,30 +64,32 @@ class PostList extends React.Component {
     // console.log(this.props.firstPost);
     return (
       <React.Fragment>
-        <h1>{this.props.thread && this.props.thread.title}</h1>
-
+        <h1> {this.props.thread && this.props.thread.title} </h1>
         <p>
           By{" "}
           <Link
             to={this.props.user ? `/profile/${this.props.user.user.key}` : ""}
             class="link-unstyled"
           >
-            {this.props.user && this.props.user.user.name}
+            {this.props.user && this.props.user.user.name}{" "}
           </Link>
           ,{" "}
-          {this.props.thread && moment(this.props.thread.publishedAt).fromNow()}
+          {this.props.thread && moment(this.props.thread.publishedAt).fromNow()}{" "}
           <span
-            style={{ float: "right", marginTop: "2px" }}
+            style={{
+              float: "right",
+              marginTop: "2px"
+            }}
             class="hide-mobile text-faded text-small"
           >
-            {this.props.postsCount && this.props.postsCount.postCount} replies
-            by{" "}
+            {this.props.postsCount && this.props.postsCount.postCount}
+            replies by{" "}
             {this.props.thread &&
               this.props.thread.contributors &&
               Object.keys(this.props.thread.contributors).length}{" "}
-            contributors
-          </span>
-        </p>
+            contributors{" "}
+          </span>{" "}
+        </p>{" "}
       </React.Fragment>
     );
   }
@@ -83,34 +106,96 @@ class PostList extends React.Component {
                 userId={this.props.posts.post[keyName].userId}
                 postId={this.props.posts.post[keyName].key}
               />
-
               <div class="post-content">
                 <div>
-                  <p>
-                    {this.props.posts.post[keyName].text}
-                    {/* Is horseradish and Wasabi the same thing? I've heard so many
-                    different things.
-                    <br />
-                    <br />I want to know once and for all. */}
-                  </p>
-                </div>
+                  <p> {this.props.posts.post[keyName].text} </p>{" "}
+                </div>{" "}
                 <a
                   href="#"
-                  style={{ marginLeft: "auto" }}
+                  style={{
+                    marginLeft: "auto"
+                  }}
                   class="link-unstyled"
                   title="Make a change"
                 >
                   <i class="fa fa-pencil" />
-                </a>
+                </a>{" "}
               </div>
-
-              <div class="post-date text-faded">6 hours ago</div>
-            </div>
+              <div class="post-date text-faded">
+                {" "}
+                {moment(this.props.posts.post[keyName].publishedAt).fromNow()}
+              </div>{" "}
+              <Reactions postId={this.props.posts.post[keyName].key} />
+            </div>{" "}
           </div>
         );
       });
 
     return posts;
+  }
+  renderSubOfSubCategory() {
+    if (
+      this.props.categorie &&
+      this.props.subCategorie &&
+      this.props.subOfSubCategorie
+    ) {
+      return (
+        <li>
+          <Link
+            to={
+              this.props.categorie &&
+              this.props.subCategorie &&
+              this.props.subOfSubCategorie
+                ? `/categories/${this.props.categorie.key}/${
+                    this.props.subCategorie.key
+                  }/${this.props.subOfSubCategorie.key}
+                `
+                : ""
+            }
+          >
+            {this.props.subOfSubCategorie && this.props.subOfSubCategorie.name}{" "}
+          </Link>
+        </li>
+      );
+    }
+  }
+  renderMenu() {
+    return (
+      <ul class="breadcrumbs">
+        <li>
+          <Link to="/">
+            <i class="fa fa-home fa-btn" />
+            Home
+          </Link>
+        </li>{" "}
+        <li>
+          <Link
+            to={
+              this.props.categorie
+                ? `/categories/${this.props.categorie.key}`
+                : ""
+            }
+          >
+            {this.props.categorie && this.props.categorie.name}{" "}
+          </Link>
+        </li>
+        <li>
+          {" "}
+          <Link
+            to={
+              this.props.categorie && this.props.subCategorie
+                ? `/categories/${this.props.categorie.key}/${
+                    this.props.subCategorie.key
+                  }`
+                : ""
+            }
+          >
+            {this.props.subCategorie && this.props.subCategorie.name}
+          </Link>
+        </li>
+        {this.renderSubOfSubCategory()}
+      </ul>
+    );
   }
 
   render() {
@@ -118,23 +203,9 @@ class PostList extends React.Component {
     return (
       <div class="container">
         <div class="col-large push-top">
-          <ul class="breadcrumbs">
-            <li>
-              <a href="#">
-                <i class="fa fa-home fa-btn" />
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="category.html">Discussions</a>
-            </li>
-            <li class="active">
-              <a href="#">Cooking</a>
-            </li>
-          </ul>
-          {this.renderInfoThread()}
-          {this.renderPost()}
-        </div>
+          {this.renderMenu()}
+          {this.renderInfoThread()} {this.renderPost()}{" "}
+        </div>{" "}
       </div>
     );
   }
@@ -144,7 +215,9 @@ const mapDispatchToProps = dispatch => {
     fetchThread: threadId => dispatch(fetchThread(threadId)),
     fetchUserThread: (id, threadId) => dispatch(fetchUserThread(id, threadId)),
     postCount: threadId => dispatch(postCount(threadId)),
-    fetchPostByThread: threadId => dispatch(fetchPostByThread(threadId))
+    fetchPostByThread: threadId => dispatch(fetchPostByThread(threadId)),
+    fetchCategory: categoryId => dispatch(fetchCategory(categoryId)),
+    fetchSubCategoriesById: id => dispatch(fetchSubCategoriesById(id))
   };
 };
 
@@ -168,6 +241,22 @@ const mapStateToProps = (state, ownProps) => {
     posts:
       state.post.postsThread && ownProps.match.params
         ? state.post.postsThread[ownProps.match.params.threadId]
+        : null,
+
+    categorie:
+      state.categories.categories && ownProps.match.params.categoryId
+        ? state.categories.categories[ownProps.match.params.categoryId]
+        : null,
+
+    subCategorie:
+      state.categories.subCategories && ownProps.match.params.subCategoryId
+        ? state.categories.subCategories[ownProps.match.params.subCategoryId]
+        : null,
+    subOfSubCategorie:
+      state.categories.subCategories && ownProps.match.params.subOfSubCategoryId
+        ? state.categories.subCategories[
+            ownProps.match.params.subOfSubCategoryId
+          ]
         : null
   };
 };
