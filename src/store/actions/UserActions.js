@@ -10,7 +10,22 @@ export const fetchCurrentUser = (id) => (dispatch) => {
     });
 
   })
+}
 
+export const fetchUserProfile = (id) => (dispatch) => {
+  const refbd = firebase.database().ref(`users/${id}`);
+
+  refbd.on('value', snapshot => {
+
+    return dispatch({
+      type: 'FETCH_USER_PROFILE',
+      user: {
+        userId: id,
+        user: snapshot.val()
+      }
+    });
+
+  })
 }
 
 export const fetchUserForum = (id, postId) => (dispatch) => {

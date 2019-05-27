@@ -9,6 +9,7 @@ import Login from "./auth/Login";
 import ThreadList from "./threads/ThreadList";
 import PostList from "./posts/PostList";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import ProfileUser from "./User/ProfileUser";
 const App = () => {
   return (
     <div>
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/register" exact component={Register} />{" "}
           <Route path="/" exact component={ForumList} />{" "}
           <Route path="/categories/:id" exact component={CategoryList} />{" "}
+          <Route path="/profile/:userId" exact component={ProfileUser} />{" "}
           <Route
             path="/thread/:categoryId/:subCategoryId/:threadId"
             exact
