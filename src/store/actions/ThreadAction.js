@@ -6,7 +6,8 @@ import {
   fetchUserThread
 } from './UserActions.js';
 import {
-  fetchLastPostInSubCategories
+  postCount,
+  fetchPostByThread
 } from './PostAction.js';
 export const threadCount = (forumId) => dispatch => {
 
@@ -74,10 +75,15 @@ export const fetchThreadByContributor = (userId) => dispatch => {
         if (o !== undefined) {
 
           dispatch(fetchSubCategoriesById(o.forumId));
-          //dispatch user thread
 
           dispatch(fetchUserThread(o.userId, o.key));
-          // dispatch(fetchLastPostInSubCategories(o.firstPostId));
+          dispatch(postCount(o.key));
+          // o.contributors && Object.values(o.contributors).map(keyName => {
+          //   return dispatch(postCount(keyName));
+          // })
+
+          dispatch(fetchPostByThread(o.key));
+
           return {
             [o.key]: o
           };
@@ -112,6 +118,8 @@ export const fetchThreadByUserId = (userId) => dispatch => {
       snapshot.val() && Object.keys(snapshot.val()).map(keyName => {
         dispatch(fetchSubCategoriesById(snapshot.val()[keyName].forumId));
         dispatch(fetchUserThread(snapshot.val()[keyName].userId, snapshot.val()[keyName].key));
+        dispatch(postCount(snapshot.val()[keyName].key));
+        dispatch(fetchPostByThread(snapshot.val()[keyName].key));
         // dispatch(fetchLastPostInSubCategories(snapshot.val()[keyName].firstPostId));
       })
 

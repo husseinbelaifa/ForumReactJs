@@ -9,7 +9,38 @@ import {
   fetchThreadByUserId
 } from "../../store/actions/ThreadAction";
 import moment from "moment";
+const getQuoteFromText = text => {
+  const res = text && text.match(/(\[quote\s*=\s*{\s*(.+)}\s*\])/);
 
+  if (res) {
+    const res1 = res[0].match(/{(.+)}/);
+    // if (res1) return [JSON.parse(res1[0]), text.split(res[0].trim())[1]];
+
+    if (res1) {
+      return (
+        <React.Fragment>
+          <blockquote class="small">
+            <div class="author">
+              <a href="/user/robin" class="">
+                {" "}
+                {JSON.parse(res1[0]).username}
+              </a>
+              <span class="time">
+                {moment(JSON.parse(res1[0]).date).fromNow()}
+              </span>
+              <i class="fa fa-caret-down" />
+            </div>
+
+            <div class="quote">
+              <p>{JSON.parse(res1[0]).text}</p>
+            </div>
+          </blockquote>
+          <p>{text.split(res[0].trim())[1]}</p>
+        </React.Fragment>
+      );
+    } else return text;
+  } else return text;
+};
 const ProfileUser = props => {
   useEffect(() => {
     props.fetchUserProfile(props.match.params.userId);
@@ -31,7 +62,14 @@ const ProfileUser = props => {
   );
 };
 
-const renderThread = ({ threads, subCategories, usersThread, posts }) => {
+const renderThread = ({
+  threads,
+  subCategories,
+  usersThread,
+  posts,
+  postsCount,
+  match
+}) => {
   return (
     threads &&
     Object.keys(threads).map(keyName => {
@@ -64,6 +102,42 @@ const renderThread = ({ threads, subCategories, usersThread, posts }) => {
               </span>
             </p>
           </div>
+
+          {posts &&
+            threads[keyName].key &&
+            posts[threads[keyName].key] &&
+            posts[threads[keyName].key].post &&
+            Object.keys(posts[threads[keyName].key].post).map(keyName1 => {
+              if (
+                !posts[threads[keyName].key].post[keyName1] ||
+                match.params.userId !==
+                  posts[threads[keyName].key].post[keyName1].userId
+              )
+                return null;
+              return (
+                <div class="post-content">
+                  <div>
+                    {getQuoteFromText(
+                      posts[threads[keyName].key].post[keyName1].text
+                    )}
+
+                    <hr />
+                  </div>
+                </div>
+              );
+            })}
+
+          <div class="thread-details">
+            <span>{moment(threads[keyName].publishedAt).fromNow()}</span>
+            <span>
+              {postsCount &&
+              threads[keyName].key &&
+              postsCount[threads[keyName].key]
+                ? postsCount[threads[keyName].key].postCount - 1
+                : 0}
+              comments
+            </span>
+          </div>
         </div>
       );
     })
@@ -81,34 +155,7 @@ const renderUserActivity = props => {
 
       <hr />
 
-      <div class="activity-list">
-        {renderThread(props)}
-        {/* <div class="activity-header">
-            <img
-              src={"https://www.sideshowtoy.com/photo_9030371_thumb.jpg"}
-              alt=""
-              class="hide-mobile avatar-small"
-            />
-            <p class="title">
-              How can I chop onions without crying?
-              <span>Joker started a topic in Cooking</span>
-            </p>
-          </div> */}
-
-        {/* <div class="post-content">
-            <div>
-              <p>
-                I absolutely love onions, but they hurt my eyes! Is there a way
-                where you can chop onions without crying?
-              </p>
-            </div>
-          </div> */}
-
-        {/* <div class="thread-details">
-            <span>4 minutes ago</span>
-            <span>1 comments</span>
-          </div> */}
-      </div>
+      <div class="activity-list">{renderThread(props)}</div>
     </div>
   );
 };
@@ -189,7 +236,8 @@ const mapStateToProps = (state, ownProps) => {
         : null,
     subCategories: state.categories.subCategories,
     usersThread: state.user.userThread,
-    posts: state.post.posts
+    posts: state.post.postsThread,
+    postsCount: state.post.postCount
   };
 };
 const mapDispatchToProps = dispatch => {
