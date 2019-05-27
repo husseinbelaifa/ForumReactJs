@@ -1,5 +1,4 @@
 import firebase from '../../config/fbConfig';
-
 export const fetchCategories = () => dispatch => {
 
  const refbd = firebase.database().ref(`categories`);

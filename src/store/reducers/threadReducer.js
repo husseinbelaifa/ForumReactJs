@@ -9,7 +9,9 @@ const INITIAL_STATE = {
     postCount: 0
   },
   threadPost: null,
-  threadCategorie: null
+  threadCategorie: null,
+  threadContributor: null,
+
 };
 
 export const threadReducer = (state = INITIAL_STATE, action) => {
@@ -38,6 +40,27 @@ export const threadReducer = (state = INITIAL_STATE, action) => {
           [action.thread.key]: action.thread
         }
       };
+
+    case 'FETCH_THREAD_BY_CONTRIBUTOR': {
+      return {
+        ...state,
+        threadContributor: {
+          ...state.threadContributor,
+          [action.thread.userId]: action.thread
+        }
+      }
+
+    }
+
+    case 'FETCH_THREAD_PROFILE': {
+      return {
+        ...state,
+        threadContributor: {
+          ...state.threadContributor,
+          [action.thread.userId]: action.thread
+        }
+      }
+    }
 
     case 'FETCH_THREAD_BY_FORUM':
       return {

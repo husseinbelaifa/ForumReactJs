@@ -1,5 +1,13 @@
 import firebase from "../../config/fbConfig";
-
+import {
+  fetchSubCategoriesById
+} from "./CategoryActions.js";
+import {
+  fetchUserThread
+} from './UserActions.js';
+import {
+  fetchLastPostInSubCategories
+} from './PostAction.js';
 export const threadCount = (forumId) => dispatch => {
 
   firebase.database().ref(`threads`)
@@ -40,6 +48,82 @@ export const fetchThread = (id) => dispatch => {
       return dispatch({
         type: 'FETCH_THREAD',
         thread: snapshot.val()
+      })
+    })
+}
+
+export const fetchThreadByContributor = (userId) => dispatch => {
+
+  firebase.database().ref(`threads`).orderByChild('contributors')
+    .on('value', snapshot => {
+
+      const newDate = Object.keys(snapshot.val()).map(keyName => {
+
+
+        if (snapshot.val()[keyName].contributors && Object.values(snapshot.val()[keyName].contributors).includes(userId)) {
+          return snapshot.val()[keyName];
+
+        }
+
+
+      })
+
+
+      // console.log(newDate);
+      const newSnapShot = newDate && Object.assign({}, ...newDate.map(o => {
+        if (o !== undefined) {
+
+          dispatch(fetchSubCategoriesById(o.forumId));
+          //dispatch user thread
+
+          dispatch(fetchUserThread(o.userId, o.key));
+          // dispatch(fetchLastPostInSubCategories(o.firstPostId));
+          return {
+            [o.key]: o
+          };
+
+        }
+      }));
+
+      return dispatch({
+        type: 'FETCH_THREAD_BY_CONTRIBUTOR',
+
+        thread: {
+          userId: userId,
+          thread: newSnapShot
+
+        }
+
+      });
+      // console.log(newSnapShot);
+
+
+
+    })
+}
+
+export const fetchThreadByUserId = (userId) => dispatch => {
+
+  firebase.database().ref(`threads`).orderByChild('userId').equalTo(userId)
+    .on('value', snapshot => {
+
+
+
+      snapshot.val() && Object.keys(snapshot.val()).map(keyName => {
+        dispatch(fetchSubCategoriesById(snapshot.val()[keyName].forumId));
+        dispatch(fetchUserThread(snapshot.val()[keyName].userId, snapshot.val()[keyName].key));
+        // dispatch(fetchLastPostInSubCategories(snapshot.val()[keyName].firstPostId));
+      })
+
+      return dispatch({
+        type: 'FETCH_THREAD_PROFILE',
+
+        thread: {
+          userId: userId,
+
+          thread: snapshot.val()
+        }
+
       })
     })
 }
