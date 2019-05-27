@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { fetchUserProfile } from "../../store/actions/UserActions";
 import { postCountUser } from "../../store/actions/PostAction";
@@ -41,35 +41,11 @@ const getQuoteFromText = text => {
     } else return text;
   } else return text;
 };
-const ProfileUser = props => {
-  useEffect(() => {
-    props.fetchUserProfile(props.match.params.userId);
-    props.postCountUser(props.match.params.userId);
-    props.threadCountUser(props.match.params.userId);
 
-    props.fetchThreadByContributor(props.match.params.userId);
-
-    props.fetchThreadByUserId(props.match.params.userId);
-  }, {});
-
-  return (
-    <div class="container">
-      <div class="flex-grid">
-        {renderProfile(props)}
-        {renderUserActivity(props)}
-      </div>
-    </div>
-  );
-};
-
-const renderThread = ({
-  threads,
-  subCategories,
-  usersThread,
-  posts,
-  postsCount,
-  match
-}) => {
+const renderThread = (
+  { threads, subCategories, usersThread, posts, postsCount, match },
+  seeOnlyThread
+) => {
   return (
     threads &&
     Object.keys(threads).map(keyName => {
@@ -111,7 +87,8 @@ const renderThread = ({
               if (
                 !posts[threads[keyName].key].post[keyName1] ||
                 match.params.userId !==
-                  posts[threads[keyName].key].post[keyName1].userId
+                  posts[threads[keyName].key].post[keyName1].userId ||
+                seeOnlyThread
               )
                 return null;
               return (
@@ -143,19 +120,31 @@ const renderThread = ({
     })
   );
 };
-const renderUserActivity = props => {
+const renderUserActivity = (props, state) => {
+  const [seeOnlyThread, setSeeOnlyThread] = state;
+  console.log(seeOnlyThread);
+  const text = !seeOnlyThread ? "See only threads" : "See threads & posts";
   return (
     <div class="col-7 push-top">
       <div class="profile-header">
         <span class="text-lead">
           {props.user && props.user.name}'s recent activity
         </span>
-        <a href="#">See only started threads?</a>
+        <a
+          href="#"
+          onClick={e => {
+            e.preventDefault();
+            setSeeOnlyThread(!seeOnlyThread);
+            console.log("clicked");
+          }}
+        >
+          {text}
+        </a>
       </div>
 
       <hr />
 
-      <div class="activity-list">{renderThread(props)}</div>
+      <div class="activity-list">{renderThread(props, seeOnlyThread)}</div>
     </div>
   );
 };
@@ -204,6 +193,28 @@ const renderProfile = props => {
           Edit Profile{" "}
         </a>{" "}
       </div>{" "}
+    </div>
+  );
+};
+
+const ProfileUser = props => {
+  const [seeOnlyThread, setSeeOnlyThread] = useState(false);
+  useEffect(() => {
+    props.fetchUserProfile(props.match.params.userId);
+    props.postCountUser(props.match.params.userId);
+    props.threadCountUser(props.match.params.userId);
+
+    props.fetchThreadByContributor(props.match.params.userId);
+
+    props.fetchThreadByUserId(props.match.params.userId);
+  }, {});
+
+  return (
+    <div class="container">
+      <div class="flex-grid">
+        {renderProfile(props)}
+        {renderUserActivity(props, [seeOnlyThread, setSeeOnlyThread])}
+      </div>
     </div>
   );
 };
