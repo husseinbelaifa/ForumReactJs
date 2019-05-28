@@ -53,6 +53,8 @@ export const fetchThread = (id) => dispatch => {
     })
 }
 
+
+
 export const fetchThreadByContributor = (userId) => dispatch => {
 
   firebase.database().ref(`threads`).orderByChild('contributors')

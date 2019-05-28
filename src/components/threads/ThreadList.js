@@ -285,24 +285,6 @@ class ThreadList extends React.Component {
 
       console.log(this.props.threads);
     }
-
-    // this.setState({ currentPage: currentPagination });
-
-    // if (this.props.match.params.subOfSubCategoryId) {
-    //   //count number of thread
-
-    //   this.props.fetchThreadByForum(
-    //     this.props.match.params.subOfSubCategoryId,
-    //     currentPagination,
-    //     2
-    //   );
-    // } else {
-    //   this.props.fetchThreadByForum(
-    //     this.props.match.params.subCategoryId,
-    //     currentPagination,
-    //     2
-    //   );
-    // }
   };
   renderThread() {
     if (!this.props.threads) return null;
@@ -322,10 +304,17 @@ class ThreadList extends React.Component {
       </div>
     );
   }
+  renderLinkNewThread() {
+    if (this.props.auth)
+      return (
+        <Link className="btn-green btn-small" to="/">
+          {" "}
+          Start a thread{" "}
+        </Link>
+      );
+  }
   render() {
-    // console.log(this.props.threadCountForum.threadCount);
-    // this.props.subOfSubCategory && console.log(this.props.subOfSubCategory);
-
+    console.log(this.props);
     return (
       <div className="container">
         <div class="col-full push-top">
@@ -333,10 +322,7 @@ class ThreadList extends React.Component {
           {this.renderMenu()}{" "}
           <div class="forum-header">
             {" "}
-            {this.renderFormDetail()}{" "}
-            {/* <a href="new-thread.html" class="btn-green btn-small">
-                                  Start a thread{" "}
-                                </a>{" "} */}{" "}
+            {this.renderFormDetail()} {this.renderLinkNewThread()}
           </div>{" "}
         </div>{" "}
         {this.renderCategorieOrNot()} {this.renderThread()}{" "}
@@ -377,6 +363,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
+    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null,
     category:
       state.categories.categories && ownProps.match.params
         ? state.categories.categories[ownProps.match.params.categoryId]

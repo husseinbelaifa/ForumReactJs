@@ -31,7 +31,11 @@ class UserThread extends React.Component {
       <React.Fragment>
         <img
           class="avatar-medium"
-          src={this.props.lastUserPost && this.props.lastUserPost.user.avatar}
+          src={
+            this.props.lastUserPost &&
+            this.props.lastUserPost.user &&
+            this.props.lastUserPost.user.avatar
+          }
           alt=""
         />
         <div>
@@ -39,6 +43,7 @@ class UserThread extends React.Component {
             <a href="profile.html">
               {" "}
               {this.props.lastUserPost &&
+                this.props.lastUserPost.user &&
                 this.props.lastUserPost.user.name}{" "}
             </a>{" "}
           </p>{" "}

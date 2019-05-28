@@ -24,7 +24,21 @@ class Form extends Component {
           {...input}
         />
       );
-    else
+    else if (formValues.type === "textArea") {
+      return (
+        <div className="form-group">
+          <label htmlFor={formValues.input.name}> {formValues.label} </label>
+          <textarea
+            id={formValues.id}
+            name={formValues.input.name}
+            rows="10"
+            cols="40"
+            className="form-input"
+            {...formValues.input}
+          />
+        </div>
+      );
+    } else
       return (
         <div className="form-group">
           <label htmlFor={formValues.input.name}> {formValues.label} </label>
@@ -34,7 +48,7 @@ class Form extends Component {
             type={formValues.type}
             className="form-input"
             {...formValues.input}
-          />{" "}
+          />
         </div>
       );
   }
@@ -112,7 +126,6 @@ class Form extends Component {
         {this.renderArrayOfInput()}{" "}
         <div className="form-actions">
           <button type="submit" className="btn-blue btn-block">
-            {" "}
             {this.props.formName}{" "}
           </button>{" "}
         </div>{" "}

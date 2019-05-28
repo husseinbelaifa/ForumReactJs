@@ -14,7 +14,8 @@ const INITIAL_STATE = {
   postsThread: null,
   postsThumpUp: null,
   postsThumpDown: null,
-  postsLove: null
+  postsLove: null,
+  postAdded: null
 
 }
 
@@ -58,10 +59,11 @@ export const postReducer = (state = INITIAL_STATE, action) => {
           }
         }
       }
+      case 'POST_ADD':
+        return state;
 
 
-
-      // else return state;
+        // else return state;
 
       case 'COUNT_POSTS':
         // if (action.post !== null)

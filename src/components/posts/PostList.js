@@ -7,10 +7,12 @@ import { Link } from "react-router-dom";
 import { postCount, fetchPostByThread } from "../../store/actions/PostAction";
 import Reactions from "../layout/Reactions";
 import moment from "moment";
+import Form from "../layout/Form";
 import {
   fetchCategory,
   fetchSubCategoriesById
 } from "../../store/actions/CategoryActions";
+import NewPost from "./NewPost";
 
 class PostList extends React.Component {
   componentDidMount() {
@@ -112,12 +114,12 @@ class PostList extends React.Component {
                 <div>
                   {" "}
                   {/* {console.log(
-                              this.props.posts.post[keyName].text.match(
-                                "/[quote={(.+)}]/"
-                              )
-                            )} */}{" "}
-                  {this.renderQuote(this.props.posts.post[keyName].text)}
-                  {/* <p> {this.props.posts.post[keyName].text} </p>{" "} */}
+                                        this.props.posts.post[keyName].text.match(
+                                          "/[quote={(.+)}]/"
+                                        )
+                                      )} */}{" "}
+                  {this.renderQuote(this.props.posts.post[keyName].text)}{" "}
+                  {/* <p> {this.props.posts.post[keyName].text} </p>{" "} */}{" "}
                 </div>{" "}
                 <a
                   href="#"
@@ -197,17 +199,16 @@ class PostList extends React.Component {
           <div class="author">
             <a href="/user/robin" class="">
               {" "}
-              {res[0].username}
-            </a>
-            <span class="time">{moment(res[0].date).fromNow()}</span>
+              {res[0].username}{" "}
+            </a>{" "}
+            <span class="time"> {moment(res[0].date).fromNow()} </span>{" "}
             <i class="fa fa-caret-down" />
           </div>
-
           <div class="quote">
-            <p>{res[0].text}</p>
-          </div>
-        </blockquote>
-        <p>{res[1]}</p>
+            <p> {res[0].text} </p>{" "}
+          </div>{" "}
+        </blockquote>{" "}
+        <p> {res[1]} </p>{" "}
       </React.Fragment>
     );
   }
@@ -265,8 +266,12 @@ class PostList extends React.Component {
       <div class="container">
         <div class="col-large push-top">
           {" "}
-          {this.renderMenu()} {this.renderInfoThread()} {this.renderPost()}{" "}
-        </div>{" "}
+          {this.renderMenu()} {this.renderInfoThread()} {this.renderPost()}
+          <NewPost
+            threadId={this.props.match.params.threadId}
+            userId={this.props.auth}
+          />
+        </div>
       </div>
     );
   }
@@ -284,6 +289,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null,
+
     thread:
       state.thread.threadPost && ownProps.match.params
         ? state.thread.threadPost[ownProps.match.params.threadId]

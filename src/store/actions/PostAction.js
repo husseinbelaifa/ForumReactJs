@@ -1,4 +1,5 @@
 import firebase from "../../config/fbConfig";
+import moment from 'moment';
 export const fetchLastPostInSubCategories = (postId) => dispatch => {
 
   firebase.database().ref(`posts/${postId}`)
@@ -27,6 +28,73 @@ export const fetchPostByThread = (threadId) => dispatch => {
         }
       })
     })
+}
+
+export const createPost = (threadId, userId, formValues) => dispatch => {
+
+  const refKey = firebase.database().ref().child('posts').push().key; // generate a new key
+  firebase.database().ref(`posts/${refKey}`).set({
+    key: refKey,
+    publishedAt: (new Date()).getTime(),
+    text: formValues.postArea,
+    threadId: threadId,
+    userId: userId,
+
+
+  });
+  firebase.database().ref(`posts/${refKey}`).on('value', snapshot => {
+
+    if (snapshot.val()) {
+      //update the threads
+      firebase.database().ref(`/threads/${threadId}`).on('value', snapshot1 => {
+        let contributors = null;
+
+        if (!Object.values(snapshot1.val().contributors).includes(userId))
+          contributors = {
+            ...snapshot1.val().contributors,
+            [userId]: userId
+          };
+        else contributors = {
+          ...snapshot1.val().contributors,
+        };
+
+
+        firebase.database().ref(`/threads/${threadId}`).update({
+          lastPostId: snapshot.val().key,
+          lastPostAt: snapshot.val().publishedAt,
+          posts: {
+            ...snapshot1.val().posts,
+            [snapshot.val().key]: snapshot.val().key
+          },
+
+          contributors: contributors
+        });
+
+        firebase.database().ref(`/forums/${snapshot1.val().forumId}`).update({
+          lastPostId: snapshot.val().key
+        });
+        firebase.database().ref(`/users/${userId}`).on('value', snapshot2 => {
+
+          firebase.database().ref(`/users/${userId}`).update({
+            posts: {
+              ...snapshot2.val().posts,
+              [snapshot.val().key]: snapshot.val().key
+            }
+          })
+        });
+      })
+
+      return dispatch({
+        type: 'POST_ADD'
+      });
+
+    }
+
+
+  })
+
+
+
 }
 
 
