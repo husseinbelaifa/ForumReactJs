@@ -23,7 +23,7 @@ export const postReducer = (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
     case 'FETCH_POST':
-      // if (action.post !== null)
+
       return {
         ...state,
         posts: {
@@ -33,6 +33,7 @@ export const postReducer = (state = INITIAL_STATE, action) => {
       };
 
     case 'FETCH_POSTS_THREAD':
+
       return {
         ...state,
         postsThread: {
@@ -42,6 +43,7 @@ export const postReducer = (state = INITIAL_STATE, action) => {
       }
 
       case 'UPDATE_THUMP_UP':
+
         return {
           ...state,
           postsThumpUp: {
@@ -51,6 +53,7 @@ export const postReducer = (state = INITIAL_STATE, action) => {
         };
 
       case 'UPDATE_THUMP_DOWN': {
+
         return {
           ...state,
           postsThumpDown: {
@@ -59,11 +62,11 @@ export const postReducer = (state = INITIAL_STATE, action) => {
           }
         }
       }
-      case 'POST_ADD':
-        return state;
+      // case 'POST_ADD':
+      //   return state;
 
 
-        // else return state;
+      // else return state;
 
       case 'COUNT_POSTS':
         // if (action.post !== null)

@@ -8,6 +8,7 @@ import Register from "./auth/Register";
 import Login from "./auth/Login";
 import ThreadList from "./threads/ThreadList";
 import PostList from "./posts/PostList";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProfileUser from "./User/ProfileUser";
 const App = () => {
@@ -21,6 +22,12 @@ const App = () => {
           <Route path="/" exact component={ForumList} />{" "}
           <Route path="/categories/:id" exact component={CategoryList} />{" "}
           <Route path="/profile/:userId" exact component={ProfileUser} />{" "}
+          <Route path="/profile/:userId" exact component={ProfileUser} />{" "}
+          <Route
+            path="/threads/:categoryId/:subCategoryId/:subOfSubCategoryId?/create"
+            exact
+            component={NewThread}
+          />
           <Route
             path="/thread/:categoryId/:subCategoryId/:threadId"
             exact

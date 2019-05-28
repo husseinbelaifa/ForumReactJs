@@ -20,20 +20,21 @@ export const fetchPostByThread = (threadId) => dispatch => {
   firebase.database().ref(`posts`).orderByChild('threadId').equalTo(threadId)
     .on('value', snapshot => {
 
-      return dispatch({
-        type: 'FETCH_POSTS_THREAD',
-        post: {
-          threadId: threadId,
-          post: snapshot.val()
-        }
-      })
+      if (snapshot.val())
+        return dispatch({
+          type: 'FETCH_POSTS_THREAD',
+          post: {
+            threadId: threadId,
+            post: snapshot.val()
+          }
+        })
     })
 }
 
 export const createPost = (threadId, userId, formValues) => dispatch => {
 
   const refKey = firebase.database().ref().child('posts').push().key; // generate a new key
-  firebase.database().ref(`posts/${refKey}`).set({
+  firebase.database().ref(`posts/${refKey}`).update({
     key: refKey,
     publishedAt: (new Date()).getTime(),
     text: formValues.postArea,
@@ -48,7 +49,10 @@ export const createPost = (threadId, userId, formValues) => dispatch => {
       //update the threads
       firebase.database().ref(`/threads/${threadId}`).on('value', snapshot1 => {
         let contributors = null;
-
+        if (!snapshot1.val().contributors) contributors = {
+          [userId]: userId
+        }
+        else
         if (!Object.values(snapshot1.val().contributors).includes(userId))
           contributors = {
             ...snapshot1.val().contributors,
@@ -70,9 +74,9 @@ export const createPost = (threadId, userId, formValues) => dispatch => {
           contributors: contributors
         });
 
-        firebase.database().ref(`/forums/${snapshot1.val().forumId}`).update({
-          lastPostId: snapshot.val().key
-        });
+        // firebase.database().ref(`/forums/${snapshot1.val().forumId}`).update({
+        //   lastPostId: snapshot.val().key
+        // });
         firebase.database().ref(`/users/${userId}`).on('value', snapshot2 => {
 
           firebase.database().ref(`/users/${userId}`).update({

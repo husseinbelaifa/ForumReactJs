@@ -307,7 +307,18 @@ class ThreadList extends React.Component {
   renderLinkNewThread() {
     if (this.props.auth)
       return (
-        <Link className="btn-green btn-small" to="/">
+        <Link
+          className="btn-green btn-small"
+          to={
+            this.props.match.params.subOfSubCategoryId
+              ? `/threads/${this.props.match.params.categoryId}/${
+                  this.props.match.params.subCategoryId
+                }/${this.props.match.params.subOfSubCategoryId}/create`
+              : `/threads/${this.props.match.params.categoryId}/${
+                  this.props.match.params.subCategoryId
+                }/create`
+          }
+        >
           {" "}
           Start a thread{" "}
         </Link>
@@ -322,19 +333,19 @@ class ThreadList extends React.Component {
           {this.renderMenu()}{" "}
           <div class="forum-header">
             {" "}
-            {this.renderFormDetail()} {this.renderLinkNewThread()}
+            {this.renderFormDetail()} {this.renderLinkNewThread()}{" "}
           </div>{" "}
         </div>{" "}
         {this.renderCategorieOrNot()} {this.renderThread()}{" "}
         {/* <div class="col-full">
-                              <div class="thread-list">
-                                <h2 class="list-title"> Threads </h2>
+                                                    <div class="thread-list">
+                                                      <h2 class="list-title"> Threads </h2>
 
 
-                              </div>
+                                                    </div>
 
-                              <Pagination />
-                            </div>{" "} */}{" "}
+                                                    <Pagination />
+                                                  </div>{" "} */}{" "}
       </div>
     );
   }

@@ -9,6 +9,7 @@ import {
   postCount,
   fetchPostByThread
 } from './PostAction.js';
+
 export const threadCount = (forumId) => dispatch => {
 
   firebase.database().ref(`threads`)
@@ -53,7 +54,92 @@ export const fetchThread = (id) => dispatch => {
     })
 }
 
+export const addThread = (forumId, userId, formValues) => dispatch => {
 
+  var refkey = firebase.database().ref().child('threads').push().key;
+
+  firebase.database().ref(`/threads/${refkey}`).set({
+    key: refkey,
+    forumId: forumId,
+    publishedAt: (new Date).getTime(),
+    slug: formValues.title,
+    title: formValues.title,
+    userId: userId
+
+  });
+
+  firebase.database().ref(`/threads/${refkey}`).once('child_added', snapshot => {
+    //create a new Post
+    var refkeyPost = firebase.database().ref().child('posts').push().key;
+    firebase.database().ref(`posts/${refkeyPost}`).set({
+      key: refkeyPost,
+      publishedAt: (new Date()).getTime(),
+      text: formValues.content,
+      threadId: refkey,
+      userId: userId,
+
+    });
+
+
+    //update thread
+
+    firebase.database().ref(`posts/${refkeyPost}`).once('value', snapshot1 => {
+
+      firebase.database().ref(`/threads/${refkey}`).update({
+
+        firstPostId: refkeyPost,
+        lastPostAt: snapshot1.val().publishedAt,
+        lastPostId: refkeyPost,
+        posts: {
+          ...snapshot1.val().posts,
+          [snapshot1.val().key]: snapshot1.val().key
+        }
+      });
+
+
+    });
+
+    //update user
+
+    firebase.database().ref(`users/${userId}`).once('value', snapshot2 => {
+
+      firebase.database().ref(`users/${userId}`).update({
+
+        posts: {
+          ...snapshot2.val().posts,
+          [refkeyPost]: refkeyPost
+        },
+        threads: {
+          ...snapshot2.val().threads,
+          [refkey]: refkey
+        }
+
+      });
+
+
+    });
+
+    //update forum
+
+    firebase.database().ref(`forums/${forumId}`).once('value', snapshot3 => {
+      firebase.database().ref(`forums/${forumId}`).update({
+        threads: {
+          ...snapshot3.val().threads,
+          [refkey]: refkey
+        },
+        lastPostId: refkeyPost
+      })
+    })
+
+
+    if (snapshot.val())
+      return dispatch({
+        type: 'THREAD_ADD'
+      });
+
+  })
+
+}
 
 export const fetchThreadByContributor = (userId) => dispatch => {
 
