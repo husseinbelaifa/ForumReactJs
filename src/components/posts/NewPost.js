@@ -19,17 +19,24 @@ class NewPost extends React.Component {
     this.props.createPost(this.props.threadId, this.props.userId, formValues);
   };
   render() {
+    if (!this.props.auth) return null;
     return (
       <React.Fragment>
         <Form
           formName={this.state.formName}
           inputs={this.state.postFormField}
           onSubmit={this.NewPostHandler}
-        />
+        />{" "}
       </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     createPost: (threadId, userId, formValues) =>
@@ -37,6 +44,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(NewPost);

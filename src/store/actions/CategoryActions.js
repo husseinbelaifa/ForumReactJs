@@ -50,7 +50,7 @@ export const fetchSubCategoriesById = (id) => dispatch => {
  refbd.on('value', snapshot => {
 
   // console.log("fetching");
-  // console.log(snapshot.val());
+
 
   return dispatch({
    type: 'FETCH_SUB_CATEGORY_By_Id',

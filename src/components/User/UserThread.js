@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import { fetchUserPost } from "../../store/actions/UserActions";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 class UserThread extends React.Component {
   // componentWillReceiveProps(nextProps) {
   //   if (nextProps.postId !== this.props.postId) {
@@ -40,12 +41,12 @@ class UserThread extends React.Component {
         />
         <div>
           <p class="text-xsmall">
-            <a href="profile.html">
+            <Link to={`/profile/nextProps.lastPost.userId`}>
               {" "}
               {this.props.lastUserPost &&
                 this.props.lastUserPost.user &&
                 this.props.lastUserPost.user.name}{" "}
-            </a>{" "}
+            </Link>{" "}
           </p>{" "}
           <p class="text-xsmall text-faded">
             {" "}

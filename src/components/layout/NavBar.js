@@ -16,14 +16,6 @@ class NavBar extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log(this.props.currentUser.name);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.currentUser !== nextProps.currentUser;
-  }
-
   showDropMenu = event => {
     // console.log("clicked");
     this.setState({
@@ -40,7 +32,7 @@ class NavBar extends React.Component {
   };
 
   signOutHandler = event => {
-    event.preventDefault();
+    // event.preventDefault();
     console.log("i am signout");
     console.log(this.props);
 
@@ -54,10 +46,19 @@ class NavBar extends React.Component {
       return (
         <React.Fragment>
           <li className="navbar-item mobile-only">
-            <NavLink to="/"> My Profile </NavLink>{" "}
+            <NavLink
+              to={
+                this.props.currentUser
+                  ? `/profile/${this.props.currentUser.key}`
+                  : ""
+              }
+            >
+              {" "}
+              My Profile{" "}
+            </NavLink>{" "}
           </li>{" "}
           <li className="navbar-item mobile-only">
-            <NavLink to="#" onClick={this.signOutHandler}>
+            <NavLink to="/" onClick={this.signOutHandler}>
               Logout{" "}
             </NavLink>{" "}
           </li>{" "}
@@ -149,15 +150,6 @@ class NavBar extends React.Component {
             <li className="navbar-item">
               <NavLink to="/"> Home </NavLink>{" "}
             </li>{" "}
-            {/* <li className="navbar-item">
-                                      <a href="category.html"> Category </a>{" "}
-                                    </li>{" "}
-                                    <li className="navbar-item">
-                                      <a href="forum.html"> Forum </a>{" "}
-                                    </li>{" "}
-                                    <li className="navbar-item">
-                                      <a href="thread.html"> Thread </a>{" "}
-                                    </li>{" "} */}{" "}
             {this.renderLoginNavMobile()}{" "}
           </ul>{" "}
         </nav>{" "}

@@ -6,6 +6,7 @@ import {
   signInWithGoogle
 } from "../../store/actions/AuthActions";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 class Register extends React.Component {
   state = {
     registerFormField: [

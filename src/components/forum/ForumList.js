@@ -78,6 +78,7 @@ class ForumList extends React.Component {
             />{" "}
             <LastThread
               postId={this.props.subCategories[keyName].lastPostId}
+              categoryId={this.props.subCategories[keyName].categoryId}
               threadTitle="Post Reactions"
               threadAuthorAvatar="https://firebasestorage.googleapis.com/v0/b/forum-2a982.appspot.com/o/images%2Favatars%2Frah?alt=media&token=7ad21914-a4f4-4ad0-add6-17e6d3ae9679"
               threadAuthor="Rolf Haug"

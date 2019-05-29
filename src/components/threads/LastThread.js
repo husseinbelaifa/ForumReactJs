@@ -7,33 +7,28 @@ import UserForum from "../User/UserForum";
 class LastThread extends React.Component {
   componentDidMount() {
     // console.log(this.props.postId);
+    // this.props.postId &&
     this.props.postId &&
       this.props.fetchLastPostInSubCategories(this.props.postId);
     // this.props.fetchCurrentUser(this.props.post.userId, this.props.postId);
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   if (nextProps.postId !== this.props.postId) {
-  //     nextProps.fetchLastPostInSubCategories(nextProps.postId);
-  //   }
-
-  //   if (nextProps.postId !== this.props.postId) console.log(nextProps.post);
-  //   return nextProps.postId !== this.props.postId;
-  // }
-
   componentWillReceiveProps(nextProps) {
+    // console.log(nextProps);
     if (nextProps.postId !== this.props.postId) {
       nextProps.fetchLastPostInSubCategories(nextProps.postId);
     }
 
-    if (nextProps.postId !== this.props.postId) console.log(nextProps.post);
     return nextProps.postId !== this.props.postId;
   }
   render() {
     // console.log(this.props.post);
     return (
       <div class="last-thread">
-        <UserForum postUser={this.props.post} />{" "}
+        <UserForum
+          postUser={this.props.post}
+          categoryId={this.props.categoryId}
+        />{" "}
       </div>
     );
   }
