@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  connect
-} from "react-redux";
-import {
-  fetchThread
-} from "../../store/actions/ThreadAction";
-import {
-  fetchUserThread
-} from "../../store/actions/UserActions";
+import { connect } from "react-redux";
+import { fetchThread } from "../../store/actions/ThreadAction";
+import { fetchUserThread } from "../../store/actions/UserActions";
 import UserInfo from "../User/UserInfo";
-import {
-  Link
-} from "react-router-dom";
-import {
-  postCount,
-  fetchPostByThread
-} from "../../store/actions/PostAction";
+import { Link } from "react-router-dom";
+import { postCount, fetchPostByThread } from "../../store/actions/PostAction";
 import Reactions from "../layout/Reactions";
 import moment from "moment";
 import Form from "../layout/Form";
@@ -75,61 +64,37 @@ class PostList extends React.Component {
 
   renderInfoThread() {
     // console.log(this.props.firstPost);
-    return ( <
-      React.Fragment >
-      <
-      h1 > {
-        this.props.thread && this.props.thread.title
-      } < /h1>{" "} <
-      p >
-      By {
-        " "
-      } <
-      Link to = {
-        this.props.user ? `/profile/${this.props.user.user.key}` : ""
-      }
-      class = "link-unstyled" >
-      {
-        " "
-      } {
-        this.props.user && this.props.user.user.name
-      } {
-        " "
-      } <
-      /Link>, {
-        " "
-      } {
-        this.props.thread && moment(this.props.thread.publishedAt).fromNow()
-      } {
-        " "
-      } <
-      span style = {
-        {
-          float: "right",
-          marginTop: "2px"
-        }
-      }
-      class = "hide-mobile text-faded text-small" >
-      {
-        " "
-      } {
-        this.props.postsCount && this.props.postsCount.postCount
-      }
-      replies by {
-        " "
-      } {
-        this.props.thread &&
-          this.props.thread.contributors &&
-          Object.keys(this.props.thread.contributors).length
-      } {
-        " "
-      }
-      contributors {
-        " "
-      } <
-      /span>{" "} <
-      /p>{" "} <
-      /React.Fragment>
+    return (
+      <React.Fragment>
+        <h1> {this.props.thread && this.props.thread.title} </h1>{" "}
+        <p>
+          By{" "}
+          <Link
+            to={this.props.user ? `/profile/${this.props.user.user.key}` : ""}
+            class="link-unstyled"
+          >
+            {" "}
+            {this.props.user && this.props.user.user.name}{" "}
+          </Link>
+          ,{" "}
+          {this.props.thread && moment(this.props.thread.publishedAt).fromNow()}{" "}
+          <span
+            style={{
+              float: "right",
+              marginTop: "2px"
+            }}
+            class="hide-mobile text-faded text-small"
+          >
+            {" "}
+            {this.props.postsCount && this.props.postsCount.postCount}
+            replies by{" "}
+            {this.props.thread &&
+              this.props.thread.contributors &&
+              Object.keys(this.props.thread.contributors).length}{" "}
+            contributors{" "}
+          </span>{" "}
+        </p>{" "}
+      </React.Fragment>
     );
   }
 
@@ -138,68 +103,44 @@ class PostList extends React.Component {
       this.props.posts &&
       this.props.posts.post &&
       Object.keys(this.props.posts.post).map(keyName => {
-        return ( <
-          div class = "post-list" >
-          <
-          div class = "post" >
-          <
-          UserInfo userId = {
-            this.props.posts.post[keyName].userId
-          }
-          postId = {
-            this.props.posts.post[keyName].key
-          }
-          />{" "} <
-          div class = "post-content" >
-          <
-          div > {
-            " "
-          } {
-            /* {console.log(
+        return (
+          <div class="post-list">
+            <div class="post">
+              <UserInfo
+                userId={this.props.posts.post[keyName].userId}
+                postId={this.props.posts.post[keyName].key}
+              />{" "}
+              <div class="post-content">
+                <div>
+                  {" "}
+                  {/* {console.log(
                                                     this.props.posts.post[keyName].text.match(
                                                       "/[quote={(.+)}]/"
                                                     )
-                                                  )} */
-          } {
-            " "
-          } {
-            this.renderQuote(this.props.posts.post[keyName].text)
-          } {
-            " "
-          } {
-            /* <p> {this.props.posts.post[keyName].text} </p>{" "} */ } {
-            " "
-          } <
-          /div>{" "} <
-          a href = "#"
-          style = {
-            {
-              marginLeft: "auto"
-            }
-          }
-          class = "link-unstyled"
-          title = "Make a change" >
-          <
-          i class = "fa fa-pencil" / >
-          <
-          /a>{" "} <
-          /div>{" "} <
-          div class = "post-date text-faded" > {
-            " "
-          } {
-            moment(
-              this.props.posts.post[keyName].publishedAt
-            ).fromNow()
-          } {
-            " "
-          } <
-          /div>{" "} <
-          Reactions postId = {
-            this.props.posts.post[keyName].key
-          }
-          />{" "} <
-          /div>{" "} <
-          /div>
+                                                  )} */}{" "}
+                  {this.renderQuote(this.props.posts.post[keyName].text)}{" "}
+                  {/* <p> {this.props.posts.post[keyName].text} </p>{" "} */}{" "}
+                </div>{" "}
+                <a
+                  href="#"
+                  style={{
+                    marginLeft: "auto"
+                  }}
+                  class="link-unstyled"
+                  title="Make a change"
+                >
+                  <i class="fa fa-pencil" />
+                </a>{" "}
+              </div>{" "}
+              <div class="post-date text-faded">
+                {" "}
+                {moment(
+                  this.props.posts.post[keyName].publishedAt
+                ).fromNow()}{" "}
+              </div>{" "}
+              <Reactions postId={this.props.posts.post[keyName].key} />{" "}
+            </div>{" "}
+          </div>
         );
       });
 
@@ -211,29 +152,25 @@ class PostList extends React.Component {
       this.props.subCategorie &&
       this.props.subOfSubCategorie
     ) {
-      return ( <
-        li >
-        <
-        Link to = {
-          this.props.categorie &&
-          this.props.subCategorie &&
-          this.props.subOfSubCategorie ?
-          `/categories/${this.props.categorie.key}/${
+      return (
+        <li>
+          <Link
+            to={
+              this.props.categorie &&
+              this.props.subCategorie &&
+              this.props.subOfSubCategorie
+                ? `/categories/${this.props.categorie.key}/${
                     this.props.subCategorie.key
                   }/${this.props.subOfSubCategorie.key}
-                ` :
-            ""
-        } >
-        {
-          " "
-        } {
-          this.props.subOfSubCategorie &&
-            this.props.subOfSubCategorie.name
-        } {
-          " "
-        } <
-        /Link>{" "} <
-        /li>
+                `
+                : ""
+            }
+          >
+            {" "}
+            {this.props.subOfSubCategorie &&
+              this.props.subOfSubCategorie.name}{" "}
+          </Link>{" "}
+        </li>
       );
     }
   }
@@ -254,43 +191,25 @@ class PostList extends React.Component {
 
     console.log(res);
 
-    if (!res) return <p > {
-      text
-    } < /p>;
+    if (!res) return <p> {text} </p>;
 
-    return ( <
-      React.Fragment >
-      <
-      blockquote class = "small" >
-      <
-      div class = "author" >
-      <
-      a href = "/user/robin"
-      class = "" > {
-        " "
-      } {
-        res[0].username
-      } {
-        " "
-      } <
-      /a>{" "} <
-      span class = "time" > {
-        moment(res[0].date).fromNow()
-      } < /span>{" "} <
-      i class = "fa fa-caret-down" / >
-      <
-      /div> <
-      div class = "quote" >
-      <
-      p > {
-        res[0].text
-      } < /p>{" "} <
-      /div>{" "} <
-      /blockquote>{" "} <
-      p > {
-        res[1]
-      } < /p>{" "} <
-      /React.Fragment>
+    return (
+      <React.Fragment>
+        <blockquote class="small">
+          <div class="author">
+            <a href="/user/robin" class="">
+              {" "}
+              {res[0].username}{" "}
+            </a>{" "}
+            <span class="time"> {moment(res[0].date).fromNow()} </span>{" "}
+            <i class="fa fa-caret-down" />
+          </div>{" "}
+          <div class="quote">
+            <p> {res[0].text} </p>{" "}
+          </div>{" "}
+        </blockquote>{" "}
+        <p> {res[1]} </p>{" "}
+      </React.Fragment>
     );
   }
   renderMenu() {
@@ -301,87 +220,59 @@ class PostList extends React.Component {
     // // console.log("res");
     // // console.log(JSON.parse(res1[0]));
     // this.getQuoteFromText(text);
-    return ( <
-      ul class = "breadcrumbs" >
-      <
-      li >
-      <
-      Link to = "/" >
-      <
-      i class = "fa fa-home fa-btn" / >
-      Home {
-        " "
-      } <
-      /Link>{" "} <
-      /li>{" "} <
-      li >
-      <
-      Link to = {
-        this.props.categorie ?
-        `/categories/${this.props.categorie.key}` :
-          ""
-      } >
-      {
-        " "
-      } {
-        this.props.categorie && this.props.categorie.name
-      } {
-        " "
-      } <
-      /Link>{" "} <
-      /li>{" "} <
-      li > {
-        " "
-      } <
-      Link to = {
-        this.props.categorie && this.props.subCategorie ?
-        `/categories/${this.props.categorie.key}/${
+    return (
+      <ul class="breadcrumbs">
+        <li>
+          <Link to="/">
+            <i class="fa fa-home fa-btn" />
+            Home{" "}
+          </Link>{" "}
+        </li>{" "}
+        <li>
+          <Link
+            to={
+              this.props.categorie
+                ? `/categories/${this.props.categorie.key}`
+                : ""
+            }
+          >
+            {" "}
+            {this.props.categorie && this.props.categorie.name}{" "}
+          </Link>{" "}
+        </li>{" "}
+        <li>
+          {" "}
+          <Link
+            to={
+              this.props.categorie && this.props.subCategorie
+                ? `/categories/${this.props.categorie.key}/${
                     this.props.subCategorie.key
-                  }` :
-          ""
-      } >
-      {
-        " "
-      } {
-        this.props.subCategorie && this.props.subCategorie.name
-      } {
-        " "
-      } <
-      /Link>{" "} <
-      /li>{" "} {
-        this.renderSubOfSubCategory()
-      } {
-        " "
-      } <
-      /ul>
+                  }`
+                : ""
+            }
+          >
+            {" "}
+            {this.props.subCategorie && this.props.subCategorie.name}{" "}
+          </Link>{" "}
+        </li>{" "}
+        {this.renderSubOfSubCategory()}{" "}
+      </ul>
     );
   }
 
   render() {
     // console.log(this.posts);
-    return ( <
-      div class = "container" >
-      <
-      div class = "col-large push-top" > {
-        " "
-      } {
-        this.renderMenu()
-      } {
-        this.renderInfoThread()
-      } {
-        this.renderPost()
-      }
-
-      <
-      NewPost threadId = {
-        this.props.match.params.threadId
-      }
-      userId = {
-        this.props.auth
-      }
-      /> <
-      /div> <
-      /div>
+    return (
+      <div class="container">
+        <div class="col-large push-top">
+          {" "}
+          {this.renderMenu()} {this.renderInfoThread()} {this.renderPost()}
+          <NewPost
+            threadId={this.props.match.params.threadId}
+            userId={this.props.auth}
+          />{" "}
+        </div>{" "}
+      </div>
     );
   }
 }
@@ -400,34 +291,41 @@ const mapStateToProps = (state, ownProps) => {
   return {
     auth: state.firebase.auth.uid ? state.firebase.auth.uid : null,
 
-    thread: state.thread.threadPost && ownProps.match.params ?
-      state.thread.threadPost[ownProps.match.params.threadId] :
-      null,
+    thread:
+      state.thread.threadPost && ownProps.match.params
+        ? state.thread.threadPost[ownProps.match.params.threadId]
+        : null,
 
-    user: state.user.userThread && ownProps.match.params ?
-      state.user.userThread[ownProps.match.params.threadId] :
-      null,
+    user:
+      state.user.userThread && ownProps.match.params
+        ? state.user.userThread[ownProps.match.params.threadId]
+        : null,
 
-    postsCount: state.post.postCount && ownProps.match.params ?
-      state.post.postCount[ownProps.match.params.threadId] :
-      null,
+    postsCount:
+      state.post.postCount && ownProps.match.params
+        ? state.post.postCount[ownProps.match.params.threadId]
+        : null,
 
-    posts: state.post.postsThread && ownProps.match.params ?
-      state.post.postsThread[ownProps.match.params.threadId] :
-      null,
+    posts:
+      state.post.postsThread && ownProps.match.params
+        ? state.post.postsThread[ownProps.match.params.threadId]
+        : null,
 
-    categorie: state.categories.categories && ownProps.match.params.categoryId ?
-      state.categories.categories[ownProps.match.params.categoryId] :
-      null,
+    categorie:
+      state.categories.categories && ownProps.match.params.categoryId
+        ? state.categories.categories[ownProps.match.params.categoryId]
+        : null,
 
-    subCategorie: state.categories.subCategories && ownProps.match.params.subCategoryId ?
-      state.categories.subCategories[ownProps.match.params.subCategoryId] :
-      null,
-    subOfSubCategorie: state.categories.subCategories && ownProps.match.params.subOfSubCategoryId ?
-      state.categories.subCategories[
-        ownProps.match.params.subOfSubCategoryId
-      ] :
-      null
+    subCategorie:
+      state.categories.subCategories && ownProps.match.params.subCategoryId
+        ? state.categories.subCategories[ownProps.match.params.subCategoryId]
+        : null,
+    subOfSubCategorie:
+      state.categories.subCategories && ownProps.match.params.subOfSubCategoryId
+        ? state.categories.subCategories[
+            ownProps.match.params.subOfSubCategoryId
+          ]
+        : null
   };
 };
 export default connect(

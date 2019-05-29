@@ -15,7 +15,8 @@ const INITIAL_STATE = {
   postsThumpUp: null,
   postsThumpDown: null,
   postsLove: null,
-  postAdded: null
+  postAdded: null,
+  postsCount: 0
 
 }
 
@@ -67,33 +68,37 @@ export const postReducer = (state = INITIAL_STATE, action) => {
 
 
       // else return state;
-
-      case 'COUNT_POSTS':
-        // if (action.post !== null)
+      case 'COUNT_POSTS_FOOTER':
         return {
           ...state,
-          postCount: {
-            ...state.postCount,
-            [action.post.threadId]: action.post
-          }
+          postsCount: action.postCount
+        }
+        case 'COUNT_POSTS':
+          // if (action.post !== null)
+          return {
+            ...state,
+            postCount: {
+              ...state.postCount,
+              [action.post.threadId]: action.post
+            }
 
-        };
+          };
 
-      case 'COUNT_POSTS_USER': {
+        case 'COUNT_POSTS_USER': {
 
-        return {
-          ...state,
-          postCountUser: {
-            ...state.postCountUser,
-            [action.post.userId]: action.post
-          }
+          return {
+            ...state,
+            postCountUser: {
+              ...state.postCountUser,
+              [action.post.userId]: action.post
+            }
 
-        };
+          };
 
-      }
-      // else return state;
-      default:
-        return state;
+        }
+        // else return state;
+        default:
+          return state;
   }
 
 }

@@ -18,8 +18,8 @@ class UserInfo extends React.Component {
           to={this.props.userId ? `/profile/${this.props.userId}` : ""}
           class="user-name"
         >
-          {this.props.user && this.props.user.user && this.props.user.user.name}
-        </Link>
+          {this.props.user && this.props.user.user && this.props.user.user.name}{" "}
+        </Link>{" "}
         <Link to={this.props.userId ? `/profile/${this.props.userId}` : ""}>
           <img
             class="avatar-large"
@@ -30,19 +30,19 @@ class UserInfo extends React.Component {
             }
             alt=""
           />
-        </Link>
+        </Link>{" "}
         <p class="desktop-only text-small">
           {" "}
-          {this.props.numberOfPosts &&
-            this.props.numberOfPosts.postCount} posts{" "}
-        </p>
+          {this.props.numberOfPosts && this.props.numberOfPosts.postCount}
+          posts{" "}
+        </p>{" "}
         <p class="desktop-only text-small">
           {" "}
           {this.props.numberOfThreads &&
             this.props.numberOfThreads.threadCount}{" "}
           threads{" "}
-        </p>
-        <span class="online desktop-only"> online </span>
+        </p>{" "}
+        {/* <span class="online desktop-only"> online </span> */}{" "}
       </div>
     );
   }

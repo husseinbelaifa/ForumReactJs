@@ -82,3 +82,12 @@ export const fetchUserPost = (id, postId) => (dispatch) => {
   })
 
 }
+
+export const countUser = () => dispatch => {
+  firebase.database().ref(`users`).on('value', snapshot => {
+    return dispatch({
+      type: 'COUNT_USER_FOOTER',
+      userCount: snapshot.numChildren()
+    })
+  })
+}

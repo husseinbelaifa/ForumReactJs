@@ -23,19 +23,19 @@ const getQuoteFromText = text => {
             <div class="author">
               <a href="/user/robin" class="">
                 {" "}
-                {JSON.parse(res1[0]).username}
-              </a>
+                {JSON.parse(res1[0]).username}{" "}
+              </a>{" "}
               <span class="time">
-                {moment(JSON.parse(res1[0]).date).fromNow()}
-              </span>
+                {" "}
+                {moment(JSON.parse(res1[0]).date).fromNow()}{" "}
+              </span>{" "}
               <i class="fa fa-caret-down" />
             </div>
-
             <div class="quote">
-              <p>{JSON.parse(res1[0]).text}</p>
-            </div>
-          </blockquote>
-          <p>{text.split(res[0].trim())[1]}</p>
+              <p> {JSON.parse(res1[0]).text} </p>{" "}
+            </div>{" "}
+          </blockquote>{" "}
+          <p> {text.split(res[0].trim())[1]} </p>{" "}
         </React.Fragment>
       );
     } else return text;
@@ -63,22 +63,23 @@ const renderThread = (
               class="hide-mobile avatar-small"
             />
             <p class="title">
-              {threads[keyName].title}
-              {/* How can I chop onions without crying? */}
+              {" "}
+              {threads[keyName].title}{" "}
+              {/* How can I chop onions without crying? */}{" "}
               <span>
+                {" "}
                 {usersThread &&
                   threads[keyName].forumId &&
                   usersThread[threads[keyName].key] &&
                   usersThread[threads[keyName].key].user.username}{" "}
-                started a topic in
+                started a topic in{" "}
                 {subCategories &&
                   threads[keyName].forumId &&
                   subCategories[threads[keyName].forumId] &&
-                  subCategories[threads[keyName].forumId].name}
-              </span>
-            </p>
+                  subCategories[threads[keyName].forumId].name}{" "}
+              </span>{" "}
+            </p>{" "}
           </div>
-
           {posts &&
             threads[keyName].key &&
             posts[threads[keyName].key] &&
@@ -94,27 +95,27 @@ const renderThread = (
               return (
                 <div class="post-content">
                   <div>
+                    {" "}
                     {getQuoteFromText(
                       posts[threads[keyName].key].post[keyName1].text
                     )}
-
                     <hr />
-                  </div>
+                  </div>{" "}
                 </div>
               );
             })}
-
           <div class="thread-details">
-            <span>{moment(threads[keyName].publishedAt).fromNow()}</span>
+            <span> {moment(threads[keyName].publishedAt).fromNow()} </span>{" "}
             <span>
+              {" "}
               {postsCount &&
               threads[keyName].key &&
               postsCount[threads[keyName].key]
                 ? postsCount[threads[keyName].key].postCount - 1
                 : 0}
-              comments
-            </span>
-          </div>
+              comments{" "}
+            </span>{" "}
+          </div>{" "}
         </div>
       );
     })
@@ -128,8 +129,10 @@ const renderUserActivity = (props, state) => {
     <div class="col-7 push-top">
       <div class="profile-header">
         <span class="text-lead">
-          {props.user && props.user.name}'s recent activity
-        </span>
+          {" "}
+          {props.user && props.user.name}
+          's recent activity{" "}
+        </span>{" "}
         <a
           href="#"
           onClick={e => {
@@ -138,13 +141,15 @@ const renderUserActivity = (props, state) => {
             console.log("clicked");
           }}
         >
-          {text}
-        </a>
+          {" "}
+          {text}{" "}
+        </a>{" "}
       </div>
-
       <hr />
-
-      <div class="activity-list">{renderThread(props, seeOnlyThread)}</div>
+      <div class="activity-list">
+        {" "}
+        {renderThread(props, seeOnlyThread)}{" "}
+      </div>{" "}
     </div>
   );
 };
@@ -159,34 +164,43 @@ const renderProfile = props => {
             alt=""
             class="avatar-xlarge"
           />
-        </p>
-        <h1 class="title"> {props.user && props.user.username} </h1>
-        <p class="text-lead"> {props.user && props.user.name} </p>
+        </p>{" "}
+        <h1 class="title"> {props.user && props.user.username} </h1>{" "}
+        <p class="text-lead"> {props.user && props.user.name} </p>{" "}
         <p class="text-justify">
+          {" "}
           {props.user
             ? props.user.bio
               ? props.user.bio
               : "No bio specified."
             : ""}{" "}
-        </p>
-        <span class="online">
-          {" "}
-          {props.user && props.user.username} is online{" "}
-        </span>
+        </p>{" "}
+        {/* <span class="online">
+                {" "}
+                {props.user && props.user.username} is online{" "}
+              </span> */}{" "}
         <div class="stats">
-          <span> {props.postsNumber && props.postsNumber} posts </span>{" "}
-          <span> {props.threadsNumber && props.threadsNumber} threads </span>{" "}
-        </div>
-        <hr />
+          <span>
+            {" "}
+            {props.postsNumber && props.postsNumber}
+            posts{" "}
+          </span>{" "}
+          <span>
+            {" "}
+            {props.threadsNumber && props.threadsNumber}
+            threads{" "}
+          </span>{" "}
+        </div>{" "}
+        <hr />{" "}
         {/* <p class="text-large text-center">
-              <i class="fa fa-globe" /> <a href="#">batman.com</a>{" "}
-            </p>{" "} */}
+                    <i class="fa fa-globe" /> <a href="#">batman.com</a>{" "}
+                  </p>{" "} */}{" "}
       </div>{" "}
       <p class="text-small text-faded text-center">
-        Member since
+        Member since{" "}
         {props.user && moment(props.user.registeredAt).format("MMM YYYY")}, last
         visited 4 hours ago{" "}
-      </p>
+      </p>{" "}
       <div class="text-center">
         <hr />
         <a href="edit-profile.html" class="btn-green btn-small">
@@ -212,9 +226,10 @@ const ProfileUser = props => {
   return (
     <div class="container">
       <div class="flex-grid">
-        {renderProfile(props)}
-        {renderUserActivity(props, [seeOnlyThread, setSeeOnlyThread])}
-      </div>
+        {" "}
+        {renderProfile(props)}{" "}
+        {renderUserActivity(props, [seeOnlyThread, setSeeOnlyThread])}{" "}
+      </div>{" "}
     </div>
   );
 };

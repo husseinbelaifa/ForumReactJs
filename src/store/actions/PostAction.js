@@ -101,6 +101,21 @@ export const createPost = (threadId, userId, formValues) => dispatch => {
 
 }
 
+export const postsCount = () => dispatch => {
+
+  firebase.database().ref(`posts`)
+
+    .on('value', (snapshot => {
+
+      return dispatch({
+        type: "COUNT_POSTS_FOOTER",
+        postCount: snapshot.numChildren()
+
+      })
+    }));
+
+};
+
 
 export const postCount = (threadId) => dispatch => {
 

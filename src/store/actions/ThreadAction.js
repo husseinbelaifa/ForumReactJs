@@ -10,6 +10,22 @@ import {
   fetchPostByThread
 } from './PostAction.js';
 
+export const threadsCount = () => dispatch => {
+
+  firebase.database().ref(`threads`)
+
+    .on('value', (snapshot => {
+
+      return dispatch({
+        type: "COUNT_THREAD_FOOTER",
+
+        threadCount: snapshot.numChildren()
+
+      })
+    }));
+
+};
+
 export const threadCount = (forumId) => dispatch => {
 
   firebase.database().ref(`threads`)
