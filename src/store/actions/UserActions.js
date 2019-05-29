@@ -91,3 +91,14 @@ export const countUser = () => dispatch => {
     })
   })
 }
+
+export const checkModerator = (userId) => dispatch => {
+  firebase.database().ref(`moderators/${userId}`).on('value', snapshot => {
+    if (snapshot.numChildren()) return dispatch({
+      type: 'MODERATOR_OK'
+    });
+    // else return dispatch({
+    //   type: 'MODERATOR_NO_OK'
+    // });
+  })
+}

@@ -30,7 +30,7 @@ const getQuoteFromText = text => {
                 {moment(JSON.parse(res1[0]).date).fromNow()}{" "}
               </span>{" "}
               <i class="fa fa-caret-down" />
-            </div>
+            </div>{" "}
             <div class="quote">
               <p> {JSON.parse(res1[0]).text} </p>{" "}
             </div>{" "}
@@ -79,7 +79,7 @@ const renderThread = (
                   subCategories[threads[keyName].forumId].name}{" "}
               </span>{" "}
             </p>{" "}
-          </div>
+          </div>{" "}
           {posts &&
             threads[keyName].key &&
             posts[threads[keyName].key] &&
@@ -98,12 +98,12 @@ const renderThread = (
                     {" "}
                     {getQuoteFromText(
                       posts[threads[keyName].key].post[keyName1].text
-                    )}
+                    )}{" "}
                     <hr />
                   </div>{" "}
                 </div>
               );
-            })}
+            })}{" "}
           <div class="thread-details">
             <span> {moment(threads[keyName].publishedAt).fromNow()} </span>{" "}
             <span>
@@ -144,7 +144,7 @@ const renderUserActivity = (props, state) => {
           {" "}
           {text}{" "}
         </a>{" "}
-      </div>
+      </div>{" "}
       <hr />
       <div class="activity-list">
         {" "}
@@ -176,9 +176,9 @@ const renderProfile = props => {
             : ""}{" "}
         </p>{" "}
         {/* <span class="online">
-                {" "}
-                {props.user && props.user.username} is online{" "}
-              </span> */}{" "}
+                      {" "}
+                      {props.user && props.user.username} is online{" "}
+                    </span> */}{" "}
         <div class="stats">
           <span>
             {" "}
@@ -193,13 +193,12 @@ const renderProfile = props => {
         </div>{" "}
         <hr />{" "}
         {/* <p class="text-large text-center">
-                    <i class="fa fa-globe" /> <a href="#">batman.com</a>{" "}
-                  </p>{" "} */}{" "}
+                          <i class="fa fa-globe" /> <a href="#">batman.com</a>{" "}
+                        </p>{" "} */}{" "}
       </div>{" "}
       <p class="text-small text-faded text-center">
         Member since{" "}
-        {props.user && moment(props.user.registeredAt).format("MMM YYYY")}, last
-        visited 4 hours ago{" "}
+        {props.user && moment(props.user.registeredAt).format("MMM YYYY")}
       </p>{" "}
       <div class="text-center">
         <hr />

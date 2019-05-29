@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   userThread: null,
   userPost: null,
   userProfile: null,
-  userCount: 0
+  userCount: 0,
+  moderator: null
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -16,65 +17,71 @@ export const userReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-    case 'FETCH_USER_PROFILE': {
+    case 'MODERATOR_OK':
       return {
         ...state,
-        userProfile: {
-          ...state.userProfile,
-          [action.user.userId]: action.user
+        moderator: "ok"
+      }
+
+      case 'FETCH_USER_PROFILE': {
+        return {
+          ...state,
+          userProfile: {
+            ...state.userProfile,
+            [action.user.userId]: action.user
+          }
         }
       }
-    }
 
-    case 'COUNT_USER_FOOTER':
-      return {
-        ...state,
-        userCount: action.userCount
-      }
-
-      case 'FETCH_USER_Forum': {
-
+      case 'COUNT_USER_FOOTER':
         return {
           ...state,
-          userForum: {
-            ...state.userForum,
-            [action.userForum.postId]: action.userForum
-          }
-        };
+          userCount: action.userCount
+        }
 
-      }
+        case 'FETCH_USER_Forum': {
 
-      case 'FETCH_USER_THREAD': {
+          return {
+            ...state,
+            userForum: {
+              ...state.userForum,
+              [action.userForum.postId]: action.userForum
+            }
+          };
 
+        }
 
-
-
-        return {
-          ...state,
-          userThread: {
-            ...state.userThread,
-            [action.userThread.threadId]: action.userThread
-          }
-        };
+        case 'FETCH_USER_THREAD': {
 
 
 
-      }
 
-      case 'FETCH_USER_POST': {
-
-        return {
-          ...state,
-          userPost: {
-            ...state.userPost,
-            [action.userPost.postId]: action.userPost
-          }
-        };
+          return {
+            ...state,
+            userThread: {
+              ...state.userThread,
+              [action.userThread.threadId]: action.userThread
+            }
+          };
 
 
-      }
 
-      default:
-        return state;
+        }
+
+        case 'FETCH_USER_POST': {
+
+          return {
+            ...state,
+            userPost: {
+              ...state.userPost,
+              [action.userPost.postId]: action.userPost
+            }
+          };
+
+
+        }
+
+        default:
+          return state;
   }
 };

@@ -6,6 +6,7 @@ import UserInfo from "../User/UserInfo";
 import { Link } from "react-router-dom";
 import { postCount, fetchPostByThread } from "../../store/actions/PostAction";
 import Reactions from "../layout/Reactions";
+import PostAction from "../layout/PostAction";
 import moment from "moment";
 import Form from "../layout/Form";
 import {
@@ -113,24 +114,9 @@ class PostList extends React.Component {
               <div class="post-content">
                 <div>
                   {" "}
-                  {/* {console.log(
-                                                    this.props.posts.post[keyName].text.match(
-                                                      "/[quote={(.+)}]/"
-                                                    )
-                                                  )} */}{" "}
                   {this.renderQuote(this.props.posts.post[keyName].text)}{" "}
                   {/* <p> {this.props.posts.post[keyName].text} </p>{" "} */}{" "}
                 </div>{" "}
-                <a
-                  href="#"
-                  style={{
-                    marginLeft: "auto"
-                  }}
-                  class="link-unstyled"
-                  title="Make a change"
-                >
-                  <i class="fa fa-pencil" />
-                </a>{" "}
               </div>{" "}
               <div class="post-date text-faded">
                 {" "}
@@ -139,6 +125,12 @@ class PostList extends React.Component {
                 ).fromNow()}{" "}
               </div>{" "}
               <Reactions postId={this.props.posts.post[keyName].key} />{" "}
+              {/* {this.renderIcon(this.props.posts.post[keyName].userId)} */}
+              <PostAction
+                postId={this.props.posts.post[keyName].key}
+                userId={this.props.posts.post[keyName].userId}
+                threadId={this.props.match.params.threadId}
+              />
             </div>{" "}
           </div>
         );
@@ -266,7 +258,8 @@ class PostList extends React.Component {
       <div class="container">
         <div class="col-large push-top">
           {" "}
-          {this.renderMenu()} {this.renderInfoThread()} {this.renderPost()}
+          {this.renderMenu()} {this.renderInfoThread()}
+          {this.renderPost()}
           <NewPost
             threadId={this.props.match.params.threadId}
             userId={this.props.auth}
