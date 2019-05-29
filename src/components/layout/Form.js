@@ -6,28 +6,53 @@ class Form extends Component {
   handleFileChange(e) {
     console.log("clicked");
   }
-
+  renderErrors(formValues) {
+    formValues && console.log(formValues);
+    // if (touched && error)
+    //   return (
+    //     <React.Fragment>
+    //       <span className="form-error">{error}</span>
+    //     </React.Fragment>
+    //   );
+    // else return null;
+  }
   renderFile(formValues) {
+    // const errors = this.renderError(formValues);
+
     const {
       input: { value, ...input }
     } = formValues;
 
-    // console.log(formValues);
+    // touched && console.log(error);
+
+    const error =
+      formValues.meta.error && formValues.meta.touched ? (
+        <span class="form-error">{formValues.meta.error}</span>
+      ) : (
+        ""
+      );
+
+    console.log(formValues);
+    console.log(formValues.meta.error);
     // delete formValues.input.value;
     if (formValues.type === "file")
       return (
-        <input
-          id={formValues.id}
-          name={formValues.input.name}
-          type={formValues.type}
-          className="form-input"
-          {...input}
-        />
+        <div className="form-group">
+          <input
+            id={formValues.id}
+            name={formValues.input.name}
+            type={formValues.type}
+            className="form-input"
+            {...input}
+          />
+
+          {error}
+        </div>
       );
     else if (formValues.type === "textArea") {
       return (
         <div className="form-group">
-          <label htmlFor={formValues.input.name}> {formValues.label} </label>
+          <label htmlFor={formValues.input.name}> {formValues.label} </label>{" "}
           <textarea
             id={formValues.id}
             name={formValues.input.name}
@@ -36,29 +61,29 @@ class Form extends Component {
             className="form-input"
             {...formValues.input}
           />
+          {error}
         </div>
       );
     } else
       return (
         <div className="form-group">
-          <label htmlFor={formValues.input.name}> {formValues.label} </label>
+          <label htmlFor={formValues.input.name}> {formValues.label} </label>{" "}
           <input
             id={formValues.id}
             name={formValues.input.name}
             type={formValues.type}
             className="form-input"
             {...formValues.input}
-          />
+          />{" "}
+          {error}
         </div>
       );
   }
 
   renderInput = formValues => {
-    // console.log(formValues);
-
     return (
       <div className="form-group">
-        <label htmlFor={formValues.input.name}> {formValues.label} </label>
+        <label htmlFor={formValues.input.name}> {formValues.label} </label>{" "}
         <input
           id={formValues.id}
           name={formValues.input.name}
@@ -109,13 +134,17 @@ class Form extends Component {
 
     if (fileSelector) {
       const file = fileSelector.files[0];
-      this.props.onSubmit({ ...formValues, file });
+      this.props.onSubmit({
+        ...formValues,
+        file
+      });
     } else {
-      this.props.onSubmit({ ...formValues });
+      this.props.onSubmit({
+        ...formValues
+      });
     }
   };
   renderform() {
-    console.log(this.props);
     return (
       <form
         action=""
@@ -123,9 +152,10 @@ class Form extends Component {
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <h1 className="text-center"> {this.props.formName} </h1>{" "}
-        {this.renderArrayOfInput()}{" "}
+        {this.renderArrayOfInput()}
         <div className="form-actions">
           <button type="submit" className="btn-blue btn-block">
+            {" "}
             {this.props.formName}{" "}
           </button>{" "}
         </div>{" "}
@@ -138,6 +168,28 @@ class Form extends Component {
   }
 }
 
+const formValidate = (formValues, ownProps) => {
+  let errors = {};
+  // console.log(formValues);
+  ownProps.inputs &&
+    ownProps.inputs.map(input => {
+      if (input.type === "file") {
+        formValues[input.id] && console.log(formValues[input.id].length);
+        if (
+          !formValues[input.id] ||
+          (formValues[input.id] && formValues[input.id].length === 0)
+        )
+          errors[input.id] = `Field ${input.label} Must Not be empty`;
+      } else {
+        if (!formValues[input.id])
+          errors[input.id] = `Field ${input.label} Must Not be empty`;
+      }
+    });
+  // console.log(errors);
+  return errors;
+};
+
 export default reduxForm({
-  form: "Form"
+  form: "Form",
+  validate: formValidate
 })(Form);
