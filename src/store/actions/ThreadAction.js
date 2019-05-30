@@ -71,7 +71,7 @@ export const fetchThread = (id) => dispatch => {
     })
 }
 
-export const updateThread = (threadId, formValues) => dispatch => {
+export const updateThread = (threadId, formValues, userId) => dispatch => {
   firebase.database().ref(`threads/${threadId}`).update({
     title: formValues.title
   });
@@ -80,9 +80,58 @@ export const updateThread = (threadId, formValues) => dispatch => {
 
   firebase.database().ref(`threads/${threadId}`).once('value', snapshot => {
 
-    firebase.database().ref(`/posts/${snapshot.val().firstPostId}`).update({
-      text: formValues.content
+
+    firebase.database().ref(`moderators/${userId}`).once('value', snapshot1 => {
+
+      console.log(snapshot.val());
+
+      if (!snapshot1.val()) {
+
+        firebase.database().ref(`/posts/${snapshot.val().firstPostId}`).update({
+          text: formValues.content,
+          edited: {
+            at: (new Date()).getTime(),
+            by: userId,
+            moderated: false
+          }
+        });
+
+
+
+      } else {
+
+        firebase.database().ref(`/posts/${snapshot.val().firstPostId}`).update({
+          text: formValues.content,
+          edited: {
+            at: (new Date()).getTime(),
+            by: userId,
+            moderated: true
+          }
+        });
+
+      }
+      // firebase.database().ref(`/posts/${snapshot.val().firstPostId}`).update({
+      //   text: formValues.content,
+      //   edited: {
+      //     at: (new Date).getTime(),
+      //     by: userId,
+      //     moderated: true
+      //   }
+      // });
+
+      // else
+      //   firebase.database().ref(`/posts/${snapshot.val().firstPostId}`).update({
+      //     text: formValues.content,
+      //     edited: {
+      //       at: (new Date).getTime(),
+      //       by: userId,
+      //       moderated: false
+      //     }
+      //   })
+
     })
+
+
   })
 
   return dispatch({

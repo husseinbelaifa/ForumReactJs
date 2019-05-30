@@ -8,6 +8,7 @@ import { postCount, fetchPostByThread } from "../../store/actions/PostAction";
 import Reactions from "../layout/Reactions";
 import PostAction from "../layout/PostAction";
 import moment from "moment";
+import { checkModerator } from "../../store/actions/UserActions";
 import Form from "../layout/Form";
 import {
   fetchCategory,
@@ -65,64 +66,71 @@ class PostList extends React.Component {
   }
 
   renderThreadPostAction() {
-    if (this.props.match.params.subOfSubCategoryId) {
-      return (
-        <React.Fragment>
-          <Link
-            to={`/threads/${this.props.match.params.categoryId}/${
-              this.props.match.params.subCategoryId
-            }/${this.props.match.params.threadId}/${
-              this.props.match.params.subOfSubCategoryId
-            }/edit`}
-            class="btn btn-small btn-blue"
-          >
-            {" "}
-            Edit Thread{" "}
-          </Link>{" "}
-          <Link
-            to={`threads/${this.props.match.params.categoryId}/${
-              this.props.match.params.subCategoryId
-            }/${this.props.match.params.threadId}/${
-              this.props.match.params.subOfSubCategoryId
-            }/delete`}
-            class="btn btn-small btn-red"
-          >
-            {" "}
-            Delete Thread{" "}
-          </Link>{" "}
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <Link
-            to={`/threads/${this.props.match.params.categoryId}/${
-              this.props.match.params.subCategoryId
-            }/${this.props.match.params.threadId}/edit`}
-            class="btn btn-small btn-blue"
-          >
-            {" "}
-            Edit Thread{" "}
-          </Link>{" "}
-          <Link
-            to={`threads/${this.props.match.params.categoryId}/${
-              this.props.match.params.subCategoryId
-            }/${this.props.match.params.threadId}/delete`}
-            class="btn btn-small btn-red"
-          >
-            {" "}
-            Delete Thread{" "}
-          </Link>{" "}
-        </React.Fragment>
-      );
-    }
+    if (
+      (this.props.auth &&
+        this.props.thread &&
+        this.props.auth === this.props.thread.userId) ||
+      this.props.moderator
+    ) {
+      if (this.props.match.params.subOfSubCategoryId) {
+        return (
+          <React.Fragment>
+            <Link
+              to={`/threads/${this.props.match.params.categoryId}/${
+                this.props.match.params.subCategoryId
+              }/${this.props.match.params.threadId}/${
+                this.props.match.params.subOfSubCategoryId
+              }/edit`}
+              class="btn btn-small btn-blue"
+            >
+              {" "}
+              Edit Thread{" "}
+            </Link>{" "}
+            <Link
+              to={`threads/${this.props.match.params.categoryId}/${
+                this.props.match.params.subCategoryId
+              }/${this.props.match.params.threadId}/${
+                this.props.match.params.subOfSubCategoryId
+              }/delete`}
+              class="btn btn-small btn-red"
+            >
+              {" "}
+              Delete Thread{" "}
+            </Link>{" "}
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment>
+            <Link
+              to={`/threads/${this.props.match.params.categoryId}/${
+                this.props.match.params.subCategoryId
+              }/${this.props.match.params.threadId}/edit`}
+              class="btn btn-small btn-blue"
+            >
+              {" "}
+              Edit Thread{" "}
+            </Link>{" "}
+            <Link
+              to={`threads/${this.props.match.params.categoryId}/${
+                this.props.match.params.subCategoryId
+              }/${this.props.match.params.threadId}/delete`}
+              class="btn btn-small btn-red"
+            >
+              {" "}
+              Delete Thread{" "}
+            </Link>{" "}
+          </React.Fragment>
+        );
+      }
+    } else return null;
   }
   renderInfoThread() {
     // console.log(this.props.firstPost);
     return (
       <React.Fragment>
         <h1> {this.props.thread && this.props.thread.title} </h1>{" "}
-        <div className="action-thread">{this.renderThreadPostAction()}</div>
+        <div className="action-thread"> {this.renderThreadPostAction()} </div>{" "}
         <p>
           By{" "}
           <Link
@@ -372,7 +380,8 @@ const mapStateToProps = (state, ownProps) => {
         ? state.categories.subCategories[
             ownProps.match.params.subOfSubCategoryId
           ]
-        : null
+        : null,
+    moderator: state.user.moderator
   };
 };
 export default connect(

@@ -24,15 +24,15 @@ const PostAction = props => {
       >
         {" "}
         {/* <a
-                          href="#"
-                          class="link-unstyled"
-                          title="Make a change"
-                          style={{
-                            marginRight: "10px"
-                          }}
-                        >
-                          <i class="fa fa-pencil" />
-                        </a>{" "} */}{" "}
+                                  href="#"
+                                  class="link-unstyled"
+                                  title="Make a change"
+                                  style={{
+                                    marginRight: "10px"
+                                  }}
+                                >
+                                  <i class="fa fa-pencil" />
+                                </a>{" "} */}{" "}
         <a
           href="#"
           class="link-unstyled"
@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
         ? state.thread.threadPost[ownProps.threadId]
         : null,
 
-    moderator: state.moderator
+    moderator: state.user.moderator
   };
 };
 
