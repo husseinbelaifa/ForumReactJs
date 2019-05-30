@@ -174,12 +174,12 @@ const renderProfile = props => {
             ? props.user.bio
               ? props.user.bio
               : "No bio specified."
-            : ""}{" "}
+            : ""}
         </p>{" "}
         {/* <span class="online">
-                            {" "}
-                            {props.user && props.user.username} is online{" "}
-                          </span> */}{" "}
+                                        {" "}
+                                        {props.user && props.user.username} is online{" "}
+                                      </span> */}{" "}
         <div class="stats">
           <span>
             {" "}
@@ -199,21 +199,12 @@ const renderProfile = props => {
         {props.user && moment(props.user.registeredAt).format("MMM YYYY")}{" "}
       </p>{" "}
       <div class="text-center">
-        <hr /> {renderEditProfile(props)}
+        <hr />
       </div>{" "}
     </div>
   );
 };
-const renderEditProfile = props => {
-  if (auth && auth === props.user.key)
-    return (
-      <Link class="btn-green btn-small" to={`/profile/edit/${props.user.key}`}>
-        {" "}
-        Edit Profile{" "}
-      </Link>
-    );
-  else return null;
-};
+
 const ProfileUser = props => {
   const [seeOnlyThread, setSeeOnlyThread] = useState(false);
   useEffect(() => {
@@ -261,7 +252,9 @@ const mapStateToProps = (state, ownProps) => {
         : null,
 
     threads:
-      ownProps.match.params && state.thread.threadContributor
+      ownProps.match.params &&
+      state.thread.threadContributor &&
+      state.thread.threadContributor[ownProps.match.params.userId]
         ? state.thread.threadContributor[ownProps.match.params.userId].thread
         : null,
     subCategories: state.categories.subCategories,

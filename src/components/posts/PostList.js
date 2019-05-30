@@ -67,7 +67,7 @@ class PostList extends React.Component {
     // console.log(this.props.firstPost);
     return (
       <React.Fragment>
-        <h1> {this.props.thread && this.props.thread.title} </h1>{" "}
+        <h1> {this.props.thread && this.props.thread.title} </h1>
         <p>
           By{" "}
           <Link
@@ -125,12 +125,12 @@ class PostList extends React.Component {
                 ).fromNow()}{" "}
               </div>{" "}
               <Reactions postId={this.props.posts.post[keyName].key} />{" "}
-              {/* {this.renderIcon(this.props.posts.post[keyName].userId)} */}
+              {/* {this.renderIcon(this.props.posts.post[keyName].userId)} */}{" "}
               <PostAction
                 postId={this.props.posts.post[keyName].key}
                 userId={this.props.posts.post[keyName].userId}
                 threadId={this.props.match.params.threadId}
-              />
+              />{" "}
             </div>{" "}
           </div>
         );
@@ -258,8 +258,7 @@ class PostList extends React.Component {
       <div class="container">
         <div class="col-large push-top">
           {" "}
-          {this.renderMenu()} {this.renderInfoThread()}
-          {this.renderPost()}
+          {this.renderMenu()} {this.renderInfoThread()} {this.renderPost()}{" "}
           <NewPost
             threadId={this.props.match.params.threadId}
             userId={this.props.auth}

@@ -60,6 +60,7 @@ export const threadCountUser = (userId) => dispatch => {
 
 };
 
+
 export const fetchThread = (id) => dispatch => {
   firebase.database().ref(`threads/${id}`)
     .on('value', snapshot => {
