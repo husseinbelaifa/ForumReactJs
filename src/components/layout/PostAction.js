@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchThread } from "../../store/actions/ThreadAction";
 import { checkModerator } from "../../store/actions/UserActions";
+import {deletePost} from "../../store/actions/PostAction";
 const PostAction = props => {
   useEffect(() => {
     //fetch the thread by id
@@ -44,7 +45,8 @@ const PostAction = props => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchThread: id => dispatch(fetchThread(id)),
-    checkModerator: id => dispatch(checkModerator(id))
+    checkModerator: id => dispatch(checkModerator(id)),
+    deletePost:(postId,userId,threadId)=>dispatch(deletePost(postId,userId,threadId))
   };
 };
 

@@ -31,6 +31,57 @@ export const fetchPostByThread = (threadId) => dispatch => {
     })
 }
 
+export const deletePost=(postId,userId,threadId)=>dispatch=>{
+
+  firebase.database().ref(`posts/${postId}`).remove();
+  //remove post in users
+  firebase.database().ref(`/users/${userId}/posts/${postId}`).remove();
+
+  //remove post in threads
+
+  firebase.database().ref(`/threads/${threadId}/posts/${postId}`).remove();
+
+  //get postId & publishedAt of lastPost
+
+firebase.database().ref(`/posts`).orderByChild('threadId').equalTo(threadId).limitToLast(1)
+.once('value',snapshot=>{
+firebase.database().ref(`/threads/${threadId}`).update({
+  lastPostAt:snapshot.val().publishedAt,
+  lastPostId:snapshot.val().key}
+  )
+});
+
+
+
+//check if user has no other contributor
+
+//count numberOfpost for an userIf with threadId & postId!==firstPostId
+
+//getfirstPostId
+ let numberOfPost=0;
+firebase.database().ref(`/threads/${threadId}/firstPostId`)
+.once('value',snapshot=>{
+  const firstPostId=snapshot.val();
+  firebase.database().ref(`/posts`).orderByChild('threadId').equalTo(threadId)
+  .once('value',snapshot=>{
+    
+    snapshot.forEach(postSnapShot => {
+
+      if(postSnapShot.val().key!==firstPostId && postSnapShot.val().userId===userId ){
+numberOfPost++;
+      }
+      
+    });
+  })
+
+})
+
+if(numberOfPost===0) firebase.database().ref(`threads/${threadId}/contributors/${userId}`).remove();
+
+return dispatch({type:'REMOVE_POST'});
+
+}
+
 export const createPost = (threadId, userId, formValues) => dispatch => {
 
   const refKey = firebase.database().ref().child('posts').push().key; // generate a new key

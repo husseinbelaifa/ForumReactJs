@@ -8,6 +8,7 @@ import {
   fetchThreadByContributor,
   fetchThreadByUserId
 } from "../../store/actions/ThreadAction";
+import { Link } from "react-router-dom";
 import moment from "moment";
 const getQuoteFromText = text => {
   const res = text && text.match(/(\[quote\s*=\s*{\s*(.+)}\s*\])/);
@@ -176,9 +177,9 @@ const renderProfile = props => {
             : ""}{" "}
         </p>{" "}
         {/* <span class="online">
-                      {" "}
-                      {props.user && props.user.username} is online{" "}
-                    </span> */}{" "}
+                            {" "}
+                            {props.user && props.user.username} is online{" "}
+                          </span> */}{" "}
         <div class="stats">
           <span>
             {" "}
@@ -192,24 +193,27 @@ const renderProfile = props => {
           </span>{" "}
         </div>{" "}
         <hr />{" "}
-        {/* <p class="text-large text-center">
-                          <i class="fa fa-globe" /> <a href="#">batman.com</a>{" "}
-                        </p>{" "} */}{" "}
       </div>{" "}
       <p class="text-small text-faded text-center">
         Member since{" "}
-        {props.user && moment(props.user.registeredAt).format("MMM YYYY")}
+        {props.user && moment(props.user.registeredAt).format("MMM YYYY")}{" "}
       </p>{" "}
       <div class="text-center">
-        <hr />
-        <a href="edit-profile.html" class="btn-green btn-small">
-          Edit Profile{" "}
-        </a>{" "}
+        <hr /> {renderEditProfile(props)}
       </div>{" "}
     </div>
   );
 };
-
+const renderEditProfile = props => {
+  if (auth && auth === props.user.key)
+    return (
+      <Link class="btn-green btn-small" to={`/profile/edit/${props.user.key}`}>
+        {" "}
+        Edit Profile{" "}
+      </Link>
+    );
+  else return null;
+};
 const ProfileUser = props => {
   const [seeOnlyThread, setSeeOnlyThread] = useState(false);
   useEffect(() => {
@@ -235,6 +239,7 @@ const ProfileUser = props => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    auth: state.firebase.auth.uid ? state.firebase.auth.uid : null,
     user:
       state.user.userProfile &&
       ownProps.match.params.userId &&
