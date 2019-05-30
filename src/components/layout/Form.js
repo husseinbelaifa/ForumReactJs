@@ -27,13 +27,15 @@ class Form extends Component {
 
     const error =
       formValues.meta.error && formValues.meta.touched ? (
-        <span class="form-error">{formValues.meta.error}</span>
+        <span class="form-error"> {formValues.meta.error} </span>
       ) : (
         ""
       );
 
-    console.log(formValues);
-    console.log(formValues.meta.error);
+    // const renderValue =
+    //   formValues.id === "title" && this.props && this.props.initialValuesThread
+    //     ? this.props.initialValuesThread.title
+    //     : "";
     // delete formValues.input.value;
     if (formValues.type === "file")
       return (
@@ -44,9 +46,8 @@ class Form extends Component {
             type={formValues.type}
             className="form-input"
             {...input}
-          />
-
-          {error}
+          />{" "}
+          {error}{" "}
         </div>
       );
     else if (formValues.type === "textArea") {
@@ -60,8 +61,11 @@ class Form extends Component {
             cols="40"
             className="form-input"
             {...formValues.input}
-          />
-          {error}
+          >
+            {" "}
+            {/* {renderValue} */}{" "}
+          </textarea>{" "}
+          {error}{" "}
         </div>
       );
     } else
@@ -74,8 +78,9 @@ class Form extends Component {
             type={formValues.type}
             className="form-input"
             {...formValues.input}
+            // value={renderValue}
           />{" "}
-          {error}
+          {error}{" "}
         </div>
       );
   }
@@ -106,6 +111,7 @@ class Form extends Component {
           label={input.label}
           value={null}
           component={this.renderFile}
+          disabled
         />
       ) : (
         <Field
@@ -115,6 +121,7 @@ class Form extends Component {
           id={input.id}
           label={input.label}
           component={this.renderFile}
+          value={this.props.initialValues && this.props.initialValues[input.id]}
         />
       );
     });
@@ -152,7 +159,7 @@ class Form extends Component {
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <h1 className="text-center"> {this.props.formName} </h1>{" "}
-        {this.renderArrayOfInput()}
+        {this.renderArrayOfInput()}{" "}
         <div className="form-actions">
           <button type="submit" className="btn-blue btn-block">
             {" "}
@@ -164,6 +171,8 @@ class Form extends Component {
     );
   }
   render() {
+    console.log(this.props);
+
     return <div> {this.renderform()} </div>;
   }
 }

@@ -71,6 +71,26 @@ export const fetchThread = (id) => dispatch => {
     })
 }
 
+export const updateThread = (threadId, formValues) => dispatch => {
+  firebase.database().ref(`threads/${threadId}`).update({
+    title: formValues.title
+  });
+
+  //update post
+
+  firebase.database().ref(`threads/${threadId}`).once('value', snapshot => {
+
+    firebase.database().ref(`/posts/${snapshot.val().firstPostId}`).update({
+      text: formValues.content
+    })
+  })
+
+  return dispatch({
+    type: 'UPDATE_THREAD'
+  });
+
+}
+
 export const addThread = (forumId, userId, formValues) => dispatch => {
 
   var refkey = firebase.database().ref().child('threads').push().key;

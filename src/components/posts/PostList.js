@@ -13,6 +13,7 @@ import {
   fetchCategory,
   fetchSubCategoriesById
 } from "../../store/actions/CategoryActions";
+
 import NewPost from "./NewPost";
 
 class PostList extends React.Component {
@@ -63,11 +64,65 @@ class PostList extends React.Component {
     // }
   }
 
+  renderThreadPostAction() {
+    if (this.props.match.params.subOfSubCategoryId) {
+      return (
+        <React.Fragment>
+          <Link
+            to={`/threads/${this.props.match.params.categoryId}/${
+              this.props.match.params.subCategoryId
+            }/${this.props.match.params.threadId}/${
+              this.props.match.params.subOfSubCategoryId
+            }/edit`}
+            class="btn btn-small btn-blue"
+          >
+            {" "}
+            Edit Thread{" "}
+          </Link>{" "}
+          <Link
+            to={`threads/${this.props.match.params.categoryId}/${
+              this.props.match.params.subCategoryId
+            }/${this.props.match.params.threadId}/${
+              this.props.match.params.subOfSubCategoryId
+            }/delete`}
+            class="btn btn-small btn-red"
+          >
+            {" "}
+            Delete Thread{" "}
+          </Link>{" "}
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <Link
+            to={`/threads/${this.props.match.params.categoryId}/${
+              this.props.match.params.subCategoryId
+            }/${this.props.match.params.threadId}/edit`}
+            class="btn btn-small btn-blue"
+          >
+            {" "}
+            Edit Thread{" "}
+          </Link>{" "}
+          <Link
+            to={`threads/${this.props.match.params.categoryId}/${
+              this.props.match.params.subCategoryId
+            }/${this.props.match.params.threadId}/delete`}
+            class="btn btn-small btn-red"
+          >
+            {" "}
+            Delete Thread{" "}
+          </Link>{" "}
+        </React.Fragment>
+      );
+    }
+  }
   renderInfoThread() {
     // console.log(this.props.firstPost);
     return (
       <React.Fragment>
-        <h1> {this.props.thread && this.props.thread.title} </h1>
+        <h1> {this.props.thread && this.props.thread.title} </h1>{" "}
+        <div className="action-thread">{this.renderThreadPostAction()}</div>
         <p>
           By{" "}
           <Link
