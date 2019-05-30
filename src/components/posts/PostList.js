@@ -10,6 +10,7 @@ import PostAction from "../layout/PostAction";
 import moment from "moment";
 import { checkModerator } from "../../store/actions/UserActions";
 import Form from "../layout/Form";
+
 import {
   fetchCategory,
   fetchSubCategoriesById
@@ -83,19 +84,7 @@ class PostList extends React.Component {
               }/edit`}
               class="btn btn-small btn-blue"
             >
-              {" "}
-              Edit Thread{" "}
-            </Link>{" "}
-            <Link
-              to={`threads/${this.props.match.params.categoryId}/${
-                this.props.match.params.subCategoryId
-              }/${this.props.match.params.threadId}/${
-                this.props.match.params.subOfSubCategoryId
-              }/delete`}
-              class="btn btn-small btn-red"
-            >
-              {" "}
-              Delete Thread{" "}
+              Edit Thread
             </Link>{" "}
           </React.Fragment>
         );
@@ -110,15 +99,6 @@ class PostList extends React.Component {
             >
               {" "}
               Edit Thread{" "}
-            </Link>{" "}
-            <Link
-              to={`threads/${this.props.match.params.categoryId}/${
-                this.props.match.params.subCategoryId
-              }/${this.props.match.params.threadId}/delete`}
-              class="btn btn-small btn-red"
-            >
-              {" "}
-              Delete Thread{" "}
             </Link>{" "}
           </React.Fragment>
         );
@@ -317,6 +297,7 @@ class PostList extends React.Component {
 
   render() {
     // console.log(this.posts);
+
     return (
       <div class="container">
         <div class="col-large push-top">

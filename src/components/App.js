@@ -11,6 +11,7 @@ import PostList from "./posts/PostList";
 import EditThread from "./threads/EditThread";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProfileUser from "./User/ProfileUser";
+
 const App = () => {
   return (
     <div>
@@ -27,12 +28,17 @@ const App = () => {
             path="/threads/:categoryId/:subCategoryId/:subOfSubCategoryId?/create"
             exact
             component={NewThread}
-          />
+          />{" "}
           <Route
             path="/threads/:categoryId/:subCategoryId/:subOfSubCategoryId?/:threadId/edit"
             exact
             component={EditThread}
-          />
+          />{" "}
+          {/* <Route
+                  path="/threads/:categoryId/:subCategoryId/:subOfSubCategoryId?/:threadId/delete"
+                  exact
+                  component={DeleteThread}
+                /> */}{" "}
           <Route
             path="/thread/:categoryId/:subCategoryId/:threadId"
             exact

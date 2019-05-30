@@ -81,6 +81,7 @@ class NavBar extends React.Component {
                 classname: ""
               });
             }}
+            onClick={this.showDropMenu}
           >
             <a href="#">
               <img
@@ -92,7 +93,9 @@ class NavBar extends React.Component {
               />
               <span>
                 {" "}
-                {this.props.currentUser ? this.props.currentUser.name : null}
+                {this.props.currentUser
+                  ? this.props.currentUser.name
+                  : null}{" "}
                 <img
                   class="icon-profile"
                   src="assets/img/svg/arrow-profile.svg"
@@ -100,18 +103,14 @@ class NavBar extends React.Component {
                 />
               </span>{" "}
             </a>{" "}
-            <div
-              id="user-dropdown"
-              className={this.state.classname}
-              onClick={this.signOutHandler}
-            >
+            <div id="user-dropdown" className={this.state.classname}>
               <div className="triangle-drop" />
               <ul className="dropdown-menu">
                 <li className="dropdown-menu-item">
-                  <a href="profile.html"> View profile </a>{" "}
+                  <Link to={`/profile/${this.props.auth}`}> View profile </Link>{" "}
                 </li>{" "}
                 <li className="dropdown-menu-item">
-                  <a> Log out </a>{" "}
+                  <Link onClick={this.signOutHandler}> Log out </Link>{" "}
                 </li>{" "}
               </ul>{" "}
             </div>{" "}
@@ -143,7 +142,7 @@ class NavBar extends React.Component {
           <div className="middle bar" />
           <div className="bottom bar" />
         </div>{" "}
-        <nav className="navbar" onClick={this.showDropMenu}>
+        <nav className="navbar">
           {" "}
           {this.renderLoginNav()}{" "}
           <ul>
