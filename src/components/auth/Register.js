@@ -5,12 +5,15 @@ import {
   signOut,
   signInWithGoogle
 } from "../../store/actions/AuthActions";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import {
+  connect
+} from "react-redux";
+import {
+  Link
+} from "react-router-dom";
 class Register extends React.Component {
   state = {
-    registerFormField: [
-      {
+    registerFormField: [{
         type: "text",
         name: "name",
         id: "name",
@@ -57,27 +60,38 @@ class Register extends React.Component {
     this.props.signInWithGoogle();
   };
   render() {
-    return (
-      <div className="container">
-        <div className="flex-grid justify-center">
-          <div className="col-2">
-            <Form
-              formName={this.state.formName}
-              inputs={this.state.registerFormField}
-              onSubmit={this.registerHandler}
-            />{" "}
-            <div className="text-center push-top">
-              <button
-                className="btn-red btn-xsmall"
-                onClick={this.registerHandlerWithGoogle}
-              >
-                <i className="fa fa-google fa-btn" />
-                Sign up with Google{" "}
-              </button>{" "}
-            </div>{" "}
-          </div>{" "}
-        </div>{" "}
-      </div>
+    return ( <
+      div className = "container" >
+      <
+      div className = "flex-grid justify-center" >
+      <
+      div className = "col-2" >
+      <
+      Form formName = {
+        this.state.formName
+      }
+      inputs = {
+        this.state.registerFormField
+      }
+      onSubmit = {
+        this.registerHandler
+      }
+      />{" "} <
+      div className = "text-center push-top" > {
+        /* <button
+                        className="btn-red btn-xsmall"
+                        onClick={this.registerHandlerWithGoogle}
+                      >
+                        <i className="fa fa-google fa-btn" />
+                        Sign up with Google{" "}
+                      </button>{" "} */
+      } <
+      /div>{" "} < /
+      div > {
+        " "
+      } <
+      /div>{" "} < /
+      div >
     );
   }
 }

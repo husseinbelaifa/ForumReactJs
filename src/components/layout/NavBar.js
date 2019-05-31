@@ -36,8 +36,6 @@ class NavBar extends React.Component {
     console.log("i am signout");
     console.log(this.props);
 
-    this.props.signOut();
-
     // this.props.history.push("/");
   };
 

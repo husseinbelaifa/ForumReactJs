@@ -1,11 +1,15 @@
 import React from "react";
 import Form from "../layout/Form";
-import { signIn, signInWithGoogle } from "../../store/actions/AuthActions";
-import { connect } from "react-redux";
+import {
+  signIn,
+  signInWithGoogle
+} from "../../store/actions/AuthActions";
+import {
+  connect
+} from "react-redux";
 class Login extends React.Component {
   state = {
-    loginFormField: [
-      {
+    loginFormField: [{
         type: "email",
         name: "email",
         id: "email",
@@ -33,28 +37,41 @@ class Login extends React.Component {
   };
 
   render() {
-    return (
-      <div class="container">
-        <div class="flex-grid justify-center">
-          <div class="col-2">
-            <Form
-              formName={this.state.formName}
-              inputs={this.state.loginFormField}
-              registerLink={this.state.link_to_register}
-              onSubmit={this.loginHandler}
-            />{" "}
-            <div class="push-top text-center">
-              <button
-                class="btn-red btn-xsmall"
-                onClick={this.signInWithGoogle}
-              >
-                <i class="fa fa-google fa-btn" />
-                Sign in with Google{" "}
-              </button>{" "}
-            </div>{" "}
-          </div>{" "}
-        </div>{" "}
-      </div>
+    return ( <
+      div class = "container" >
+      <
+      div class = "flex-grid justify-center" >
+      <
+      div class = "col-2" >
+      <
+      Form formName = {
+        this.state.formName
+      }
+      inputs = {
+        this.state.loginFormField
+      }
+      registerLink = {
+        this.state.link_to_register
+      }
+      onSubmit = {
+        this.loginHandler
+      }
+      />{" "} <
+      div class = "push-top text-center" > {
+        /* <button
+                        class="btn-red btn-xsmall"
+                        onClick={this.signInWithGoogle}
+                      >
+                        <i class="fa fa-google fa-btn" />
+                        Sign in with Google{" "}
+                      </button>{" "} */
+      } <
+      /div>{" "} < /
+      div > {
+        " "
+      } <
+      /div>{" "} < /
+      div >
     );
   }
 }
